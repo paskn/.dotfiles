@@ -110,3 +110,5 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fpath=(~/.zsh.d/ $fpath)
+
+setopt inc_append_history
