@@ -1407,42 +1407,26 @@ DIR must include a .project file to be considered a project."
 	'("~/Documents/personal/snippets"))  ;;my snippets are here
   (yas-global-mode 1))
 
-;; (defalias 'fm 'fly-spell-mode)
-;; (defalias 'ss 'ispell-buffer)
-
-(use-package ispell  ;; use aspell instead of ispell which is no longer maintained
+(use-package jinx
   :straight t
-  :after flyspell
-;  :no-require t
+  :ensure t
+  :bind (("C-;"   . jinx-correct))
   :config
-  (setq-default ispell-program-name "/opt/homebrew/bin/aspell")  ;; testing if it will hell to restore spellchecking
-  (setq ispell-dictionary "american")
-  (setq highlight-face (quote flyspell-incorrect))
-  (setq ispell-silently-savaep t))
+  (add-hook 'emacs-startup-hook #'global-jinx-mode))
 
 (use-package flyspell
   :straight (:type built-in)
-  :defer t
   ;; :init
   ;; (progn
   ;;   (add-hook 'message-mode-hook 'turn-on-flyspell)
   ;;   (add-hook 'org-mode-hook 'flyspell-mode)
   ;;   (defalias 'fm flyspell-mode))
   :config
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode))
+  ;; (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  ;; (add-hook 'org-mode-hook 'flyspell-mode)
+  )
 
-(use-package flyspell-correct
-  :straight t
-  :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
-
-(use-package auto-dictionary
-  :straight t
-  :after flyspell
-  :config
-  (add-hook 'flyspell-mode-hook (lambda () (auto-dictionary-mode 1))))
 
 (setq save-abbrevs 'silently)
 (setq-default abbrev-mode t)
