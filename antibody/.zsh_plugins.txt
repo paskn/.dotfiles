@@ -1,3 +1,4 @@
+fdellwing/zsh-bat
 caarlos0/jvm
 djui/alias-tips
 # comments are supported like this
