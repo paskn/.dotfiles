@@ -112,3 +112,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 fpath=(~/.zsh.d/ $fpath)
 
 setopt inc_append_history
+eval "$(starship init zsh)"
+source <(antibody init)
+antibody bundle < ~/.zsh_plugins.txt
