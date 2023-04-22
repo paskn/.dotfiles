@@ -20,6 +20,9 @@
 ;; make sure use-package always uses staight.el
 (setq straight-use-package-by-default t)
 
+;; make the title bar transparent
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 ;; iTerm2 config
 ;; ITERM2 MOUSE SUPPORT
 (unless window-system
@@ -79,6 +82,21 @@
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
+(use-package crux
+  :straight t
+  :config
+  (global-set-key (kbd "C-x 4 t") #'crux-transpose-windows)
+  (global-set-key (kbd "C-c B") #'crux-cleanup-buffer-or-region)
+  (global-set-key (kbd "C-c f") #'crux-recentf-find-file)
+  (global-set-key (kbd "C-c F") #'crux-recentf-find-directory)
+  )
+
+(use-package better-registers
+  :straight t
+  :config
+  (better-registers-install-save-registers-hook)
+  (load better-registers-save-file))
+
 (use-package guru-mode
   :straight t
   :init (guru-global-mode +1))
@@ -106,6 +124,10 @@
 (use-package all-the-icons-dired
   :straight t
   :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package nerd-icons-ibuffer
+  :straight t
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
 (use-package doom-modeline
   :straight t
@@ -165,12 +187,14 @@
   :straight t
   :after org
   :config
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t)
   (setq dashboard-week-agenda t)
   (setq dashboard-items '((agenda . 10)
-			  (bookmarks . 5)
-;			  (recents  . 5)
+			  (projects . 5)
+;;			  (bookmarks . 5)
+			  (recents  . 5)
                           ))
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
@@ -627,13 +651,15 @@ targets."
 (use-package org
   :straight (:type built-in)
   :hook (org-mode . sp/org-mode-setup)
-  :config
-  (setq org-use-speed-commands t)
+  :init
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
 	org-latex-packages-alist '(("" "minted"))
 	org-latex-pdf-process
 	'("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
+  :config
+  (setq org-use-speed-commands t)
+  
   (setq org-latex-pdf-process
       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -840,9 +866,16 @@ DIR must include a .project file to be considered a project."
 	 ("C-c n i" . org-roam-node-insert)
 	 ("C-c n c" . org-roam-capture)
 	 :map org-mode-map
-	 ("C-M-c" . completion-at-point))
+	 ("C-M-c" . completion-at-point)
+	 :map org-roam-dailies-map
+         ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
   :config
-  (org-roam-setup))
+  (org-roam-setup)
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+  (org-roam-db-autosync-mode))
 
 (use-package mastodon
   :straight t
@@ -1081,6 +1114,20 @@ DIR must include a .project file to be considered a project."
 (use-package julia-mode
   :straight t)
 
+(use-package vterm
+  :straight t
+  :ensure t)
+
+(use-package julia-snail
+  :straight t
+  :ensure t
+  :hook (julia-mode . julia-snail-mode))
+
+(use-package eglot-jl
+  :straight t
+  :config
+  (eglot-jl-init))
+
 (use-package python
   :straight (:type built-in)
   :interpreter ("python3" . python-mode)
@@ -1301,6 +1348,7 @@ DIR must include a .project file to be considered a project."
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
 	 (ess-mode . eglot-ensure)
 	 (inferior-ess-mode . eglot-ensure)
+	 (julia-mode . eglot-ensure)
 	 )
   )
 
@@ -1446,6 +1494,7 @@ DIR must include a .project file to be considered a project."
  '(custom-file nil)
  '(custom-safe-themes
    '("0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "dc8285f7f4d86c0aebf1ea4b448842a6868553eded6f71d1de52f3dcbc960039" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "aee6debe7b326de2968d8b023fdc9ee7e6c9996a80532186674f2e1376ad1782" default))
+ '(dashboard-projects-backend 'project-el)
  '(ein:output-area-inlined-images t)
  '(elfeed-feeds
    '("https://export.arxiv.org/rss/cs.SI" "https://export.arxiv.org/rss/cs.IR" "https://export.arxiv.org/rss/cs.HC" "https://export.arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
@@ -1464,6 +1513,8 @@ DIR must include a .project file to be considered a project."
      (ess-R-fl-keyword:F&T . t)))
  '(exec-path-from-shell-arguments '("-l"))
  '(exec-path-from-shell-check-startup-files nil)
+ '(fringe-mode 0 nil (fringe))
+ '(global-mark-ring-max 8)
  '(inferior-ess-r-font-lock-keywords
    '((ess-S-fl-keyword:prompt . t)
      (ess-R-fl-keyword:keywords . t)
@@ -1479,6 +1530,12 @@ DIR must include a .project file to be considered a project."
      (ess-fl-keyword:delimiters . t)
      (ess-fl-keyword:= . t)
      (ess-R-fl-keyword:F&T . t)))
+ '(isearch-allow-motion t)
+ '(isearch-lazy-count t)
+ '(isearch-yank-on-move t)
+ '(mark-ring-max 5)
+ '(pdf-tools-handle-upgrades t)
+ '(set-mark-command-repeat-pop t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
  '(warning-suppress-types '((comp) (corfu-doc) (corfu-doc))))
 
