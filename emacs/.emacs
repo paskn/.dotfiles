@@ -1,4 +1,8 @@
+;; -*- lexical-binding: t; -*-
 ;; init.el --- Emacs configuration
+
+;; make sure use-package always uses staight.el
+(setq straight-use-package-by-default t)
 
 ;; straight.el to manage packages
 (defvar bootstrap-version)
@@ -16,9 +20,7 @@
 
 ;; make straight.el aware of use-package
 (straight-use-package 'use-package)
-
-;; make sure use-package always uses staight.el
-(setq straight-use-package-by-default t)
+(setq use-package-compute-statistics 1)
 
 ;; make the title bar transparent
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -36,7 +38,6 @@
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
 (set-fringe-mode 10)        ; Give some breathing room
-
 (menu-bar-mode -1)            ; Disable the menu bar
 
 (column-number-mode)
@@ -60,10 +61,10 @@
 ;; set the default font 
 ;;(set-face-attribute 'default nil :font "Ubuntu Mono")
 (set-face-attribute 'default nil :font "IBM Plex Mono")
-;; enlarge the defaul font size
+;; enlarge the default font size
 (set-face-attribute 'default nil :height 130)
 
-;; use ESC to cancel promt
+;; use ESC to cancel prompt
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
 
 ;; Start maximised (cross-platf)
@@ -91,11 +92,11 @@
   (global-set-key (kbd "C-c F") #'crux-recentf-find-directory)
   )
 
-(use-package better-registers
-  :straight t
-  :config
-  (better-registers-install-save-registers-hook)
-  (load better-registers-save-file))
+;; (use-package better-registers
+;;   :straight t
+;;   :config
+;;   (better-registers-install-save-registers-hook)
+;;   (load better-registers-save-file))
 
 (use-package guru-mode
   :straight t
@@ -270,7 +271,7 @@
 
 (use-package aweshell
   :straight (abc-mode :type git :host github :repo "manateelazycat/aweshell")
-  :ensure t)
+  :defer 5)
 
 ;; Example configuration for Consult
 (use-package consult
@@ -396,7 +397,8 @@
   :straight t)
 
 (use-package consult-eglot
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package consult-flyspell
   :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
@@ -811,6 +813,7 @@ DIR must include a .project file to be considered a project."
 
 (use-package citeproc
   :straight t
+  :defer t
   :config
   (setq org-cite-csl-styles-dir "~/Zotero/styles"))
 
@@ -879,13 +882,14 @@ DIR must include a .project file to be considered a project."
 
 (use-package mastodon
   :straight t
-  :ensure t
+  :defer t
   :config
   (setq mastodon-instance-url "https://mastodon.social"
           mastodon-active-user "pashakhin"))
 
 (use-package elfeed
   :straight t
+  :defer 5
   :config
   (global-set-key (kbd "C-x w") 'elfeed)
   (add-hook 'elfeed-search-mode-hook 'elfeed-update)
@@ -985,7 +989,33 @@ DIR must include a .project file to be considered a project."
 (use-package citar-embark
   :after citar embark
   :no-require
-  :config (citar-embark-mode))
+  :config
+ (citar-embark-mode)
+ (setq citar-org-roam-note-title-template "${author} - ${title}")
+ (setq org-roam-capture-templates
+      '(("d" "default" plain
+         "%?"
+         :target
+         (file+head
+          "%<%Y%m%d%H%M%S>-${slug}.org"
+          "#+title: ${note-title}\n")
+         :unnarrowed t)
+        ("n" "literature note" plain
+         "%?"
+         :target
+         (file+head
+          "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+          "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+         :unnarrowed t)))
+ (setq citar-org-roam-capture-template-key "n")
+ :custom
+ (setq citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
+)
+
+(use-package citar-org-roam
+  :straight t
+  :after (citar org-roam)
+  :config (citar-org-roam-mode))
 
 (setq bibtex-completion-bibliography
       ;;      '("/Users/psd/Documents/linis/teach/digital social studies/DSS-course.bib")
@@ -1008,7 +1038,8 @@ DIR must include a .project file to be considered a project."
 
 ;; Magit config
 (use-package magit
-  :straight t)
+  :straight t
+  :defer t)
 
 ;; support for Graphviz and DOT
 (use-package graphviz-dot-mode
@@ -1019,7 +1050,7 @@ DIR must include a .project file to be considered a project."
 ;; R and S-family languages
 (use-package ess
   :straight t
-  :ensure ess
+  :defer 2
   :init
   (require 'ess-site) 
   :bind (:map ess-r-mode-map
@@ -1149,7 +1180,8 @@ DIR must include a .project file to be considered a project."
   :straight t)
 
 (use-package cider
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package exec-path-from-shell
   :straight t)
@@ -1457,7 +1489,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package jinx
   :straight t
-  :ensure t
   :bind (("C-;"   . jinx-correct))
   :config
   (add-hook 'emacs-startup-hook #'global-jinx-mode))
