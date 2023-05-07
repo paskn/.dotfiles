@@ -23,8 +23,8 @@
 (setq use-package-compute-statistics 1)
 
 ;; make the title bar transparent
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
+;;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+;;(add-to-list 'default-frame-alist '(ns-appearance . dark))
 ;; iTerm2 config
 ;; ITERM2 MOUSE SUPPORT
 (unless window-system
@@ -48,7 +48,7 @@
 (global-hl-line-mode t)
 
 ;; disable line numbers for some modes
-(dolist (mode '(org-mode-hook
+(dolist (mode '(-mode-hook
 		term-mode-hook
 		shell-mode-hook
 		eshell-mode-hook
@@ -60,9 +60,29 @@
 
 ;; set the default font 
 ;;(set-face-attribute 'default nil :font "Ubuntu Mono")
-(set-face-attribute 'default nil :font "IBM Plex Mono")
+;;(set-face-attribute 'default nil :font "IBM Plex Mono")
+;;(setq default-frame-alist '((font . "IBM Plex Mono" )))
 ;; enlarge the default font size
-(set-face-attribute 'default nil :height 130)
+;;(set-face-attribute 'default nil :height 130)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :height 130 :family "IBM Plex Mono"))))
+ '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
+
+
+;;maximize new frame
+;; (add-to-list 'default-frame-alist
+;; 	     '((menu-bar-lines . 0)
+;; 	       (tool-bar-lines . 0)
+;; 	       (internal-border-width . 0)
+;; 	       (fullscreen . maximized)
+;; 	       (vertical-scroll-bar . nil)
+;; 	       (horizontal-scroll-bars . nil)
+;; 	       (ns-transparent-titlebar . t)
+;; 	       (ns-appearance . dark)))
 
 ;; use ESC to cancel prompt
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
@@ -83,6 +103,11 @@
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
+(use-package save-place-mode
+  :straight (:type built-in)
+  :config
+  (save-place-mode 1))
+
 (use-package crux
   :straight t
   :config
@@ -101,16 +126,6 @@
 (use-package guru-mode
   :straight t
   :init (guru-global-mode +1))
-
-;; amx to help with ivy-m-x suggestions 
-(use-package amx
-  :straight t
-  :custom
-  (amx-backend 'auto)
-  (amx-save-file "~/Documents/personal/emacs/amx-items")
-  (amx-history-length 50)
-  :config
-  (amx-mode 1))
 
 ;; track changes in the buffer in a tree-like structure
 (use-package undo-tree
@@ -149,7 +164,7 @@
 (use-package modus-themes
   :straight t
   :config
-  (load-theme 'modus-vivendi :no-confirm))
+  (load-theme 'modus-operandi :no-confirm))
 
 (use-package ef-themes
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
@@ -410,7 +425,6 @@
 
 (use-package marginalia
   :straight t
-  :ensure t
   :after consult
   ;; Either bind `marginalia-cycle' globally or only in the minibuffer
   :bind (("M-A" . marginalia-cycle)
@@ -474,14 +488,12 @@ targets."
 
 (use-package embark-consult
   :straight t
-  :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package all-the-icons-completion
   :straight t
   :after (marginalia all-the-icons)
-  :ensure t
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
   (all-the-icons-completion-mode))
@@ -514,12 +526,23 @@ targets."
   :config
   (setq wich-key-idle-delay 0.3))
 
+(use-package prescient
+  :straight t
+  :config
+  (prescient-persist-mode t))
+
+(use-package corfu-prescient
+  :straight t)
+
+(use-package vertico-prescient
+  :straight t)
+
 ;; Enable vertico
 (use-package vertico
-  :straight t
+  :straight (:files (:defaults "extensions/*"))
   :init
   (vertico-mode)
-
+  (vertico-prescient-mode t)
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0)
 
@@ -591,16 +614,6 @@ targets."
   ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))
 (setq org-confirm-babel-evaluate nil)
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (shell . t)
-;;   (python . t)
-   (R . t)
-   (dot . t)
-;   (ledger . t) ; where is ob-ledger??
-   ))
-
 (defun sp/org-mode-setup ()
   (org-indent-mode)
 ;;  (variable-pitch-mode 1)
@@ -634,10 +647,19 @@ targets."
 
 ;; a mode to work with graphviz
 (use-package graphviz-dot-mode
-  :straight (graphviz-dot-mode :type git :host github :repo "ppareit/graphviz-dot-mode")
-  :ensure t
+  :straight (graphviz-dot-mode
+	     :type git
+	     :host github
+	     :repo "ppareit/graphviz-dot-mode")
   :config
   (setq graphviz-dot-indent-width 4))
+
+(use-package d2-mode
+  :straight t
+  )
+
+(use-package ob-d2
+  :straight t)
 
 ;; center org-buffers
 (defun sp/org-mode-visual-fill ()
@@ -652,6 +674,7 @@ targets."
 
 (use-package org
   :straight (:type built-in)
+  :after ob-d2
   :hook (org-mode . sp/org-mode-setup)
   :init
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
@@ -660,6 +683,16 @@ targets."
 	'("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     ;;   (python . t)
+     (R . t)
+     (dot . t)
+     (d2 . t)
+     ;;   (ledger . t) ; where is ob-ledger??
+     ))
   (setq org-use-speed-commands t)
   
   (setq org-latex-pdf-process
@@ -760,17 +793,18 @@ See also `org-save-all-org-buffers'"
 		     ))
 	 ((org-agenda-files '("~/org/projects.org")))))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
+
 
 ;; (use-package hyperbole
 ;;   :straight t
 ;;   :config
 ;;   (hyperbole-mode 1))
+
+(use-package org-modern
+  :straight t
+  :config
+  (add-hook 'org-mode-hook #'org-modern-mode)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda))
 
 ;; working with projects
 (use-package project
@@ -819,10 +853,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package oc-csl
   :straight (:type built-in))
-
-(use-package org-bullets
-  :straight t
-  :hook (org-mode . org-bullets-mode))
 
 ;; help org and markdown to align tables
 (use-package valign
@@ -933,7 +963,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package elfeed-score
   :straight t
-  :ensure t
   :after elfeed
   :config
   (progn
@@ -951,7 +980,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package atomic-chrome
   :straight t
-  :ensure t
   :config
   (atomic-chrome-start-server))
 
@@ -1031,7 +1059,7 @@ DIR must include a .project file to be considered a project."
 
 ;; Conda configuration
 ;(use-package conda
-;  :ensure t
+; 
 ;  :init
 ;  (setq conda-anaconda-home (expand-file-name "/usr/local/Caskroom/miniforge/base/"))
 ;  (setq conda-env-home-directory (expand-file-name "/usr/local/Caskroom/miniforge/base/envs"))
@@ -1147,11 +1175,10 @@ DIR must include a .project file to be considered a project."
 
 (use-package vterm
   :straight t
-  :ensure t)
+  )
 
 (use-package julia-snail
   :straight t
-  :ensure t
   :hook (julia-mode . julia-snail-mode))
 
 (use-package eglot-jl
@@ -1226,13 +1253,13 @@ DIR must include a .project file to be considered a project."
 
 ;; completion in prog-mode
 (use-package corfu
-  :straight '( corfu :files (:defaults "extensions/*")
-                         :includes (corfu-popupinfo))
+  :straight (:files (:defaults "extensions/*"))
   :custom
   (add-to-list 'corfu-margin-formatters #'+corfu-icons-margin-formatter)
   (corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
   (corfu-preselect-first t) ;; Disable candidate preselection
   (corfu-separator ?\s)
+  :hook ((corfu-mode . corfu-popupinfo-mode))
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode t)
@@ -1240,6 +1267,7 @@ DIR must include a .project file to be considered a project."
   (setq corfu-quit-at-boundary separator)
   (setq corfu-quit-no-match t)
   (setq corfu-popupinfo-delay t)
+  (corfu-prescient-mode 1)
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
@@ -1346,7 +1374,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package kind-icon
   :straight t
-  :ensure t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
@@ -1568,5 +1595,5 @@ DIR must include a .project file to be considered a project."
  '(pdf-tools-handle-upgrades t)
  '(set-mark-command-repeat-pop t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
- '(warning-suppress-types '((comp) (corfu-doc) (corfu-doc))))
+ '(warning-suppress-types '((straight) (comp) (corfu-doc) (corfu-doc))))
 

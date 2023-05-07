@@ -23,11 +23,20 @@
 (setq frame-inhibit-implied-resize t)
 
 ;; Remove some unneeded UI elements
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(internal-border-width . 0) default-frame-alist)
-(when (featurep 'ns)
-  (push '(ns-transparent-titlebar . t) default-frame-alist))
+;; (push '(menu-bar-lines . 0) default-frame-alist)
+;; (push '(tool-bar-lines . 0) default-frame-alist)
+;; (push '(vertical-scroll-bars . nil) default-frame-alist)
+;; (push '(internal-border-width . 0) default-frame-alist)
+;; (when (featurep 'ns)
+;;   (push '(ns-transparent-titlebar . t) default-frame-alist))
+(add-to-list 'default-frame-alist
+	     '((menu-bar-lines . 0)
+	       (tool-bar-lines . 0)
+	       (internal-border-width . 0)
+	       (fullscreen . maximized)
+	       (vertical-scroll-bar . nil)
+	       (horizontal-scroll-bars . nil)
+	       (ns-transparent-titlebar . t)
+	       (ns-appearance . dark)))
 
 ;;; early-init.el ends here
