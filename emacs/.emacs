@@ -167,6 +167,7 @@
   (load-theme 'modus-operandi :no-confirm))
 
 (use-package ef-themes
+  :defer t
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
 ;  (ef-themes-select 'ef-autumn)
@@ -201,7 +202,7 @@
 
 (use-package dashboard
   :straight t
-  :after org
+  :after org-modern
   :config
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (dashboard-setup-startup-hook)
@@ -231,6 +232,7 @@
   (setq-default scroll-preserve-screen-position t)
   (setq-default scroll-conservatively 1) ; affects `scroll-step'
   (setq-default scroll-margin 0)
+  (electric-pair-mode 1)
   :init
    ;; TAB ycle if there are only few candidates
   (setq completion-cycle-threshold 3)
@@ -285,6 +287,7 @@
   )
 
 (use-package aweshell
+  :defer t
   :straight (abc-mode :type git :host github :repo "manateelazycat/aweshell")
   :defer 5)
 
@@ -503,116 +506,9 @@ targets."
   :straight t
   :bind ("C-=" . er/expand-region))
 
-;; store and manage window configuration
-;; C-c <left> and C-c <right>
-(use-package winner
-  :straight nil
-  :config
- (winner-mode 1))
-
-(use-package rainbow-delimiters
-  :straight t
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package avy
-  :straight t
-  :init
-  (global-set-key (kbd "s-,") 'avy-goto-word-1))
-
-(use-package which-key
-  :straight t
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq wich-key-idle-delay 0.3))
-
-(use-package prescient
-  :straight t
-  :config
-  (prescient-persist-mode t))
-
-(use-package corfu-prescient
-  :straight t)
-
-(use-package vertico-prescient
-  :straight t)
-
-;; Enable vertico
-(use-package vertico
-  :straight (:files (:defaults "extensions/*"))
-  :init
-  (vertico-mode)
-  (vertico-prescient-mode t)
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
-  )
-
-;; history of minibuffer
-(use-package savehist
-  :straight t
-  :config
-  (setq savehist-file (locate-user-emacs-file "savehist"))
-  (setq history-length 10000)
-  (setq history-delete-duplicates t)
-  (setq savehist-save-minibuffer-history t)
-  (savehist-mode))
-
-;; help with automatic parenthesis input
-(use-package smartparens
-  :straight t
-  :config
-  (progn (show-smartparens-global-mode t))
-  (sp-use-paredit-bindings)
-  (add-hook 'prog-mode-hook 'smartparens-mode)
-  (add-hook 'markdown-mode-hook 'smartparens-mode)
-  )
-
-(use-package helpful
-  :straight t
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . helpful-function)
-  ([remap describe-symbol] . helpful-symbol)
-  ([remap describe-variable] . helpful-variable)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-key] . helpful-key))
-
-;; Language Tool
-;;(setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/5.6/libexec/languagetool-commandline.jar")
-
-(use-package langtool
-  :straight t
-  :config
-;;  (setq langtool-java-bin "/usr/bin/java")
-;;  (setq langtool-language-tool-server-jar "/Users/sp/languagetool/languagetool-server/target/languagetool-server-6.0-SNAPSHOT.jar")
-;;  (setq langtool-language-tool-jar "/Users/sp/languagetool/languagetool-core/target/languagetool-core-6.0-SNAPSHOT.jar")
-;;  (setq langtool-java-classpath "/Users/sp/languagetool/languagetool-commandline/target/classes/org/languagetool/commandline")
-  (setq langtool-language-tool-jar "/Users/sp/languagetool/languagetool-standalone/target/LanguageTool-6.0-SNAPSHOT/LanguageTool-6.0-SNAPSHOT/languagetool-commandline.jar")
-  (setq langtool-default-language "en-US")
-  (global-set-key "\C-x4w" 'langtool-check)
-  (global-set-key "\C-x4W" 'langtool-check-done)
-  (global-set-key "\C-x4l" 'langtool-switch-default-language)
-  (global-set-key "\C-x44" 'langtool-show-message-at-point)
-  (global-set-key "\C-x4w" 'langtool-check)
-  (global-set-key "\C-x4W" 'langtool-check-done)
-  (global-set-key "\C-x4l" 'langtool-switch-default-language)
-  (global-set-key "\C-x44" 'langtool-show-message-at-point))
-
   ;; org-mode config
   ;; Do not ask for confirmation when evaluation a block
-  ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))
-(setq org-confirm-babel-evaluate nil)
+  ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))(setq org-confirm-babel-evaluate nil)
 
 (defun sp/org-mode-setup ()
   (org-indent-mode)
@@ -633,6 +529,15 @@ targets."
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
   (setq display-line-numbers nil))
 
+(use-package auto-fill-mode
+  :straight nil
+  :hook
+  (text-mode . auto-fill-mode)
+  (org-mode . auto-fill-mode)
+  :config
+  (setq-default fill-column 70) ;; Set the desired line width
+)
+
 (use-package volatile-highlights
   :straight t
   :config
@@ -640,6 +545,7 @@ targets."
 
 ;; Let emacs to decide what to do with very long lines
 (use-package so-long
+  :defer t
 ;;  :after-call find-file-hook
   :straight t
   :config
@@ -647,6 +553,7 @@ targets."
 
 ;; a mode to work with graphviz
 (use-package graphviz-dot-mode
+  :defer t
   :straight (graphviz-dot-mode
 	     :type git
 	     :host github
@@ -655,10 +562,12 @@ targets."
   (setq graphviz-dot-indent-width 4))
 
 (use-package d2-mode
+  :defer t
   :straight t
   )
 
 (use-package ob-d2
+  :defer t
   :straight t)
 
 ;; center org-buffers
@@ -676,7 +585,7 @@ targets."
   :straight (:type built-in)
   :after ob-d2
   :hook (org-mode . sp/org-mode-setup)
-  :init
+  :custom
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
 	org-latex-packages-alist '(("" "minted"))
 	org-latex-pdf-process
@@ -837,6 +746,7 @@ DIR must include a .project file to be considered a project."
 
 ;; use ledger mode to keep track of money
 (use-package ledger-mode
+  :defer t
   :straight t
   :init
   (setq ledger-clear-whole-transactions 1)
@@ -852,10 +762,12 @@ DIR must include a .project file to be considered a project."
   (setq org-cite-csl-styles-dir "~/Zotero/styles"))
 
 (use-package oc-csl
+  :defer t
   :straight (:type built-in))
 
 ;; help org and markdown to align tables
 (use-package valign
+  :defer t
   :straight t
 ;;  :after-call org-mode-hook
   :hook (org-mode . valign-mode)
@@ -887,10 +799,31 @@ DIR must include a .project file to be considered a project."
 ;;                ("\\paragraph{%s}" . "\\paragraph*{%s}")
 ;;                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
+(use-package emacsql-sqlite
+  :defer t
+  :straight t)
+
+(use-package emacsql
+  :defer t
+  :straight t)
+
+(use-package magit-section
+  :defer t
+  :straight t)
+
+(use-package oblique-strategies
+  :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
+  :defer t
+  :config
+  (setq oblique-edition
+                "strategies/oblique-strategies-condensed.txt")
+          (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
+
 (use-package org-roam
+  :defer 
   :straight t
   :init
-  (setq org-roam-v2-ack t)
+;;  (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/Documents/personal/RoamNotes")
   (org-roam-completion-everywhere t)
@@ -962,6 +895,7 @@ DIR must include a .project file to be considered a project."
 )
 
 (use-package elfeed-score
+  :defer t
   :straight t
   :after elfeed
   :config
@@ -974,11 +908,11 @@ DIR must include a .project file to be considered a project."
   :commands (telega)
   :defer t
   :config
-  (setq telega-server-libs-prefix "/opt/homebrew/Cellar/tdlib/1.8.0")
-  (setq telega-use-docker t)
-  (define-key global-map (kbd "C-c t") telega-prefix-map))
+  (setq telega-server-libs-prefix "~/td/tdlib/")
+  (setq telega-use-docker nil))
 
 (use-package atomic-chrome
+  :defer t
   :straight t
   :config
   (atomic-chrome-start-server))
@@ -986,6 +920,7 @@ DIR must include a .project file to be considered a project."
 ;; setup markdown-mode
 (use-package markdown-mode
   :straight t
+  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -997,6 +932,7 @@ DIR must include a .project file to be considered a project."
 
 ;; set-up bibligraphy work-flow
 (use-package citar
+  :defer t
   :straight t
   :hook
   (LaTeX-mode . citar-capf-setup)
@@ -1005,6 +941,7 @@ DIR must include a .project file to be considered a project."
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)
+  (citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
   :bind
   (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
   :config
@@ -1069,16 +1006,10 @@ DIR must include a .project file to be considered a project."
   :straight t
   :defer t)
 
-;; support for Graphviz and DOT
-(use-package graphviz-dot-mode
-  :straight t
-  :config
-  (setq graphviz-dot-indent-width 4))
-
 ;; R and S-family languages
 (use-package ess
   :straight t
-  :defer 2
+  :defer t
   :init
   (require 'ess-site) 
   :bind (:map ess-r-mode-map
@@ -1150,6 +1081,7 @@ DIR must include a .project file to be considered a project."
 
 ;; help with RMarkdown
 (use-package poly-markdown
+  :defer t
   :straight t
   :config
     (define-innermode poly-text-R-innermode
@@ -1166,22 +1098,27 @@ DIR must include a .project file to be considered a project."
 ;;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-R))
 ;; some help with Rmd files
- (use-package poly-R
-   :straight t)
+(use-package poly-R
+  :defer t
+  :straight t)
 
 ;; support for Julia
 (use-package julia-mode
+  :defer t
   :straight t)
 
 (use-package vterm
+  :defer t
   :straight t
   )
 
 (use-package julia-snail
+  :defer t
   :straight t
   :hook (julia-mode . julia-snail-mode))
 
 (use-package eglot-jl
+  :defer t
   :straight t
   :config
   (eglot-jl-init))
@@ -1204,6 +1141,7 @@ DIR must include a .project file to be considered a project."
   )
 
 (use-package ein
+  :defer t
   :straight t)
 
 (use-package cider
@@ -1390,6 +1328,7 @@ DIR must include a .project file to be considered a project."
 
 ;; Language Servers
 (use-package eglot
+  :defer t
   :straight t
   :config
   (setq completion-category-overrides '((eglot (styles orderless))))
@@ -1462,6 +1401,7 @@ DIR must include a .project file to be considered a project."
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package eterm-256color
+  :defer t
   :straight t
   :hook (term-mode . eterm-256color-mode))
 
@@ -1486,6 +1426,7 @@ DIR must include a .project file to be considered a project."
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
 (use-package flymake-proselint
+  :defer t
   :straight t
   :config
   (add-hook 'text-mode-hook (lambda ()
@@ -1508,6 +1449,7 @@ DIR must include a .project file to be considered a project."
   (beacon-mode 1))
 
 (use-package yasnippet
+  :defer t
   :straight t
   :config
   (setq yas-snippet-dirs
@@ -1592,8 +1534,12 @@ DIR must include a .project file to be considered a project."
  '(isearch-lazy-count t)
  '(isearch-yank-on-move t)
  '(mark-ring-max 5)
+ '(org-latex-pdf-process
+   '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
  '(pdf-tools-handle-upgrades t)
  '(set-mark-command-repeat-pop t)
+ '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
  '(warning-suppress-types '((straight) (comp) (corfu-doc) (corfu-doc))))
 
+(put 'scroll-left 'disabled nil)
