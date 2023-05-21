@@ -840,14 +840,14 @@ DIR must include a .project file to be considered a project."
 ;;                ("\\paragraph{%s}" . "\\paragraph*{%s}")
 ;;                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-(use-package emacsql-sqlite
-  :straight t)
+;; (use-package emacsql-sqlite
+;;   :straight t)
 
-(use-package emacsql
-  :straight t)
+;; (use-package emacsql
+;;   :straight t)
 
-(use-package magit-section
-  :straight t)
+;; (use-package magit-section
+;;   :straight t)
 
 (use-package oblique-strategies
   :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
@@ -860,7 +860,6 @@ DIR must include a .project file to be considered a project."
 (use-package org-roam
   :straight t
   :init
-;;  (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/Documents/personal/RoamNotes")
   (org-roam-completion-everywhere t)
@@ -876,9 +875,8 @@ DIR must include a .project file to be considered a project."
   :bind-keymap
   ("C-c n d" . org-roam-dailies-map)
   :config
-  (org-roam-setup)
   (require 'org-roam-dailies) ;; Ensure the keymap is available
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode 1))
 
 (use-package mastodon
   :straight t

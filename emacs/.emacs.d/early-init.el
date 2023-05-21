@@ -22,8 +22,8 @@
 
 (setq
  frame-inhibit-implied-resize t ; Inhibit resizing frame
-; package-quickstart nil ; Prevent package.el loading packages prior to their init-file
-; package-enable-at-startup nil
+ package-quickstart nil ; Prevent package.el loading packages prior to their init-file
+ package-enable-at-startup nil
  fast-but-imprecise-scrolling t ; More performant rapid scrolling over unfontified regions
  idle-update-delay 1.0  ; slow down UI updates down
  inhibit-compacting-font-caches t ; Inhibit frame resizing for performance
