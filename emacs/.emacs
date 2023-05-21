@@ -33,13 +33,6 @@
   (defun track-mouse (e)) 
   (setq mouse-sel-mode t))
 
-(setq inhibit-startup-message t) ;; hide the startup message
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
-(menu-bar-mode -1)            ; Disable the menu bar
-
 (column-number-mode)
 ;; this boy drives me nuts on pdf-view-mode
 ;; activate line-numbers in specific modes as necessary
@@ -55,8 +48,6 @@
 		pdf-view-mode
 		pdf-tools))
   (add-hook mode(lambda () (setq display-line-numbers nil))))
-
-(setq visible-bell nil)
 
 ;; set the default font 
 ;;(set-face-attribute 'default nil :font "Ubuntu Mono")
@@ -202,7 +193,6 @@
 
 (use-package dashboard
   :straight t
-  :after org-modern
   :config
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (dashboard-setup-startup-hook)
@@ -506,6 +496,57 @@ targets."
   :straight t
   :bind ("C-=" . er/expand-region))
 
+;; store and manage window configuration
+;; C-c <left> and C-c <right>
+(use-package winner
+  :straight nil
+  :config
+ (winner-mode 1))
+
+(use-package rainbow-delimiters
+  :straight t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package avy
+  :straight t
+  :init
+  (global-set-key (kbd "s-,") 'avy-goto-word-1))
+
+(use-package which-key
+  :straight t
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq wich-key-idle-delay 0.3))
+
+(use-package prescient
+  :straight t
+  :config
+  (prescient-persist-mode t))
+
+(use-package corfu-prescient
+  :straight t)
+
+(use-package vertico-prescient
+  :straight t)
+
+; Enable vertico
+(use-package vertico
+  :straight t
+  :straight (:files (:defaults "extensions/*"))
+  :init
+  (vertico-mode)
+
+  (vertico-prescient-mode t)
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0))
+ ;; Show more candidates
+  ;; (setq vertico-count 20)
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
   ;; org-mode config
   ;; Do not ask for confirmation when evaluation a block
   ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))(setq org-confirm-babel-evaluate nil)
@@ -583,7 +624,6 @@ targets."
 
 (use-package org
   :straight (:type built-in)
-  :after ob-d2
   :hook (org-mode . sp/org-mode-setup)
   :custom
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
@@ -710,6 +750,7 @@ See also `org-save-all-org-buffers'"
 ;;   (hyperbole-mode 1))
 
 (use-package org-modern
+  :after org
   :straight t
   :config
   (add-hook 'org-mode-hook #'org-modern-mode)
@@ -800,15 +841,12 @@ DIR must include a .project file to be considered a project."
 ;;                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 (use-package emacsql-sqlite
-  :defer t
   :straight t)
 
 (use-package emacsql
-  :defer t
   :straight t)
 
 (use-package magit-section
-  :defer t
   :straight t)
 
 (use-package oblique-strategies
@@ -820,7 +858,6 @@ DIR must include a .project file to be considered a project."
           (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
 
 (use-package org-roam
-  :defer 
   :straight t
   :init
 ;;  (setq org-roam-v2-ack t)
@@ -932,7 +969,7 @@ DIR must include a .project file to be considered a project."
 
 ;; set-up bibligraphy work-flow
 (use-package citar
-  :defer t
+  :after org
   :straight t
   :hook
   (LaTeX-mode . citar-capf-setup)
