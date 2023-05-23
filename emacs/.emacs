@@ -1197,7 +1197,7 @@ DIR must include a .project file to be considered a project."
 ;  (exec-path-from-shell-initialize))
 (setq-default TeX-master nil)
 
-;; pdf-tools test
+;; pdf-tools 
 (use-package pdf-tools
   :straight t
   :defer t
@@ -1211,6 +1211,14 @@ DIR must include a .project file to be considered a project."
   (setq-default pdf-view-display-size 'fit-width)
   (setq pdf-annot-activate-created-annotations t)
   :hook ((pdf-view-mode-hook . pdf-tools-enable-minor-modes)))
+
+;; Epub support
+(use-package nov
+  :defer t
+  :straight t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  (setq nov-text-width 70))
 
 (defun markdown-preview-file ()
   "use Marked 2 to preview the current file"
