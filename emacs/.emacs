@@ -551,6 +551,37 @@ targets."
   ;; Do not ask for confirmation when evaluation a block
   ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))(setq org-confirm-babel-evaluate nil)
 
+(use-package helpful
+  :straight t
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . helpful-function)
+  ([remap describe-symbol] . helpful-symbol)
+  ([remap describe-variable] . helpful-variable)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-key] . helpful-key))
+
+(use-package powerthesaurus
+  :defer t
+  :straight t)
+
+(use-package langtool
+  :defer t
+  :straight t
+  :config
+  (setq langtool-language-tool-jar "/Users/sp/languagetool/languagetool-standalone/target/LanguageTool-6.0-SNAPSHOT/LanguageTool-6.0-SNAPSHOT/languagetool-commandline.jar")
+  (setq langtool-default-language "en-US")
+  (global-set-key "\C-x4w" 'langtool-check)
+  (global-set-key "\C-x4W" 'langtool-check-done)
+  (global-set-key "\C-x4l" 'langtool-switch-default-language)
+  (global-set-key "\C-x44" 'langtool-show-message-at-point)
+  (global-set-key "\C-x4w" 'langtool-check)
+  (global-set-key "\C-x4W" 'langtool-check-done)
+  (global-set-key "\C-x4l" 'langtool-switch-default-language)
+  (global-set-key "\C-x44" 'langtool-show-message-at-point))
+
 (defun sp/org-mode-setup ()
   (org-indent-mode)
 ;;  (variable-pitch-mode 1)
