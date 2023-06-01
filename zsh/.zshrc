@@ -116,3 +116,9 @@ eval "$(starship init zsh)"
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
 __kitty_complete
+
+# Start ssh-agent and add the private key
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/gitlab_paskn 
+fi
