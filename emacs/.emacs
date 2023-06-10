@@ -22,6 +22,12 @@
 (straight-use-package 'use-package)
 (setq use-package-compute-statistics 1)
 
+;; We start the Emacs server if it’s not already running, so that the emacsclient command works.
+(use-package server
+  :config
+  (unless (server-running-p)
+    (server-start)))
+
 ;; make the title bar transparent
 ;;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 ;;(add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -275,6 +281,15 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
   (repeat-mode 1)
+  )
+
+(use-package isearch
+  :straight (:type built-in)
+  :config
+  ;; Make regular Isearch interpret the empty space as a regular
+  ;; expression that matches any character between the words you give
+  ;; it.
+  (setq search-whitespace-regexp ".*?")
   )
 
 (use-package aweshell
@@ -775,7 +790,7 @@ See also `org-save-all-org-buffers'"
 		(gtd-save-org-buffers)))
   (setq org-outline-path-complete-in-steps nil)
   (setq org-todo-keywords
-  '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d!)")
+
     (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
   ;; Configure custom agenda views
 (setq org-agenda-custom-commands
@@ -818,7 +833,7 @@ See also `org-save-all-org-buffers'"
 	 ((tags-todo "@anywhere&@next"
 		     ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
 		     ))
-	 ((org-agenda-files '("~/org/projects.org")))))))
+	 ((org-agenda-files '("~/org/projects.org"))))))
 
 
 
@@ -926,6 +941,13 @@ DIR must include a .project file to be considered a project."
 
 ;; (use-package magit-section
 ;;   :straight t)
+
+(use-package sicp
+  :straight t)
+
+(use-package racket-mode
+  :straight t
+  :defer t)
 
 (use-package oblique-strategies
   :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
@@ -1107,13 +1129,6 @@ DIR must include a .project file to be considered a project."
   (lambda (fpath)
     (call-process "open" nil 0 nil "-a" "/Applications/Skim.app" fpath)))
 
-;; Conda configuration
-;(use-package conda
-; 
-;  :init
-;  (setq conda-anaconda-home (expand-file-name "/usr/local/Caskroom/miniforge/base/"))
-;  (setq conda-env-home-directory (expand-file-name "/usr/local/Caskroom/miniforge/base/envs"))
-
 ;; Magit config
 (use-package magit
   :straight t
@@ -1214,6 +1229,13 @@ DIR must include a .project file to be considered a project."
 (use-package poly-R
   :defer t
   :straight t)
+
+(use-package quarto-mode
+  :defer t
+  :mode (("\\.qmd" . poly-quarto-mode)))
+
+(use-package conda
+  :defer t)
 
 ;; support for Julia
 (use-package julia-mode
