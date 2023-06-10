@@ -98,6 +98,10 @@
 (setq global-auto-revert-non-file-buffers t)
 ;; Keep the cursor where you last were when you were editing the file
 (save-place-mode 1)
+;; Open read-only files in view-mode.
+(setq-default view-read-only t)
+;; Show keystrokes in the minibuffer area faster than the default.
+(setq-default echo-keystrokes 0.1)
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
@@ -105,6 +109,12 @@
   :straight (:type built-in)
   :config
   (save-place-mode 1))
+
+(use-package recentf
+  :straight (:type built-in)
+  :config
+  (setq-default recentf-max-saved-items 50)
+  (recentf-mode 1))
 
 (use-package crux
   :straight t
@@ -282,6 +292,12 @@
   (setq enable-recursive-minibuffers t)
   (repeat-mode 1)
   )
+
+;; allow sub-word navigation
+(use-package subword
+  :straight t
+  :config
+  (global-subword-mode 1))
 
 (use-package isearch
   :straight (:type built-in)
