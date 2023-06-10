@@ -22,6 +22,15 @@
 (straight-use-package 'use-package)
 (setq use-package-compute-statistics 1)
 
+(use-package exec-path-from-shell
+  :straight t)
+
+(when (memq window-system '(mac ns))
+  (setenv "SHELL" "/bin/zsh")
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envs
+   '("PATH")))
+
 ;; make the title bar transparent
 ;;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 ;;(add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -63,18 +72,6 @@
  '(default ((t (:inherit nil :height 130 :family "IBM Plex Mono"))))
  '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
 
-
-;;maximize new frame
-;; (add-to-list 'default-frame-alist
-;; 	     '((menu-bar-lines . 0)
-;; 	       (tool-bar-lines . 0)
-;; 	       (internal-border-width . 0)
-;; 	       (fullscreen . maximized)
-;; 	       (vertical-scroll-bar . nil)
-;; 	       (horizontal-scroll-bars . nil)
-;; 	       (ns-transparent-titlebar . t)
-;; 	       (ns-appearance . dark)))
-
 ;; use ESC to cancel prompt
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
 
@@ -95,7 +92,7 @@
 ;; Open read-only files in view-mode.
 (setq-default view-read-only t)
 ;; Show keystrokes in the minibuffer area faster than the default.
-(setq-default echo-keystrokes 0.1)
+;; (setq-default echo-keystrokes 0.1)
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
@@ -113,12 +110,6 @@
   (global-set-key (kbd "C-c f") #'crux-recentf-find-file)
   (global-set-key (kbd "C-c F") #'crux-recentf-find-directory)
   )
-
-;; (use-package better-registers
-;;   :straight t
-;;   :config
-;;   (better-registers-install-save-registers-hook)
-;;   (load better-registers-save-file))
 
 (use-package guru-mode
   :straight t
@@ -161,7 +152,7 @@
 (use-package modus-themes
   :straight t
   :config
-  (load-theme 'modus-operandi :no-confirm))
+  (load-theme 'modus-vivendi :no-confirm))
 
 (use-package ef-themes
   :defer t
@@ -283,10 +274,10 @@
   )
 
 ;; allow sub-word navigation
-(use-package subword
-  :straight t
-  :config
-  (global-subword-mode 1))
+;; (use-package subword
+;;   :straight t
+;;   :config
+;;   (global-subword-mode 1))
 
 (use-package isearch
   :straight (:type built-in)
@@ -426,8 +417,7 @@
   :straight t)
 
 (use-package consult-eglot
-  :straight t
-  :defer t)
+  :straight t)
 
 (use-package consult-flyspell
   :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
@@ -546,8 +536,7 @@ targets."
   (prescient-persist-mode t))
 
 (use-package corfu-prescient
-  :straight t
-  :after corfu)
+  :straight t)
 
 (use-package vertico-prescient
   :straight t
@@ -801,58 +790,49 @@ See also `org-save-all-org-buffers'"
               (lambda (&rest _)
 		(gtd-save-org-buffers)))
   (setq org-outline-path-complete-in-steps nil)
-  (setq org-todo-keywords
-
-    (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+  
   ;; Configure custom agenda views
-(setq org-agenda-custom-commands
-      '(("d" "📝 Desk"
-	 ((tags-todo "@desk&@next"
-		     ((org-agenda-overriding-header "📝 Write & research\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	
-	("c" "☎️💬 Comm."
-	 ((tags-todo "@communication"
-		     ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	
-	("w" "☢️ Waiting"
-	 ((tags-todo "@waiting"
-		     ((org-agenda-overriding-header "☢️Track progress\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	
-	("e" "🚴‍♀️ Errands"
-	 ((tags-todo "@errand&@next|@shopping"
-		     ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	
-	("h" "🏡 House"
-	 ((tags-todo "@house&@next"
-		     ((org-agenda-overriding-header "🏡Do it at home\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	
-	("r" "📚📝 Reading"
-	 ((tags-todo "@reading&@next"
-		     ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))
-	("A" "👌🧘‍♀️ Anywhere"
-	 ((tags-todo "@anywhere&@next"
-		     ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
-		     ))
-	 ((org-agenda-files '("~/org/projects.org"))))))
-
-
-
-;; (use-package hyperbole
-;;   :straight t
-;;   :config
-;;   (hyperbole-mode 1))
+  (setq org-agenda-custom-commands
+	'(("d" "📝 Desk"
+	   ((tags-todo "@desk&@next"
+		       ((org-agenda-overriding-header "📝 Write & research\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  
+	  ("c" "☎️💬 Comm."
+	   ((tags-todo "@communication"
+		       ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  
+	  ("w" "☢️ Waiting"
+	   ((tags-todo "@waiting"
+		       ((org-agenda-overriding-header "☢️Track progress\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  
+	  ("e" "🚴‍♀️ Errands"
+	   ((tags-todo "@errand&@next|@shopping"
+		       ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  
+	  ("h" "🏡 House"
+	   ((tags-todo "@house&@next"
+		       ((org-agenda-overriding-header "🏡Do it at home\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  
+	  ("r" "📚📝 Reading"
+	   ((tags-todo "@reading&@next"
+		       ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org"))))
+	  ("A" "👌🧘‍♀️ Anywhere"
+	   ((tags-todo "@anywhere&@next"
+		       ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
+		       ))
+	   ((org-agenda-files '("~/org/projects.org")))))))
 
 (use-package org-modern
   :after org
@@ -1286,6 +1266,10 @@ DIR must include a .project file to be considered a project."
   (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t)))
   )
 
+;; (use-package company
+;;   :straight t
+;;   :defer t)
+
 (use-package ein
   :defer t
   :straight t)
@@ -1293,15 +1277,6 @@ DIR must include a .project file to be considered a project."
 (use-package cider
   :straight t
   :defer t)
-
-(use-package exec-path-from-shell
-  :straight t)
-
-(when (memq window-system '(mac ns))
-  (setenv "SHELL" "/bin/zsh")
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envs
-   '("PATH")))
 
 ;; configure PATH for latex
 ;(when (memq window-system '(mac ns x))
@@ -1331,39 +1306,29 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
   (setq nov-text-width 70))
 
-(defun markdown-preview-file ()
-  "use Marked 2 to preview the current file"
-  (interactive)
-  (shell-command 
-   (format "open -a 'Marked 2.app' %s" 
-       (shell-quote-argument (buffer-file-name))))
-)
-(global-set-key "\C-cm" 'markdown-preview-file)
-
 ;; completion with hippie-expand
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; completion in prog-mode
 (use-package corfu
-;;  :straight (:files (:defaults "extensions/*"))
+ ;; :straight (:files (:defaults "extensions/*"))
   :straight (corfu
 	     :type git
 	     :host github
 	     :repo "emacs-straight/corfu"
 	     :files ("*" "extensions/*.el" (:exclude ".git")))
   :custom
+  (corfu-quit-at-boundary 'separator)
   (add-to-list 'corfu-margin-formatters #'+corfu-icons-margin-formatter)
   (corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
-  (corfu-preselect-first t) ;; Disable candidate preselection
+  (corfu-preselect-first 'prompt) ;; Disable candidate preselection
   (corfu-separator ?\s)
   :hook ((corfu-mode . corfu-popupinfo-mode))
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode t)
   :config
-  (setq corfu-quit-at-boundary 'separator)
   (setq corfu-quit-no-match t)
-  (setq corfu-popupinfo-delay t)
   (corfu-prescient-mode 1)
   :bind
   (:map corfu-map
@@ -1374,26 +1339,21 @@ DIR must include a .project file to be considered a project."
 	("M-SPC" . corfu-insert-separator))
   )
 
-(straight-use-package
- '(corfu-terminal
-   :type git
-   :repo "https://codeberg.org/akib/emacs-corfu-terminal.git"))
-
-;; (use-package corfu-doc
-;;   :straight t
-;;   :init
-;;   (global-corfu-mode)
-;;   :hook
-;;   (corfu-mode . corfu-doc-mode))
+(use-package corfu-doc
+  :straight t
+  :init
+  (global-corfu-mode)
+  :hook
+  (corfu-mode . corfu-doc-mode))
 
 ;; Use Dabbrev with Corfu!
-;; (use-package dabbrev
-;;   ;; Swap M-/ and C-M-/
-;;   :bind (("M-/" . dabbrev-completion)
-;;          ("C-M-/" . dabbrev-expand))
-;;   ;; Other useful Dabbrev configurations.
-;;   :custom
-;;   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
 ;; fuzzy search for corfu
 (use-package orderless
@@ -1494,9 +1454,6 @@ DIR must include a .project file to be considered a project."
   (add-hook 'ess-r-mode-hook #'eglot-ensure)
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))      
   (add-hook 'python-mode #'eglot-ensure)
-  (setq-default eglot-workspace-configuration
-      '((haskell
-         (maxCompletions . 200))))
   (setq eglot-stay-out-of '(company cape corfu))
   :preface
   (defun mp-eglot-eldoc ()
@@ -1506,6 +1463,7 @@ DIR must include a .project file to be considered a project."
 	 (ess-mode . eglot-ensure)
 	 (inferior-ess-mode . eglot-ensure)
 	 (julia-mode . eglot-ensure)
+	 (python-mode . eglot-ensure)
 	 )
   )
 

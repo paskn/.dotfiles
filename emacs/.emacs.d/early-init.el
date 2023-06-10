@@ -17,9 +17,6 @@
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
-
-
-
 (setq
  frame-inhibit-implied-resize t ; Inhibit resizing frame
  package-quickstart nil ; Prevent package.el loading packages prior to their init-file
