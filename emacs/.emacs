@@ -22,12 +22,6 @@
 (straight-use-package 'use-package)
 (setq use-package-compute-statistics 1)
 
-;; We start the Emacs server if it’s not already running, so that the emacsclient command works.
-(use-package server
-  :config
-  (unless (server-running-p)
-    (server-start)))
-
 ;; make the title bar transparent
 ;;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 ;;(add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -96,7 +90,7 @@
 ;; automatically update buffer with changed files
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
-;; Keep the cursor where you last were when you were editing the file
+;; save position of a cursor across sessions
 (save-place-mode 1)
 ;; Open read-only files in view-mode.
 (setq-default view-read-only t)
@@ -104,11 +98,6 @@
 (setq-default echo-keystrokes 0.1)
 ;; INSTALL PACKAGES
 ;; --------------------------------------
-
-(use-package save-place-mode
-  :straight (:type built-in)
-  :config
-  (save-place-mode 1))
 
 (use-package recentf
   :straight (:type built-in)
@@ -557,15 +546,22 @@ targets."
   (prescient-persist-mode t))
 
 (use-package corfu-prescient
-  :straight t)
+  :straight t
+  :after corfu)
 
 (use-package vertico-prescient
-  :straight t)
+  :straight t
+  :after vertico)
 
 ; Enable vertico
 (use-package vertico
-  :straight t
-  :straight (:files (:defaults "extensions/*"))
+;;  :straight t
+   :straight (:files (:defaults "extensions/*"))
+  ;; :straight (vertico
+  ;; 	     :type git
+  ;; 	     :host github
+  ;; 	     :repo "emacs-straight/vertico"
+  ;; 	     :files ("*" (:exclude ".git") (:defaults "extensions/*")))
   :init
   (vertico-mode)
 
@@ -1350,7 +1346,12 @@ DIR must include a .project file to be considered a project."
 
 ;; completion in prog-mode
 (use-package corfu
-  :straight (:files (:defaults "extensions/*"))
+;;  :straight (:files (:defaults "extensions/*"))
+  :straight (corfu
+	     :type git
+	     :host github
+	     :repo "emacs-straight/corfu"
+	     :files ("*" "extensions/*.el" (:exclude ".git")))
   :custom
   (add-to-list 'corfu-margin-formatters #'+corfu-icons-margin-formatter)
   (corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
@@ -1361,7 +1362,7 @@ DIR must include a .project file to be considered a project."
   (global-corfu-mode)
   (corfu-popupinfo-mode t)
   :config
-  (setq corfu-quit-at-boundary separator)
+  (setq corfu-quit-at-boundary 'separator)
   (setq corfu-quit-no-match t)
   (setq corfu-popupinfo-delay t)
   (corfu-prescient-mode 1)
@@ -1521,7 +1522,8 @@ DIR must include a .project file to be considered a project."
    (eldoc-add-command-completions "combobulate-"))
 
 (use-package flycheck
-  :straight (:type built-in)
+  ;;  :straight (:type built-in)
+  :straight t
   :preface
   (defun mp-flycheck-eldoc (callback &rest _ignored)
     "Print flycheck messages at point by calling CALLBACK."
