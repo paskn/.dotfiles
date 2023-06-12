@@ -42,6 +42,13 @@
   (defun track-mouse (e)) 
   (setq mouse-sel-mode t))
 
+;; Default shell in term
+(unless
+    (or (eq system-type 'windows-nt)
+        (not (file-exists-p "/bin/zsh")))
+  (setq-default shell-file-name "/bin/zsh")
+  (setq explicit-shell-file-name "/bin/zsh"))
+
 (column-number-mode)
 ;; this boy drives me nuts on pdf-view-mode
 ;; activate line-numbers in specific modes as necessary
@@ -92,9 +99,45 @@
 ;; Open read-only files in view-mode.
 (setq-default view-read-only t)
 ;; Show keystrokes in the minibuffer area faster than the default.
-;; (setq-default echo-keystrokes 0.1)
+(setq-default echo-keystrokes 0.1)
+;; No cursor in inactive windows
+(setq cursor-in-non-selected-windows nil)
 ;; INSTALL PACKAGES
 ;; --------------------------------------
+
+(use-package mwim
+  :straight t
+  :defer t
+  :init
+  ;; "first stroke of C-a will move the cursor to the beginning of code.
+  ;; Subsequent strokes will toggle between beginning of line and beginning of code."    
+  ;; "first stroke of C-e will move the cursor to the end of code (before comments).
+  ;; Subsequent strokes will toggle between end of line and end of code."
+  (progn
+    (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+    (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)))
+
+(use-package unfill
+  :straight t
+  :defer t
+  :commands (unfill-region unfill-paragraph unfill-toggle)
+  :init
+  ;; M-q will toggle between fill/unfill -paragraphs when
+  ;; a major mode allows
+  (global-set-key [remap fill-paragraph] #'unfill-toggle))
+
+(defun sp/backward-kill-word-or-region (&optional arg)
+  "Calls `kill-region' when a region is active and
+`backward-kill-word' otherwise. ARG is passed to
+`backward-kill-word' if no region is active."
+  (interactive "p")
+  (if (region-active-p)
+      ;; call interactively so kill-region handles rectangular selection
+      ;; correctly (see https://github.com/syl20bnr/spacemacs/issues/3278)
+      (call-interactively #'kill-region)
+    (backward-kill-word arg)))
+
+(global-set-key (kbd "C-w") 'sp/backward-kill-word-or-region)
 
 (use-package recentf
   :straight (:type built-in)
