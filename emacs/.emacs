@@ -49,6 +49,27 @@
   (setq-default shell-file-name "/bin/zsh")
   (setq explicit-shell-file-name "/bin/zsh"))
 
+;; speed up emacs by deferring font locking
+;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
+;; and https://codeberg.org/ideasman42/emacs-jit-lock-stealth-progress
+(setq jit-lock-stealth-time 1.25)
+(setq jit-lock-stealth-nice 0.5) ;; Seconds between font locking.
+(setq jit-lock-chunk-size 4096)
+
+;; smooth scrolling
+(pixel-scroll-mode 1)
+
+;; speed up emacs by disabling some behaviours of mode-line
+;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
+;; see also https://codeberg.org/ideasman42/emacs-mode-line-idle
+(with-eval-after-load 'time
+  ;; Donot show system load in mode line
+  (setq display-time-default-load-average nil)
+  ;; By default, the file in environment variable MAIL is checked
+  ;; It's "/var/mail/my-username"
+  ;; I set `display-time-mail-function' to display NO mail notification in mode line
+  (setq display-time-mail-function (lambda () nil)))
+
 (column-number-mode)
 ;; this boy drives me nuts on pdf-view-mode
 ;; activate line-numbers in specific modes as necessary
@@ -102,8 +123,63 @@
 (setq-default echo-keystrokes 0.1)
 ;; No cursor in inactive windows
 (setq cursor-in-non-selected-windows nil)
+;; ibuffer
+(global-set-key [remap list-buffers] 'ibuffer)
+
+(defvar ibuffer-group-buffers-by 'modes
+  "If non nil ibuffer will group the buffers according to the passed symbol.
+The supported values are `modes' to group by major-modes and `projects' to
+group by projectile projects.")
+
+(defun sp/ibuffer-group-by-modes ()
+        "Group buffers by modes."
+        (when (eq 'modes ibuffer-group-buffers-by)
+          (sp/ibuffer-create-buffs-group)))
+      (add-hook 'ibuffer-hook 'sp/ibuffer-group-by-modes)
+
+(defun sp/ibuffer-get-major-modes-ibuff-rules-list (mm-list result-list)
+  (if mm-list
+      (let* ((cur-mm (car mm-list))
+             (next-res-list-el `(,(symbol-name cur-mm) (mode . ,cur-mm))))
+        (sp/ibuffer-get-major-modes-ibuff-rules-list
+         (cdr mm-list) (cons next-res-list-el result-list)))
+    result-list))
+
+(defun sp/ibuffer-get-major-modes-list ()
+  (mapcar
+   (function (lambda (buffer)
+               (buffer-local-value 'major-mode (get-buffer buffer))))
+   (buffer-list (selected-frame))))
+
+(defun sp/ibuffer-create-buffs-group ()
+  (interactive)
+  (let* ((ignore-modes '(Buffer-menu-mode
+                         compilation-mode
+                         minibuffer-inactive-mode
+                         ibuffer-mode
+                         magit-process-mode
+                         messages-buffer-mode
+                         fundamental-mode
+                         completion-list-mode
+                         help-mode
+                         Info-mode))
+         (cur-bufs
+          (list (cons "Home"
+                      (sp/ibuffer-get-major-modes-ibuff-rules-list
+                       (cl-set-difference
+                        (cl-remove-duplicates
+                         (sp/ibuffer-get-major-modes-list))
+                        ignore-modes) '())))))
+    (setq ibuffer-saved-filter-groups cur-bufs)
+    (ibuffer-switch-to-saved-filter-groups "Home")))
+
 ;; INSTALL PACKAGES
 ;; --------------------------------------
+
+;; adjust window-size to make the current windo larger
+(use-package golden-ratio
+  :straight t
+  :config (golden-ratio-mode 1))
 
 (use-package mwim
   :straight t
@@ -565,6 +641,12 @@ targets."
   :straight t
   :init
   (global-set-key (kbd "s-,") 'avy-goto-word-1))
+
+;; jump by links avy-style
+(use-package link-hint
+  :ensure t
+  :bind
+  ("s-\\" . link-hint-open-link))
 
 (use-package which-key
   :straight t
