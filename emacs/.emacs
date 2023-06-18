@@ -49,6 +49,32 @@
   (setq-default shell-file-name "/bin/zsh")
   (setq explicit-shell-file-name "/bin/zsh"))
 
+;; No cursor in inactive windows
+(setq cursor-in-non-selected-windows nil)
+
+;; No confirmation for visiting non-existent files
+(setq confirm-nonexistent-file-or-buffer nil)
+
+;; No tabs
+(setq-default indent-tabs-mode nil)
+
+;; Tab.space equivalence
+(setq-default tab-width 4)
+
+;; Size of temporary buffers
+(temp-buffer-resize-mode)
+(setq temp-buffer-max-height 8)
+
+;; Minimum window height
+(setq window-min-height 1)
+
+;; Buffer encoding
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-language-environment   'utf-8)
+
 ;; speed up emacs by deferring font locking
 ;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
 ;; and https://codeberg.org/ideasman42/emacs-jit-lock-stealth-progress
@@ -1787,3 +1813,4 @@ DIR must include a .project file to be considered a project."
 
 (put 'scroll-left 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
