@@ -9,6 +9,9 @@
           (defun reset-gc-cons-threshold ()
             (setq gc-cons-threshold 100000000 gc-cons-percentage 0.1)))
 
+;; Prefer loading newest compiled .el filep
+(customize-set-variable 'load-prefer-newer t)
+
 ;; Native compilation settings
 (when (featurep 'native-compile)
   ;; Silence compiler warnings as they can be pretty disruptive
@@ -39,6 +42,9 @@
 (set-fringe-mode 10)        ; Give some breathing room
 (menu-bar-mode -1)            ; Disable the menu bar
 (setq visible-bell nil)
+
+;; avoids the white screen flash on startup.
+;; (load-theme 'ef-elea-dark t)
 
 (add-to-list 'default-frame-alist
 	     '((menu-bar-lines . 0)

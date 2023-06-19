@@ -33,10 +33,6 @@
 (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
 
-;;Prefer loading fresh versions of lisp files 
-(setq load-prefer-newer t)
-
-
 (use-package exec-path-from-shell
   :defer 10
   :straight t)
@@ -343,16 +339,17 @@ group by projectile projects.")
   (doom-themes-org-config))
 
 (use-package modus-themes
-  :straight t
-  :config
-  (load-theme 'modus-vivendi :no-confirm))
-
-(use-package ef-themes
   :defer t
+  :straight t
+  ;; :config
+  ;; (load-theme 'modus-vivendi :no-confirm)
+)
+(use-package ef-themes
+  ;; :defer t
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
-;  (ef-themes-select 'ef-autumn)
-;  (load-theme 'ef-light t)
+  ;; (ef-themes-select 'ef-elea-dark)
+  (load-theme 'ef-elea-dark t)
   )
 
 (use-package popper
