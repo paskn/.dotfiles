@@ -125,6 +125,17 @@
 ;; Cursor blinking is not necessary
 (blink-cursor-mode 0)
 
+;; No fringe but nice glyphs for truncated and wrapped lines
+(fringe-mode '(0 . 0))
+(defface fallback '((t :family "IBM Plex Mono"
+                       :inherit 'face-faded)) "Fallback")
+(set-display-table-slot standard-display-table 'truncation
+                        (make-glyph-code ?… 'fallback))
+(set-display-table-slot standard-display-table 'wrap
+                        (make-glyph-code ?↩ 'fallback))
+(set-display-table-slot standard-display-table 'selective-display
+                        (string-to-vector " …"))
+
 ;; better line spacing
 ;; see http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html
 (setq-default line-spacing 0.15)
@@ -1856,6 +1867,7 @@ DIR must include a .project file to be considered a project."
  '(org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f") t)
  '(pdf-tools-handle-upgrades t)
+ '(pop-up-windows nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
