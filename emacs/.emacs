@@ -22,7 +22,23 @@
 (straight-use-package 'use-package)
 (setq use-package-compute-statistics 1)
 
+;; change default garbage collection behavior
+;; see https://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
+(defun my-minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun my-minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000))
+
+(add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+
+;;Prefer loading fresh versions of lisp files 
+(setq load-prefer-newer t)
+
+
 (use-package exec-path-from-shell
+  :defer 10
   :straight t)
 
 (when (memq window-system '(mac ns))
@@ -70,11 +86,13 @@
 (setq window-min-height 1)
 
 ;; Buffer encoding
+(set-language-environment "English")
 (prefer-coding-system       'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-language-environment   'utf-8)
+(add-to-list 'file-coding-system-alist '("\\.org" utf-8))
 
 ;; speed up emacs by deferring font locking
 ;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
@@ -96,6 +114,35 @@
   ;; It's "/var/mail/my-username"
   ;; I set `display-time-mail-function' to display NO mail notification in mode line
   (setq display-time-mail-function (lambda () nil)))
+
+;; Performance:
+;; Bidirectional text is not useful
+(setq bidi-display-reordering nil)
+
+;; Speed up line movemen
+;; see https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
+(setq auto-window-vscroll nil)
+
+;; should guard against possible lags on typing 
+(setq redisplay-skip-fontification-on-input t)
+
+;; Cursor blinking is not necessary
+(blink-cursor-mode 0)
+
+;; better line spacing
+;; see http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html
+(setq-default line-spacing 0.15)
+
+;; Default mode is ‘text-mode’.  The actual default,
+;; ‘fundamental-mode’ is rather useless.
+(setq-default major-mode 'text-mode)
+
+;; Underline at descent position
+;; rougier/elegant-emacs
+(setq x-underline-at-descent-line t)
+
+;; No ugly button for checkboxes
+(setq widget-image-enable nil)
 
 (column-number-mode)
 ;; this boy drives me nuts on pdf-view-mode
@@ -688,7 +735,8 @@ targets."
   (prescient-persist-mode t))
 
 (use-package corfu-prescient
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package vertico-prescient
   :straight t
@@ -696,8 +744,9 @@ targets."
 
 ; Enable vertico
 (use-package vertico
-;;  :straight t
-   :straight (:files (:defaults "extensions/*"))
+  ;;  :straight t
+  :defer t
+  :straight (:files (:defaults "extensions/*"))
   ;; :straight (vertico
   ;; 	     :type git
   ;; 	     :host github
@@ -1275,7 +1324,8 @@ DIR must include a .project file to be considered a project."
 
 ;; Magit config
 (use-package magit
-  :straight t)
+  :straight t
+  :defer t)
 
 ;; R and S-family languages
 (use-package ess
@@ -1463,7 +1513,8 @@ DIR must include a .project file to be considered a project."
 
 ;; completion in prog-mode
 (use-package corfu
- ;; :straight (:files (:defaults "extensions/*"))
+  ;; :straight (:files (:defaults "extensions/*"))
+  :defer t
   :straight (corfu
 	     :type git
 	     :host github
