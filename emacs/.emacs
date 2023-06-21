@@ -125,17 +125,6 @@
 ;; Cursor blinking is not necessary
 (blink-cursor-mode 0)
 
-;; No fringe but nice glyphs for truncated and wrapped lines
-(fringe-mode '(0 . 0))
-(defface fallback '((t :family "IBM Plex Mono"
-                       :inherit 'face-faded)) "Fallback")
-(set-display-table-slot standard-display-table 'truncation
-                        (make-glyph-code ?… 'fallback))
-(set-display-table-slot standard-display-table 'wrap
-                        (make-glyph-code ?↩ 'fallback))
-(set-display-table-slot standard-display-table 'selective-display
-                        (string-to-vector " …"))
-
 ;; better line spacing
 ;; see http://xahlee.info/emacs/emacs/emacs_toggle_line_spacing.html
 (setq-default line-spacing 0.15)
@@ -642,7 +631,7 @@ group by projectile projects.")
   :straight t
   :bind
   (("s-." . embark-act)         ;; pick some comfortable binding
-   ("M-." . embark-dwim)        ;; good alternative: M-.
+   ;; ("M-." . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -1330,6 +1319,13 @@ DIR must include a .project file to be considered a project."
   (lambda (fpath)
     (call-process "open" nil 0 nil "-a" "/Applications/Skim.app" fpath)))
 
+;; navigate code semantically with ripgrep
+(use-package dumb-jump
+  :straight t
+  :config
+  (setq dumb-jump-prefer-searcher 'rg)
+  (setq dumb-jump-force-searcher 'rg))
+
 ;; Magit config
 (use-package magit
   :straight t
@@ -1754,23 +1750,30 @@ DIR must include a .project file to be considered a project."
   :config
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
-(use-package flymake-proselint
-  :defer t
-  :straight t
-  :config
-  (add-hook 'text-mode-hook (lambda ()
-                            (flymake-mode)
-                            (flymake-proselint-setup)))
-  (add-hook 'markdown-mode-hook #'flymake-proselint-setup)
-  (add-hook 'org-mode-hook #'flymake-proselint-setup))
+;; (use-package flymake-proselint
+;;   ;; :defer t
+;;   :straight t
+;;   :config
+;;   (add-hook 'text-mode-hook (lambda ()
+;;                             (flymake-mode)
+;;                             (flymake-proselint-setup)))
+;;   (add-hook 'markdown-mode-hook #'flymake-proselint-setup)
+;;   (add-hook 'org-mode-hook #'flymake-proselint-setup))
 
 ;; Spelling and Writing
 (use-package flycheck
+  :defer t
   :straight t
 ;  :init (global-flychek-mode)
   :config
-  (flycheck-add-mode 'proselint 'org-mode)
+  ;; (flycheck-add-mode 'proselint 'org-mode) 
   (add-hook 'after-init-hook #'global-flycheck-mode))
+
+;; use vale for prose
+(use-package flycheck-vale
+  :straight t
+  :config
+  (flycheck-vale-setup))
 
 (use-package beacon
   :straight t
@@ -1867,7 +1870,6 @@ DIR must include a .project file to be considered a project."
  '(org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f") t)
  '(pdf-tools-handle-upgrades t)
- '(pop-up-windows nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
