@@ -1750,16 +1750,6 @@ DIR must include a .project file to be considered a project."
   :config
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
-;; (use-package flymake-proselint
-;;   ;; :defer t
-;;   :straight t
-;;   :config
-;;   (add-hook 'text-mode-hook (lambda ()
-;;                             (flymake-mode)
-;;                             (flymake-proselint-setup)))
-;;   (add-hook 'markdown-mode-hook #'flymake-proselint-setup)
-;;   (add-hook 'org-mode-hook #'flymake-proselint-setup))
-
 ;; Spelling and Writing
 (use-package flycheck
   :defer t
@@ -1793,20 +1783,6 @@ DIR must include a .project file to be considered a project."
   :bind (("C-;"   . jinx-correct))
   :config
   (add-hook 'emacs-startup-hook #'global-jinx-mode))
-
-(use-package flyspell
-  :straight (:type built-in)
-  ;; :init
-  ;; (progn
-  ;;   (add-hook 'message-mode-hook 'turn-on-flyspell)
-  ;;   (add-hook 'org-mode-hook 'flyspell-mode)
-  ;;   (defalias 'fm flyspell-mode))
-  :config
-  ;; (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  ;; (add-hook 'org-mode-hook 'flyspell-mode)
-  )
-
 
 (setq save-abbrevs 'silently)
 (setq-default abbrev-mode t)
