@@ -170,6 +170,16 @@
  '(default ((t (:inherit nil :height 130 :family "IBM Plex Mono"))))
  '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
 
+;; prettify how line truncation is expressed
+;; https://github.com/rougier/elegant-emacs/blob/d901cf9456b030707ee39ce7cc35e9b988040cf0/elegance.el#L67
+(defface fallback '((t :family "IBM Plex Mono")) "Fallback")
+(set-display-table-slot standard-display-table 'truncation
+                        (make-glyph-code ?… 'fallback))
+(set-display-table-slot standard-display-table 'wrap
+                        (make-glyph-code ?↩ 'fallback))
+(set-display-table-slot standard-display-table 'selective-display
+                        (string-to-vector " …"))
+
 ;; use ESC to cancel prompt
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
 
