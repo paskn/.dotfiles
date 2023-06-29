@@ -1,2 +1,7 @@
-propaganda
+[Rr]epo
+[Cc]onfig
+TODO
+[Aa]stroturfing
+[Aa]ttack
+[Pp]ropaganda
 violence
