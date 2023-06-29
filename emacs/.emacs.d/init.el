@@ -1703,5 +1703,5 @@ DIR must include a .project file to be considered a project."
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(provide init)
+(provide 'init)
 ;;; init.el ends here
