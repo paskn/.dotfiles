@@ -43,17 +43,6 @@
   (exec-path-from-shell-copy-envs
    '("PATH")))
 
-;; make the title bar transparent
-;;(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-;;(add-to-list 'default-frame-alist '(ns-appearance . dark))
-;; iTerm2 config
-;; ITERM2 MOUSE SUPPORT
-(unless window-system
-  (require 'mouse)
-  (xterm-mouse-mode t)
-  (defun track-mouse (e)) 
-  (setq mouse-sel-mode t))
-
 ;; Default shell in term
 (unless
     (or (eq system-type 'windows-nt)
@@ -119,7 +108,7 @@
 ;; see https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
 (setq auto-window-vscroll nil)
 
-;; should guard against possible lags on typing 
+;; should guard against possible lags on typing
 (setq redisplay-skip-fontification-on-input t)
 
 ;; Cursor blinking is not necessary
@@ -362,32 +351,6 @@ group by projectile projects.")
   (load-theme 'ef-elea-dark t)
   )
 
-(use-package popper
-  :straight t
-  :bind (("C-`"   . popper-toggle-latest)
-         ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :init
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          help-mode
-          compilation-mode
-	  "\\*Org Select\\*"
-	  "\\*Agenda Commands\\*"
-	  "\\*Org Agenda\\*"
-	  "\\*Buffer List\\*"
-     	  "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
-          "^\\*shell.*\\*$"  shell-mode  ;shell as a popup
-          "^\\*term.*\\*$"   term-mode   ;term as a popup
-          "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
-		))
-  (popper-mode +1)
-  (popper-echo-mode +1)
-  (setq popper-group-function #'popper-group-by-project) ; project.el projects
-  )
-
 (use-package dashboard
   :straight t
   :config
@@ -472,12 +435,6 @@ group by projectile projects.")
   (setq enable-recursive-minibuffers t)
   (repeat-mode 1)
   )
-
-;; allow sub-word navigation
-;; (use-package subword
-;;   :straight t
-;;   :config
-;;   (global-subword-mode 1))
 
 (use-package isearch
   :straight (:type built-in)
@@ -947,16 +904,16 @@ targets."
   (setq org-use-speed-commands t)
   
   (setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-image-actual-width nil)
   (set-face-attribute 'fixed-pitch nil :font "IBM Plex Mono")
   (setq org-directory "~/org")
   (setq org-fold-core-style 'overlays)
   (setq org-ellipsis " ▾")
   (setq org-agenda-files
-	'("~/org/projects.org"))
+	    '("~/org/projects.org"))
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
@@ -964,8 +921,8 @@ targets."
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
   (setq org-les
-	'(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
-	)
+	    '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
+	    )
   ;; Save the corresponding buffers
   (defun gtd-save-org-buffers ()
     "Save `org-agenda-files' buffers without user confirmation.
@@ -973,74 +930,74 @@ See also `org-save-all-org-buffers'"
     (interactive)
     (message "Saving org-agenda-files buffers...")
     (save-some-buffers t (lambda () 
-			   (when (member (buffer-file-name) org-agenda-files) 
-			     t)))
+			               (when (member (buffer-file-name) org-agenda-files) 
+			                 t)))
     (message "Saving org-agenda-files buffers... done"))
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (setq org-capture-templates
-	`(;;("i" "Inbox")
-	  ("i" "Inbox..." entry (file "inbox.org")
-	    ,(concat "* TODO %?\n"
-	   	    "/Entered on/ %U"))
-	  ;;  ("in" "A note" entry
-	  ;;   (file+headline "inbox.org" "Notes")
-	  ;;  "* %?\n /Entered on/ %U\n\n %i\n\n %a" )
-	   ))
+	    `(;;("i" "Inbox")
+	      ("i" "Inbox..." entry (file "inbox.org")
+	       ,(concat "* TODO %?\n"
+	   	            "/Entered on/ %U"))
+	      ;;  ("in" "A note" entry
+	      ;;   (file+headline "inbox.org" "Notes")
+	      ;;  "* %?\n /Entered on/ %U\n\n %i\n\n %a" )
+	      ))
   (setq org-refile-targets
-	'(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-	  ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-	  ("someday-maybe.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\))")))
+	    '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+	      ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+	      ("someday-maybe.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\))")))
   (setq org-refile-use-outline-path 'file)
   ;; Add it after refile
   (advice-add 'org-refile :after
               (lambda (&rest _)
-		(gtd-save-org-buffers)))
+		        (gtd-save-org-buffers)))
   (setq org-outline-path-complete-in-steps nil)
   
   ;; Configure custom agenda views
   (setq org-agenda-custom-commands
-	'(("d" "📝 Desk"
-	   ((tags-todo "@desk&@next"
-		       ((org-agenda-overriding-header "📝 Write & research\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  
-	  ("c" "☎️💬 Comm."
-	   ((tags-todo "@communication"
-		       ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  
-	  ("w" "☢️ Waiting"
-	   ((tags-todo "@waiting"
-		       ((org-agenda-overriding-header "☢️Track progress\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  
-	  ("e" "🚴‍♀️ Errands"
-	   ((tags-todo "@errand&@next|@shopping"
-		       ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  
-	  ("h" "🏡 House"
-	   ((tags-todo "@house&@next"
-		       ((org-agenda-overriding-header "🏡Do it at home\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  
-	  ("r" "📚📝 Reading"
-	   ((tags-todo "@reading&@next"
-		       ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org"))))
-	  ("A" "👌🧘‍♀️ Anywhere"
-	   ((tags-todo "@anywhere&@next"
-		       ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
-		       ))
-	   ((org-agenda-files '("~/org/projects.org")))))))
+	    '(("d" "📝 Desk"
+	       ((tags-todo "@desk&@next"
+		               ((org-agenda-overriding-header "📝 Write & research\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      
+	      ("c" "☎️💬 Comm."
+	       ((tags-todo "@communication"
+		               ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      
+	      ("w" "☢️ Waiting"
+	       ((tags-todo "@waiting"
+		               ((org-agenda-overriding-header "☢️Track progress\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      
+	      ("e" "🚴‍♀️ Errands"
+	       ((tags-todo "@errand&@next|@shopping"
+		               ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      
+	      ("h" "🏡 House"
+	       ((tags-todo "@house&@next"
+		               ((org-agenda-overriding-header "🏡Do it at home\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      
+	      ("r" "📚📝 Reading"
+	       ((tags-todo "@reading&@next"
+		               ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org"))))
+	      ("A" "👌🧘‍♀️ Anywhere"
+	       ((tags-todo "@anywhere&@next"
+		               ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
+		               ))
+	       ((org-agenda-files '("~/org/projects.org")))))))
 
 (use-package org-modern
   :after org
@@ -1103,44 +1060,10 @@ DIR must include a .project file to be considered a project."
 (use-package valign
   :defer t
   :straight t
-;;  :after-call org-mode-hook
+  ;;  :after-call org-mode-hook
   :hook (org-mode . valign-mode)
   :config
   (setq valign-fancy-bar t))
-
-(setq org-latex-pdf-process '("texi2dvi -p -b -V %f"))
-;; (setq org-latex-pdf-process
-;;       '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
-;; (add-to-list 'org-latex-classes
-;;                '("apa6"
-;;                  "\\documentclass{apa6}"
-;;                  ("\\section{%s}" . "\\section*{%s}")
-;;                  ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;;                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-
-;; (require 'ox-latex)
-;; (unless (boundp 'org-latex-classes)
-;;   (setq org-latex-classes nil))
-;; (add-to-list 'org-latex-classes
-;;              '("article"
-;;                "\\documentclass{article}"
-;;                ("\\section{%s}" . "\\section*{%s}")
-;;                ("\\subsection{%s}" . "\\subsection*{%s}")
-;;                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;;                ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;;                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-;; (use-package emacsql-sqlite
-;;   :straight t)
-
-;; (use-package emacsql
-;;   :straight t)
-
-;; (use-package magit-section
-;;   :straight t)
 
 (use-package sicp
   :straight t)
@@ -1154,9 +1077,9 @@ DIR must include a .project file to be considered a project."
   :defer t
   :config
   (setq oblique-edition
-                "strategies/oblique-strategies-condensed.txt")
-          (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
- 
+        "strategies/oblique-strategies-condensed.txt")
+  (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
+
 (use-package org-roam
   :straight t
   :init
@@ -1164,12 +1087,12 @@ DIR must include a .project file to be considered a project."
   (org-roam-directory "~/Documents/personal/RoamNotes")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 ("C-c n c" . org-roam-capture)
-	 :map org-mode-map
-	 ("C-M-c" . completion-at-point)
-	 :map org-roam-dailies-map
+	     ("C-c n f" . org-roam-node-find)
+	     ("C-c n i" . org-roam-node-insert)
+	     ("C-c n c" . org-roam-capture)
+	     :map org-mode-map
+	     ("C-M-c" . completion-at-point)
+	     :map org-roam-dailies-map
          ("Y" . org-roam-dailies-capture-yesterday)
          ("T" . org-roam-dailies-capture-tomorrow))
   :bind-keymap
@@ -1183,7 +1106,7 @@ DIR must include a .project file to be considered a project."
   :defer t
   :config
   (setq mastodon-instance-url "https://mastodon.social"
-          mastodon-active-user "pashakhin"))
+        mastodon-active-user "pashakhin"))
 
 (use-package elfeed
   :straight t
@@ -1222,12 +1145,12 @@ DIR must include a .project file to be considered a project."
   (setq elfeed-search-date-format '("%y-%m-%d" 10 :left))
   (setq elfeed-search-title-max-width 110)
   (setq elfeed-feeds
-	'("https://arxiv.org/rss/cs.SI" "https://arxiv.org/rss/cs.IR" "https://arxiv.org/rss/cs.HC" "https://arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
-(define-advice elfeed-search--header (:around (oldfun &rest args))
-  (if elfeed-db
-      (apply oldfun args)
-    "No database loaded yet"))
-)
+	    '("https://arxiv.org/rss/cs.SI" "https://arxiv.org/rss/cs.IR" "https://arxiv.org/rss/cs.HC" "https://arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
+  (define-advice elfeed-search--header (:around (oldfun &rest args))
+    (if elfeed-db
+        (apply oldfun args)
+      "No database loaded yet"))
+  )
 
 (use-package elfeed-score
   :defer t
@@ -1261,7 +1184,7 @@ DIR must include a .project file to be considered a project."
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init 
- ;(setq markdown-command "")
+;(setq markdown-command "")
   (setq markdown-disable-tooltip-prompt 1)
   (setq markdown-code-block-braces t))
 
@@ -1281,53 +1204,41 @@ DIR must include a .project file to be considered a project."
   (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
   :config
   (setq citar-symbols
-      `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
-        (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
-        (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+        `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+          (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+          (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
   (setq citar-symbol-separator "  "))
 
 (use-package citar-embark
   :after citar embark
   :no-require
   :config
- (citar-embark-mode)
- (setq citar-org-roam-note-title-template "${author} - ${title}")
- (setq org-roam-capture-templates
-      '(("d" "default" plain
-         "%?"
-         :target
-         (file+head
-          "%<%Y%m%d%H%M%S>-${slug}.org"
-          "#+title: ${note-title}\n")
-         :unnarrowed t)
-        ("n" "literature note" plain
-         "%?"
-         :target
-         (file+head
-          "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-          "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
-         :unnarrowed t)))
- (setq citar-org-roam-capture-template-key "n")
- :custom
- (setq citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
-)
+  (citar-embark-mode)
+  (setq citar-org-roam-note-title-template "${author} - ${title}")
+  (setq org-roam-capture-templates
+        '(("d" "default" plain
+           "%?"
+           :target
+           (file+head
+            "%<%Y%m%d%H%M%S>-${slug}.org"
+            "#+title: ${note-title}\n")
+           :unnarrowed t)
+          ("n" "literature note" plain
+           "%?"
+           :target
+           (file+head
+            "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+            "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+           :unnarrowed t)))
+  (setq citar-org-roam-capture-template-key "n")
+  :custom
+  (setq citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
+  )
 
 (use-package citar-org-roam
   :straight t
   :after (citar org-roam)
   :config (citar-org-roam-mode))
-
-(setq bibtex-completion-bibliography
-      ;;      '("/Users/psd/Documents/linis/teach/digital social studies/DSS-course.bib")
-;;      '("/Users/psd/Documents/personal/docs/Germany/SMIIA/references.bib")
-      '("/Users/psd/Documents/linis/pfi22-proj2/references.bib"))
-;;      '("/Users/psd/Documents/personal/docs/HEL-PhD/publics.bib"))
-
-(setq bibtex-completion-pdf-field "File")
-
-(setq bibtex-completion-pdf-open-function
-  (lambda (fpath)
-    (call-process "open" nil 0 nil "-a" "/Applications/Skim.app" fpath)))
 
 ;; navigate code semantically with ripgrep
 (use-package dumb-jump
@@ -1430,12 +1341,12 @@ DIR must include a .project file to be considered a project."
     :hostmode 'pm-host/text
     :innermodes '(poly-text-R-innermode))
 )
-;;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-R))
 ;; some help with Rmd files
 (use-package poly-R
   :defer t
-  :straight t)
+  :straight t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-R)))
 
 (use-package quarto-mode
   :defer t
@@ -1482,10 +1393,6 @@ DIR must include a .project file to be considered a project."
   (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t)))
   )
 
-;; (use-package company
-;;   :straight t
-;;   :defer t)
-
 (use-package ein
   :defer t
   :straight t)
@@ -1493,11 +1400,6 @@ DIR must include a .project file to be considered a project."
 (use-package cider
   :straight t
   :defer t)
-
-;; configure PATH for latex
-;(when (memq window-system '(mac ns x))
-;  (exec-path-from-shell-initialize))
-(setq-default TeX-master nil)
 
 ;; pdf-tools 
 (use-package pdf-tools
@@ -1749,9 +1651,6 @@ DIR must include a .project file to be considered a project."
   (setq insert-directory-program "/opt/homebrew/opt/coreutils/libexec/gnubin/ls")
   (setq delete-by-moving-to-trash t)
   (setq dired-listing-switches "-algho --group-directories-first"))
-
-;; not sure how to configure it but mb useful
-;;(use-package dired-single)
 
 ;; hide dot files by default
 (use-package dired-hide-dotfiles
