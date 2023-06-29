@@ -1386,7 +1386,7 @@ DIR must include a .project file to be considered a project."
                                  nil)
                                 )
             )
-  (add-hook 'python-mode-hook 'company-mode)
+  ;; (add-hook 'python-mode-hook 'company-mode)
   (add-hook 'python-mode-hook #'yas-minor-mode)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook (lambda () (setq eglot-connect-timeout 120)))
