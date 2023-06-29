@@ -384,7 +384,7 @@ group by projectile projects.")
   (setq-default scroll-margin 0)
   (electric-pair-mode 1)
   :init
-   ;; TAB ycle if there are only few candidates
+  ;; TAB ycle if there are only few candidates
   (setq completion-cycle-threshold 3)
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
