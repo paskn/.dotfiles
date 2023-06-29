@@ -15,7 +15,9 @@
 ;; Native compilation settings
 (when (featurep 'native-compile)
   ;; Silence compiler warnings as they can be pretty disruptive
-  (setq native-comp-async-report-warnings-errors nil))
+  (setq native-comp-async-report-warnings-errors nil)
+   ;; Make native compilation happens asynchronously
+  (setq native-comp-deferred-compilation t))
 
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
