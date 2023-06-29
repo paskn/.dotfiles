@@ -1297,6 +1297,11 @@ DIR must include a .project file to be considered a project."
 	 ess-use-R-completion nil
 	 ess-use-auto-complete nil
 	 ess-use-company t)
+   ;; fix code highlighting in repl
+   ;; https://github.com/emacs-ess/ESS/issues/1199
+   (defun my-inferior-ess-init ()
+      (setq-local ansi-color-for-comint-mode 'filter))
+   (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)
    (setq ess-use-flymake nil)
    (defun my/add-pipe ()
      "Adds a pipe operator %>% with one space to the left and right"
