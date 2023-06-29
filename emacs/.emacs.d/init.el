@@ -1329,7 +1329,6 @@ DIR must include a .project file to be considered a project."
 				 (reusable-frames . nil))))
   )
 
-
 ;; help with RMarkdown
 (use-package poly-markdown
   :defer t
@@ -1363,7 +1362,8 @@ DIR must include a .project file to be considered a project."
 ;; support for Julia
 (use-package julia-mode
   :defer t
-  :straight t)
+  :straight t
+  :hook (eglot-lj-init))
 
 (use-package vterm
   :defer t
@@ -1376,7 +1376,7 @@ DIR must include a .project file to be considered a project."
   :hook (julia-mode . julia-snail-mode))
 
 (use-package eglot-jl
-  :defer t
+  :after eglot
   :straight t
   :config
   (eglot-jl-init))
