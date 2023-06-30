@@ -89,6 +89,9 @@
 ;; smooth scrolling
 (pixel-scroll-mode 1)
 
+;; more convenient order of cycling with C-l
+(setq recenter-positions '(top middle bottom))
+
 ;; speed up emacs by disabling some behaviours of mode-line
 ;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
 ;; see also https://codeberg.org/ideasman42/emacs-mode-line-idle
@@ -104,7 +107,7 @@
 ;; Bidirectional text is not useful
 (setq bidi-display-reordering nil)
 
-;; Speed up line movemen
+;; Speed up line movement
 ;; see https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
 (setq auto-window-vscroll nil)
 

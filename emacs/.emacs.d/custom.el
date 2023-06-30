@@ -62,6 +62,7 @@
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f") t)
  '(pdf-tools-handle-upgrades t)
  '(python-indent-guess-indent-offset-verbose nil)
+ '(python-shell-completion-native-enable nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
