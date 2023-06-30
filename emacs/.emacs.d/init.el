@@ -1442,6 +1442,7 @@ DIR must include a .project file to be considered a project."
 	     :repo "emacs-straight/corfu"
 	     :files ("*" "extensions/*.el" (:exclude ".git")))
   :custom
+  (corfu-auto-delay 0.0)                ;No delay for completion
   (corfu-quit-at-boundary 'separator)
   (add-to-list 'corfu-margin-formatters #'+corfu-icons-margin-formatter)
   (corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
@@ -1454,14 +1455,27 @@ DIR must include a .project file to be considered a project."
   :config
   (setq corfu-quit-no-match t)
   (corfu-prescient-mode 1)
+  ;; Silence the pcomplete capf, no errors or messages!
+  ;; Important for corfu
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+  ;; Ensure that pcomplete does not write to the buffer
+  ;; and behaves as a pure `completion-at-point-function'.
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+  (add-hook 'eshell-mode-hook
+            (lambda () (setq-local corfu-quit-at-boundary t
+                                   corfu-quit-no-match t
+                                   corfu-auto nil)
+              (corfu-mode)))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
         ([tab] . corfu-next)
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous)
-	("M-SPC" . corfu-insert-separator))
-  )
+	    ("M-SPC" . corfu-insert-separator)
+        ("M-p" . corfu-popupinfo-scroll-down)
+        ("M-n" . corfu-popupinfo-scroll-up)
+        ("M-d" . corfu-popupinfo-toggle)))
 
 (use-package corfu-doc
   :straight t
@@ -1600,7 +1614,8 @@ DIR must include a .project file to be considered a project."
    (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   :config
    (eldoc-add-command-completions "paredit-")
-   (eldoc-add-command-completions "combobulate-"))
+   (eldoc-add-command-completions "combobulate-")
+   (eldoc-add-command #'corfu-insert))
 
 (use-package flycheck
   ;;  :straight (:type built-in)
