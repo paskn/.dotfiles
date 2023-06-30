@@ -10,11 +10,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(corfu-quit-at-boundary 'separator)
+ '(completions-detailed t)
+ '(corfu-quit-at-boundary 'separator nil nil "Customized with use-package corfu")
  '(cursor-in-non-selected-windows nil)
  '(custom-safe-themes
    '("0f220ea77c6355c411508e71225680ecb3e308b4858ef6c8326089d9ea94b86f" "631c52620e2953e744f2b56d102eae503017047fb43d65ce028e88ef5846ea3b" "dc8285f7f4d86c0aebf1ea4b448842a6868553eded6f71d1de52f3dcbc960039" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "aee6debe7b326de2968d8b023fdc9ee7e6c9996a80532186674f2e1376ad1782" default))
  '(dashboard-projects-backend 'project-el)
+ '(dictionary-server "dict.org")
+ '(dictionary-use-single-buffer t)
  '(ein:output-area-inlined-images t)
  '(elfeed-feeds
    '("https://export.arxiv.org/rss/cs.SI" "https://export.arxiv.org/rss/cs.IR" "https://export.arxiv.org/rss/cs.HC" "https://export.arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))

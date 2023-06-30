@@ -434,6 +434,16 @@ group by projectile projects.")
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
   (repeat-mode 1)
+  ;; Show dictionary definition on the left
+  ;; https://github.com/SystemCrafters/crafted-emacs/blob/f7c6abae32726e4f38e4cf103a931a9af605a76f/modules/crafted-mastering-emacs.el#L63C42-L63C42
+  (add-to-list 'display-buffer-alist
+               '("^\\*Dictionary\\*"
+                 (display-buffer-in-side-window)
+                 (side . left)
+                 (window-width . 70)))
+  ;; define a key to define the word at point.
+  (define-key global-map (kbd "C-c d") #'dictionary-lookup-definition)
+
   )
 
 (use-package isearch
