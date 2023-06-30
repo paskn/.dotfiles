@@ -61,10 +61,12 @@
  '(org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f") t)
  '(pdf-tools-handle-upgrades t)
+ '(python-indent-guess-indent-offset-verbose nil)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
- '(warning-suppress-types '((straight) (comp) (corfu-doc) (corfu-doc))))
+ '(warning-suppress-types '((straight) (comp) (corfu-doc) (corfu-doc)))
+ '(xref-show-definitions-function 'xref-show-definitions-completing-read))
 
 (put 'scroll-left 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

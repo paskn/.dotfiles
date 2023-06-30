@@ -1395,18 +1395,28 @@ DIR must include a .project file to be considered a project."
   :straight (:type built-in)
   :interpreter ("python3" . python-mode)
   :config
-  (add-hook 'python-hook (lambda ()
-                                (setq
-                                 python-indent-guess-indent-offset-verbose
-                                 nil)
-                                )
-            )
   ;; (add-hook 'python-mode-hook 'company-mode)
   (add-hook 'python-mode-hook #'yas-minor-mode)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook (lambda () (setq eglot-connect-timeout 120)))
-  (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t)))
-  )
+  (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t))))
+
+;; * blacken       -- buffer formatting on save using black
+;;                    (need to pip install black)
+(use-package blacken
+  :defer t
+  :straight t
+  :init
+  (add-hook 'python-mode-hook #'blacken-mode))
+
+;; * anaconda      -- code navigation, documentation and completion
+;; * pythonic      -- utility packages for running python in different
+;;                    environments (dependency of anaconda)
+(use-package anaconda-mode
+  :defer t
+  :straight t
+  :init
+  (add-hook 'python-mode-hook #'anaconda-mode))
 
 (use-package ein
   :defer t
