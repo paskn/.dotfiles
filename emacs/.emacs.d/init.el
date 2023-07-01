@@ -189,6 +189,10 @@
 (setq global-auto-revert-non-file-buffers t)
 ;; save position of a cursor across sessions
 (save-place-mode 1)
+;; keep history and useful data across sections
+(setq bookmark-save-flag 1)
+(setq savehist-additional-variables '(register-alist kill-ring))
+(savehist-mode 1)
 ;; Open read-only files in view-mode.
 (setq-default view-read-only t)
 ;; Show keystrokes in the minibuffer area faster than the default.
