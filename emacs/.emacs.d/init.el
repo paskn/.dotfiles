@@ -733,6 +733,8 @@ targets."
   (vertico-mode)
 
   (vertico-prescient-mode t)
+  ;; hide prompted path when entering file name shadowing
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0))
  ;; Show more candidates
@@ -1693,9 +1695,24 @@ DIR must include a .project file to be considered a project."
   :config
   (setq insert-directory-program "/opt/homebrew/opt/coreutils/libexec/gnubin/ls")
   (setq delete-by-moving-to-trash t)
-  (setq dired-listing-switches "-algho --group-directories-first"))
+  (setq dired-listing-switches "-algho --group-directories-first")
+  (setq dired-dwim-target t)
+  ;; Automatically hide the detailed listing when visiting a Dired
+  ;; buffer.  This can always be toggled on/off by calling the
+  ;; `dired-hide-details-mode' interactively with M-x or its keybindings
+  ;; (the left parenthesis by default).
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  ;; Teach Dired to use a specific external program with either the
+  ;; `dired-do-shell-command' or `dired-do-async-shell-command' command
+  ;; (with the default keys, those are bound to `!' `&', respectively).
+  ;; The first string is a pattern match against file names.  The
+  ;; remaining strings are external programs that Dired will provide as
+  ;; suggestions.  Of course, you can always type an arbitrary program
+  ;; despite these defaults.
+  (setq dired-guess-shell-alist-user
+        '((".*" "open"))))
 
-;; hide dot files by default
+;; HIDE dot files by default
 (use-package dired-hide-dotfiles
   :straight t
   :hook (dired-mode . dired-hide-dotfiles-mode)
