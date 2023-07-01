@@ -1709,8 +1709,13 @@ DIR must include a .project file to be considered a project."
   ;; remaining strings are external programs that Dired will provide as
   ;; suggestions.  Of course, you can always type an arbitrary program
   ;; despite these defaults.
-  (setq dired-guess-shell-alist-user
-        '((".*" "open"))))
+  (setq dired-guess-shell-alist-user (list
+                                      (list ".*" "open")))
+)
+
+(use-package dired-x
+  :straight (:type built-in)
+  :after dired)
 
 ;; HIDE dot files by default
 (use-package dired-hide-dotfiles
