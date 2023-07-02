@@ -63,6 +63,7 @@
  '(pdf-tools-handle-upgrades t)
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-shell-completion-native-enable nil)
+ '(save-interprogram-paste-before-kill t)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
