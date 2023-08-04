@@ -11,6 +11,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(completions-detailed t)
+ '(copy-region-blink-delay 0)
  '(corfu-quit-at-boundary 'separator nil nil "Customized with use-package corfu")
  '(cursor-in-non-selected-windows nil)
  '(custom-safe-themes

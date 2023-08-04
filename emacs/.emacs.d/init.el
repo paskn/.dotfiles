@@ -159,12 +159,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :height 130 :family "IBM Plex Mono"))))
- '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
+ '(default ((t (:inherit nil :height 130 :family "CommitMono"))))
+ '(fixed-pitch ((t (:height 130 :width normal :family "CommitMono")))))
 
 ;; prettify how line truncation is expressed
 ;; https://github.com/rougier/elegant-emacs/blob/d901cf9456b030707ee39ce7cc35e9b988040cf0/elegance.el#L67
-(defface fallback '((t :family "IBM Plex Mono")) "Fallback")
+(defface fallback '((t :family "CommitMono")) "Fallback")
 (set-display-table-slot standard-display-table 'truncation
                         (make-glyph-code ?… 'fallback))
 (set-display-table-slot standard-display-table 'wrap
@@ -355,8 +355,13 @@ group by projectile projects.")
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
   ;; (ef-themes-select 'ef-elea-dark)
-  (load-theme 'ef-elea-dark t)
+  (load-theme 'ef-maris-light t)
   )
+
+(use-package spacious-padding
+  :straight t
+  :config
+  (spacious-padding-mode 1))
 
 (use-package dashboard
   :straight t
@@ -490,7 +495,8 @@ group by projectile projects.")
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ;; M-g bindings (goto-map)
          ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ;; ("M-g f" . consult-flymake)            ;; Alternative: consult-flycheck
+         ("M-g f" . consult-flycheck)
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
          ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
          ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
@@ -584,6 +590,9 @@ group by projectile projects.")
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
   )
 
+(use-package consult-flycheck
+  :straight t)
+
 (use-package consult-yasnippet
   :straight t)
 
@@ -593,13 +602,13 @@ group by projectile projects.")
 (use-package consult-eglot
   :straight t)
 
-(use-package consult-flyspell
-  :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
-  :config
-  ;; default settings
-  (setq consult-flyspell-select-function nil
-        consult-flyspell-set-point-after-word t
-        consult-flyspell-always-check-buffer nil))
+;; (use-package consult-flyspell
+;;   :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
+;;   :config
+;;   ;; default settings
+;;   (setq consult-flyspell-select-function nil
+;;         consult-flyspell-set-point-after-word t
+;;         consult-flyspell-always-check-buffer nil))
 
 (use-package marginalia
   :straight t
@@ -927,7 +936,7 @@ targets."
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-image-actual-width nil)
-  (set-face-attribute 'fixed-pitch nil :font "IBM Plex Mono")
+  (set-face-attribute 'fixed-pitch nil :font "CommitMono")
   (setq org-directory "~/org")
   (setq org-fold-core-style 'overlays)
   (setq org-ellipsis " ▾")
