@@ -380,8 +380,18 @@ group by projectile projects.")
   (setq dashboard-set-footer 1)
   (setq dashboard-agenda-sort-strategy '(time-up))
   (setq dashboard-agenda-prefix-format " %i %-10s ")
-  (setq dashboard-item-names '(("Agenda for the coming week:" . "Schedule:"))
-  ))
+  (setq dashboard-item-names '(("Agenda for the coming week:" . "Schedule:")))
+  (defun sp/generate-strats ()
+    (let (result)
+      (dotimes (i 5 result)
+        (setq result (cons (oblique-strategy) result)))))
+
+  (setq dashboard-footer-messages (sp/generate-strats))
+
+  (setq dashboard-footer-icon (all-the-icons-faicon "cogs"
+                                                    :height 1.1
+                                                    :v-adjust -0.05
+                                                    :face 'font-lock-keyword-face)))
 
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
