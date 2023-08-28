@@ -20,3 +20,6 @@ dumbing-down of programming]]"
 * Copying
 
 Unless otherwise noted, all code herein is distributed under the terms of the GNU General Public License Version 3 or later.
+
+
+[[https://lambdaland.org/img/made_with_emacs.svg]]
