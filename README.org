@@ -1,2 +1,18 @@
 This repo contains my GNU Emacs configuration and other auxiliary
 software. It is macOS based.
+
+#+begin_quote
+The computer was suddenly revealed as palimpsest. The machine that is
+everywhere hailed as the very incarnation of the new had revealed
+itself to be not so new after all, but a series of skins, layer on
+layer, winding around the messy, evolving idea of the computing
+machine. Under Windows was DOS; under DOS, BASIC; and under them both
+the date of its origins recorded like a birth memory. Here was the
+very opposite of the authoritative, all-knowing system with its pretty
+screenful of icons. Here was the antidote to Microsoft's many
+protections. The mere impulse toward Linux had led me into an act of
+desktop archaeology. And down under all those piles of stuff, the
+secret was written: We build our computers the way we build our cities
+-- over time, without a plan, on top of ruins.  -- Ellen Ullman "[[https://web.archive.org/web/20230822183640/https://www.salon.com/1998/05/12/feature_321/][The
+dumbing-down of programming]]" 
+#+end_quote
