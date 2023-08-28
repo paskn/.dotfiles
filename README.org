@@ -16,3 +16,7 @@ secret was written: We build our computers the way we build our cities
 -- over time, without a plan, on top of ruins.  -- Ellen Ullman "[[https://web.archive.org/web/20230822183640/https://www.salon.com/1998/05/12/feature_321/][The
 dumbing-down of programming]]" 
 #+end_quote
+
+* Copying
+
+Unless otherwise noted, all code herein is distributed under the terms of the GNU General Public License Version 3 or later.
