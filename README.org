@@ -1,0 +1,2 @@
+This repo contains my GNU Emacs configuration and other auxiliary
+software. It is macOS based.
