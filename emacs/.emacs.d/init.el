@@ -1906,6 +1906,21 @@ DIR must include a .project file to be considered a project."
 (setq save-abbrevs 'silently)
 (setq-default abbrev-mode t)
 
+;;;; Fix emacs-mac info
+;; For some reason emacs-mac doesn't generate a dir file in
+;; /opt/homebrew/Cellar/emacs-mac/emacs-28.1-mac-9.0/share/info/emacs
+;;
+;; Fix this with
+;;   for F in `echo *.info.gz`; do
+;;       install-info $F dir
+;;   done
+;;
+;; It also appears this nonsense is required to actually READ that
+;; list (even though we don't change the info path at all?).
+(use-package info
+  :config
+  (info-initialize))
+
 ;; Base dir
 (cd "~/")
 
