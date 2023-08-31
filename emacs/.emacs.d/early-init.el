@@ -34,6 +34,7 @@
  redisplay-skip-fontification-on-input t ; Inhibits it for better scrolling performance.
  vc-follow-symlinks t ; Do not ask about symlink following
  use-short-answers t ; y/n for yes/no
+ confirm-kill-emacs 'yes-or-no-p        ;Confirm when exiting Emacs
 )
 
 ;; Remove some unneeded UI elements
