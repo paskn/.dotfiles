@@ -1897,6 +1897,11 @@ DIR must include a .project file to be considered a project."
 	'("~/Documents/personal/snippets"))  ;;my snippets are here
   (yas-global-mode 1))
 
+;; better behavior for comment-dwim
+(use-package smart-comment
+  :straight t
+  :bind ("M-;" . smart-comment))
+
 (use-package jinx
   :straight t
   :bind (("C-;"   . jinx-correct))
