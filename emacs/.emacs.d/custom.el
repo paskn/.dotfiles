@@ -35,8 +35,12 @@
      (ess-fl-keyword:delimiters . t)
      (ess-fl-keyword:= . t)
      (ess-R-fl-keyword:F&T . t)))
+ '(ess-indent-with-fancy-comments nil)
  '(exec-path-from-shell-arguments '("-l"))
  '(exec-path-from-shell-check-startup-files nil)
+ '(flycheck-display-errors-function 'flycheck-pos-tip-error-messages)
+ '(flycheck-indication-mode nil)
+ '(flycheck-pos-tip-mode t)
  '(fringe-mode 0 nil (fringe))
  '(global-mark-ring-max 8)
  '(inferior-ess-r-font-lock-keywords
@@ -81,5 +85,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :height 130 :family "IBM Plex Mono"))))
- '(fixed-pitch ((t (:height 130 :width normal :family "IBM Plex Mono ")))))
+ '(default ((t (:inherit nil :height 130 :family "CommitMono"))))
+ '(doom-modeline-bar-inactive ((t nil)))
+ '(fixed-pitch ((t (:height 130 :width normal :family "CommitMono"))))
+ '(fringe ((t :background "#edf4f8")))
+ '(window-divider ((t :background "#edf4f8" :foreground "#edf4f8")))
+ '(window-divider-first-pixel ((t :background "#edf4f8" :foreground "#edf4f8")))
+ '(window-divider-last-pixel ((t :background "#edf4f8" :foreground "#edf4f8"))))
