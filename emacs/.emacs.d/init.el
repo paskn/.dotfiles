@@ -1578,18 +1578,15 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
   (setq nov-text-width 70))
 
-;; completion with hippie-expand
-(global-set-key [remap dabbrev-expand] 'hippie-expand)
-
 ;; completion in prog-mode
 (use-package corfu
   ;; :straight (:files (:defaults "extensions/*"))
-  :defer t
+  :defer 80
   :straight (corfu
-	     :type git
-	     :host github
-	     :repo "emacs-straight/corfu"
-	     :files ("*" "extensions/*.el" (:exclude ".git")))
+         :type git
+         :host github
+         :repo "emacs-straight/corfu"
+         :files ("*" "extensions/*.el" (:exclude ".git")))
   :custom
   (corfu-auto-delay 0.0)                ;No delay for completion
   (corfu-quit-at-boundary 'separator)
@@ -1597,6 +1594,7 @@ DIR must include a .project file to be considered a project."
   (corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
   (corfu-preselect-first 'prompt) ;; Disable candidate preselection
   (corfu-separator ?\s)
+  (corfu-popupinfo-delay '(0 . 0))
   :hook ((corfu-mode . corfu-popupinfo-mode))
   :init
   (global-corfu-mode)
@@ -1621,17 +1619,17 @@ DIR must include a .project file to be considered a project."
         ([tab] . corfu-next)
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous)
-	    ("M-SPC" . corfu-insert-separator)
+        ("M-SPC" . corfu-insert-separator)
         ("M-p" . corfu-popupinfo-scroll-down)
         ("M-n" . corfu-popupinfo-scroll-up)
         ("M-d" . corfu-popupinfo-toggle)))
 
-(use-package corfu-doc
-  :straight t
-  :init
-  (global-corfu-mode)
-  :hook
-  (corfu-mode . corfu-doc-mode))
+;; (use-package corfu-doc
+;;   :straight t
+;;   :init
+;;   (global-corfu-mode)
+;;   :hook
+;;   (corfu-mode . corfu-doc-mode))
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
@@ -1640,7 +1638,10 @@ DIR must include a .project file to be considered a project."
          ("C-M-/" . dabbrev-expand))
   ;; Other useful Dabbrev configurations.
   :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
+  :config
+  ;; completion with hippie-expand
+  (global-set-key [remap dabbrev-expand] 'hippie-expand))
 
 ;; fuzzy search for corfu
 (use-package orderless
