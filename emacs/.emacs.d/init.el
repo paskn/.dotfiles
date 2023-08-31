@@ -1279,7 +1279,7 @@ DIR must include a .project file to be considered a project."
   )
 
 (use-package elfeed-score
-  :defer t
+  ;; :defer t
   :straight t
   :after elfeed
   :config
