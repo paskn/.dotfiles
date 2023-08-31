@@ -20,6 +20,7 @@
 
 ;; make straight.el aware of use-package
 (straight-use-package 'use-package)
+(setq use-package-enable-imenu-support t)
 (setq use-package-compute-statistics 1)
 
 ;; change default garbage collection behavior
@@ -53,6 +54,9 @@
 ;; No cursor in inactive windows make sure to change it customize
 ;; buffer to enable it globally
 (setq cursor-in-non-selected-windows nil)
+
+;; make cursor hollow
+(setq-default cursor-type 'hollow)
 
 ;; No confirmation for visiting non-existent files
 (setq confirm-nonexistent-file-or-buffer nil)
@@ -142,23 +146,24 @@
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)
 
-(column-number-mode)
+;; (column-number-mode)
 ;; this boy drives me nuts on pdf-view-mode
 ;; activate line-numbers in specific modes as necessary
 ;;(global-display-line-numbers-mode t)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
 (global-hl-line-mode t)
 
-;; disable line numbers for some modes
-(dolist (mode '(-mode-hook
-		term-mode-hook
-		shell-mode-hook
-		eshell-mode-hook
-		pdf-view-mode
-		pdf-tools))
-  (add-hook mode(lambda () (setq display-line-numbers nil))))
+;; ;; disable line numbers for some modes
+;; (dolist (mode '(-mode-hook
+;;      term-mode-hook
+;;      shell-mode-hook
+;;      eshell-mode-hook
+;;      pdf-view-mode
+;;      pdf-tools))
+;;   (add-hook mode(lambda () (setq display-line-numbers nil))))
 
-;; set the default font 
+;; set the default font
 ;;(set-face-attribute 'default nil :font "Ubuntu Mono")
 ;;(set-face-attribute 'default nil :font "IBM Plex Mono")
 ;;(setq default-frame-alist '((font . "IBM Plex Mono" )))
@@ -221,7 +226,7 @@ group by projectile projects.")
         "Group buffers by modes."
         (when (eq 'modes ibuffer-group-buffers-by)
           (sp/ibuffer-create-buffs-group)))
-      (add-hook 'ibuffer-hook 'sp/ibuffer-group-by-modes)
+(add-hook 'ibuffer-hook 'sp/ibuffer-group-by-modes)
 
 (defun sp/ibuffer-get-major-modes-ibuff-rules-list (mm-list result-list)
   (if mm-list
@@ -272,7 +277,7 @@ group by projectile projects.")
   :defer t
   :init
   ;; "first stroke of C-a will move the cursor to the beginning of code.
-  ;; Subsequent strokes will toggle between beginning of line and beginning of code."    
+  ;; Subsequent strokes will toggle between beginning of line and beginning of code."
   ;; "first stroke of C-e will move the cursor to the end of code (before comments).
   ;; Subsequent strokes will toggle between end of line and end of code."
   (progn
@@ -369,31 +374,32 @@ group by projectile projects.")
   :straight t
   :init (doom-modeline-mode 1))
 
-(use-package doom-themes
-  :straight t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t)
+;; (use-package doom-themes
+;;   :straight t
+;;   :defer t
+;;   :config
+;;   ;; Global settings (defaults)
+;;   (setq doom-themes-enable-bold t
+;;     doom-themes-enable-italic t)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+;;   ;; Enable flashing mode-line on errors
+;;   (doom-themes-visual-bell-config)
+;;   ;; Corrects (and improves) org-mode's native fontification.
+;;   (doom-themes-org-config))
 
 (use-package modus-themes
   :defer t
   :straight t
   ;; :config
-  ;; (load-theme 'modus-vivendi :no-confirm)
-)
+  ;; (load-theme 'modus-vivendi :no-confirm))
+  )
+
 (use-package ef-themes
   ;; :defer t
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
   ;; (ef-themes-select 'ef-elea-dark)
-  (load-theme 'ef-maris-light t)
-  )
+  (load-theme 'ef-maris-light t))
 
 (use-package spacious-padding
   :straight t
@@ -523,10 +529,10 @@ group by projectile projects.")
   (setq search-whitespace-regexp ".*?")
   )
 
-(use-package aweshell
-  :defer t
-  :straight (abc-mode :type git :host github :repo "manateelazycat/aweshell")
-  :defer 5)
+;; (use-package aweshell
+;;   :defer t
+;;   :straight (abc-mode :type git :host github :repo "manateelazycat/aweshell")
+;;   :defer 5)
 
 ;; Example configuration for Consult
 (use-package consult
@@ -694,25 +700,25 @@ targets."
     (lambda (&optional keymap targets prefix)
       (if (null keymap)
           (which-key--hide-popup-ignore-command)
-	(which-key--show-keymap
-	 (if (eq (plist-get (car targets) :type) 'embark-become)
+    (which-key--show-keymap
+     (if (eq (plist-get (car targets) :type) 'embark-become)
              "Become"
            (format "Act on %s '%s'%s"
                    (plist-get (car targets) :type)
                    (embark--truncate-target (plist-get (car targets) :target))
                    (if (cdr targets) "…" "")))
-	 (if prefix
+     (if prefix
              (pcase (lookup-key keymap prefix 'accept-default)
                ((and (pred keymapp) km) km)
                (_ (key-binding prefix 'accept-default)))
            keymap)
-	 nil nil t (lambda (binding)
+     nil nil t (lambda (binding)
                      (not (string-suffix-p "-argument" (cdr binding))))))))
 
   (setq embark-indicators
-	'(embark-which-key-indicator
-	  embark-highlight-indicator
-	  embark-isearch-highlight-indicator))
+    '(embark-which-key-indicator
+      embark-highlight-indicator
+      embark-isearch-highlight-indicator))
 
   (defun embark-hide-which-key-indicator (fn &rest args)
     "Hide the which-key indicator immediately when using the completing-read prompter."
@@ -751,7 +757,8 @@ targets."
 (use-package winner
   :straight nil
   :config
- (winner-mode 1))
+  (winner-mode 1))
+
 (use-package centered-window
   :straight t
   :config
@@ -836,10 +843,10 @@ targets."
   :defer t
   :straight (:files (:defaults "extensions/*"))
   ;; :straight (vertico
-  ;; 	     :type git
-  ;; 	     :host github
-  ;; 	     :repo "emacs-straight/vertico"
-  ;; 	     :files ("*" (:exclude ".git") (:defaults "extensions/*")))
+  ;;         :type git
+  ;;         :host github
+  ;;         :repo "emacs-straight/vertico"
+  ;;         :files ("*" (:exclude ".git") (:defaults "extensions/*")))
   :init
   (vertico-mode)
 
@@ -935,9 +942,9 @@ targets."
 (use-package graphviz-dot-mode
   :defer t
   :straight (graphviz-dot-mode
-	     :type git
-	     :host github
-	     :repo "ppareit/graphviz-dot-mode")
+         :type git
+         :host github
+         :repo "ppareit/graphviz-dot-mode")
   :config
   (setq graphviz-dot-indent-width 4))
 
@@ -968,42 +975,42 @@ targets."
 (setq calendar-date-style 'iso)
 (setq calendar-holidays
       '(;; German public holidays during 2023
-	(holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
-	(holiday-fixed 4 7 "Good Friday (Karfreitag)")
-	(holiday-fixed 4 10 "Easter Monday (Ostermontag)")
-	(holiday-fixed 5 1 "Labor Day (Maifeiertag)")
-	(holiday-fixed 5 18 "Ascension Day (Christi Himmelfahrt, 40 days after Easter)")
-	(holiday-fixed 5 29 "Whit Monday (Pfingstmontag) – seventh Monday after Easter, also called Pentecost Monday")
-	(holiday-fixed 10 3 "Day of German Unity (Tag der Deutschen Einheit) ")
-	(holiday-fixed 12 25 "Christmas Day (Weihnachtstag)")
-	(holiday-fixed 12 26 "Saint Stephen’s Day (Stephanstag) – also known as the second day of Christmas")
-	;; German regional holidays 2023
-	(holiday-fixed 1 6 "Epiphany (Heilige Drei Könige) – Baden-Württemberg, Bavaria, and Saxony-Anhalt")
-	(holiday-fixed 3 8 "International Women’s Day – Berlin")
-	(holiday-fixed 4 9 "Easter Sunday – Brandenburg")
-	(holiday-fixed 5 28 "Whit Sunday – Brandenburg")
-	(holiday-fixed 6 8 "Corpus Christi (Fronleichnam) Bavaria")
-	(holiday-fixed 8 8 "Peace Festival (Freidenfest) – Bavaria (Augsburg)")
-	(holiday-fixed 8 15 "Assumption Day (Maria Himmelfahrt) – Saarland and some local authorities in Bavaria")
-	(holiday-fixed 10 31 "Reformation Day (Reformationstag) – generally a regional holiday in Brandenburg")
-	(holiday-fixed 11 1 "All Saints’ Day (Allerheiligen) – Baden-Württemberg, Bavaria, North Rhine-Westphalia, Rhineland-Palatinate, and Saarland")
-	(holiday-fixed 11 22 "Day of Prayer and Repentance (Buß-und Bettag, Wednesday before 23 November) – Saxony")
-	;; Important dates in Germany during 2023
-	(holiday-fixed 2 20 "Shrove Monday")
-	(holiday-fixed 2 21 "Shrove Tuesday, also known as Carnival")
-	(holiday-fixed 2 22 "Ash Wednesday, also known as Carnival")
-	(holiday-fixed 3 26 "Clocks go forward one hour as a result of daylight saving time starting")
-	(holiday-fixed 5 14 "Mother’s Day (second Sunday of May)")
-	(holiday-fixed 5 18 "Father’s Day (Vatertag, also known as Männertag/Herrentag, Men’s Day) – coincides with Ascension Day and can be a family celebration or celebrated by an outing with male friends")
-	(holiday-fixed 9 9 "German Language Day")
-	(holiday-fixed 9 10 "European Heritage Days – when monument buildings are opened to the public")
-	(holiday-fixed 9 16 "Oktoberfest starts")
-	(holiday-fixed 9 20 "German World Children’s Day")
-	(holiday-fixed 10 29 "Clocks go back one hour as a result of daylight saving time ending")
-	(holiday-fixed 11 9 "Fall of the Berlin Wall")
-	(holiday-fixed 11 11 "St Martin’s Day – a religious observance where children take part in lantern processions")
-	(holiday-fixed 11 19 "National Day of Mourning – victims of war are remembered and in some regions, music or dance events are illegal")
-	(holiday-fixed 12 6 "Saint Nicholas Day")
+    (holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
+    (holiday-fixed 4 7 "Good Friday (Karfreitag)")
+    (holiday-fixed 4 10 "Easter Monday (Ostermontag)")
+    (holiday-fixed 5 1 "Labor Day (Maifeiertag)")
+    (holiday-fixed 5 18 "Ascension Day (Christi Himmelfahrt, 40 days after Easter)")
+    (holiday-fixed 5 29 "Whit Monday (Pfingstmontag) – seventh Monday after Easter, also called Pentecost Monday")
+    (holiday-fixed 10 3 "Day of German Unity (Tag der Deutschen Einheit) ")
+    (holiday-fixed 12 25 "Christmas Day (Weihnachtstag)")
+    (holiday-fixed 12 26 "Saint Stephen’s Day (Stephanstag) – also known as the second day of Christmas")
+    ;; German regional holidays 2023
+    (holiday-fixed 1 6 "Epiphany (Heilige Drei Könige) – Baden-Württemberg, Bavaria, and Saxony-Anhalt")
+    (holiday-fixed 3 8 "International Women’s Day – Berlin")
+    (holiday-fixed 4 9 "Easter Sunday – Brandenburg")
+    (holiday-fixed 5 28 "Whit Sunday – Brandenburg")
+    (holiday-fixed 6 8 "Corpus Christi (Fronleichnam) Bavaria")
+    (holiday-fixed 8 8 "Peace Festival (Freidenfest) – Bavaria (Augsburg)")
+    (holiday-fixed 8 15 "Assumption Day (Maria Himmelfahrt) – Saarland and some local authorities in Bavaria")
+    (holiday-fixed 10 31 "Reformation Day (Reformationstag) – generally a regional holiday in Brandenburg")
+    (holiday-fixed 11 1 "All Saints’ Day (Allerheiligen) – Baden-Württemberg, Bavaria, North Rhine-Westphalia, Rhineland-Palatinate, and Saarland")
+    (holiday-fixed 11 22 "Day of Prayer and Repentance (Buß-und Bettag, Wednesday before 23 November) – Saxony")
+    ;; Important dates in Germany during 2023
+    (holiday-fixed 2 20 "Shrove Monday")
+    (holiday-fixed 2 21 "Shrove Tuesday, also known as Carnival")
+    (holiday-fixed 2 22 "Ash Wednesday, also known as Carnival")
+    (holiday-fixed 3 26 "Clocks go forward one hour as a result of daylight saving time starting")
+    (holiday-fixed 5 14 "Mother’s Day (second Sunday of May)")
+    (holiday-fixed 5 18 "Father’s Day (Vatertag, also known as Männertag/Herrentag, Men’s Day) – coincides with Ascension Day and can be a family celebration or celebrated by an outing with male friends")
+    (holiday-fixed 9 9 "German Language Day")
+    (holiday-fixed 9 10 "European Heritage Days – when monument buildings are opened to the public")
+    (holiday-fixed 9 16 "Oktoberfest starts")
+    (holiday-fixed 9 20 "German World Children’s Day")
+    (holiday-fixed 10 29 "Clocks go back one hour as a result of daylight saving time ending")
+    (holiday-fixed 11 9 "Fall of the Berlin Wall")
+    (holiday-fixed 11 11 "St Martin’s Day – a religious observance where children take part in lantern processions")
+    (holiday-fixed 11 19 "National Day of Mourning – victims of war are remembered and in some regions, music or dance events are illegal")
+    (holiday-fixed 12 6 "Saint Nicholas Day")
 ))
 
 (use-package org
@@ -1011,9 +1018,9 @@ targets."
   :hook (org-mode . sp/org-mode-setup)
   :custom
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
-	org-latex-packages-alist '(("" "minted"))
-	org-latex-pdf-process
-	'("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    org-latex-packages-alist '(("" "minted"))
+    org-latex-pdf-process
+    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (org-agenda-include-diary 1)
   :config
@@ -1028,7 +1035,7 @@ targets."
      ;;   (ledger . t) ; where is ob-ledger??
      ))
   (setq org-use-speed-commands t)
-  
+
   (setq org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -1047,83 +1054,83 @@ targets."
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
   (setq org-les
-	    '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
-	    )
+        '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
+        )
   ;; Save the corresponding buffers
   (defun gtd-save-org-buffers ()
     "Save `org-agenda-files' buffers without user confirmation.
 See also `org-save-all-org-buffers'"
     (interactive)
     (message "Saving org-agenda-files buffers...")
-    (save-some-buffers t (lambda () 
-			               (when (member (buffer-file-name) org-agenda-files) 
-			                 t)))
+    (save-some-buffers t (lambda ()
+                           (when (member (buffer-file-name) org-agenda-files)
+                             t)))
     (message "Saving org-agenda-files buffers... done"))
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (setq org-capture-templates
-	    `(;;("i" "Inbox")
-	      ("i" "Inbox..." entry (file "inbox.org")
-	       ,(concat "* TODO %?\n"
-	   	            "/Entered on/ %U"))
-	      ;;  ("in" "A note" entry
-	      ;;   (file+headline "inbox.org" "Notes")
-	      ;;  "* %?\n /Entered on/ %U\n\n %i\n\n %a" )
-	      ))
+        `(;;("i" "Inbox")
+          ("i" "Inbox..." entry (file "inbox.org")
+           ,(concat "* TODO %?\n"
+                    "/Entered on/ %U"))
+          ;;  ("in" "A note" entry
+          ;;   (file+headline "inbox.org" "Notes")
+          ;;  "* %?\n /Entered on/ %U\n\n %i\n\n %a" )
+          ))
   (setq org-refile-targets
-	    '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-	      ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-	      ("someday-maybe.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\))")))
+        '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+          ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+          ("someday-maybe.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\))")))
   (setq org-refile-use-outline-path 'file)
   ;; Add it after refile
   (advice-add 'org-refile :after
               (lambda (&rest _)
-		        (gtd-save-org-buffers)))
+                (gtd-save-org-buffers)))
   (setq org-outline-path-complete-in-steps nil)
-  
+
   ;; Configure custom agenda views
   (setq org-agenda-custom-commands
-	    '(("d" "📝 Desk"
-	       ((tags-todo "@desk&@next"
-		               ((org-agenda-overriding-header "📝 Write & research\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      
-	      ("c" "☎️💬 Comm."
-	       ((tags-todo "@communication"
-		               ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      
-	      ("w" "☢️ Waiting"
-	       ((tags-todo "@waiting"
-		               ((org-agenda-overriding-header "☢️Track progress\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      
-	      ("e" "🚴‍♀️ Errands"
-	       ((tags-todo "@errand&@next|@shopping"
-		               ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      
-	      ("h" "🏡 House"
-	       ((tags-todo "@house&@next"
-		               ((org-agenda-overriding-header "🏡Do it at home\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      
-	      ("r" "📚📝 Reading"
-	       ((tags-todo "@reading&@next"
-		               ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org"))))
-	      ("A" "👌🧘‍♀️ Anywhere"
-	       ((tags-todo "@anywhere&@next"
-		               ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
-		               ))
-	       ((org-agenda-files '("~/org/projects.org")))))))
+        '(("d" "📝 Desk"
+           ((tags-todo "@desk&@next"
+                       ((org-agenda-overriding-header "📝 Write & research\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+
+          ("c" "☎️💬 Comm."
+           ((tags-todo "@communication"
+                       ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+
+          ("w" "☢️ Waiting"
+           ((tags-todo "@waiting"
+                       ((org-agenda-overriding-header "☢️Track progress\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+
+          ("e" "🚴‍♀️ Errands"
+           ((tags-todo "@errand&@next|@shopping"
+                       ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+
+          ("h" "🏡 House"
+           ((tags-todo "@house&@next"
+                       ((org-agenda-overriding-header "🏡Do it at home\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+
+          ("r" "📚📝 Reading"
+           ((tags-todo "@reading&@next"
+                       ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org"))))
+          ("A" "👌🧘‍♀️ Anywhere"
+           ((tags-todo "@anywhere&@next"
+                       ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
+                       ))
+           ((org-agenda-files '("~/org/projects.org")))))))
 
 (use-package org-modern
   :after org
@@ -1161,16 +1168,25 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'project-switch-commands '(magit-project-status "Magit" ?m))
   (add-to-list 'project-switch-commands '(project-todo "Todo" "t")))
 
-;; use ledger mode to keep track of money
-(use-package ledger-mode
-  :defer t
+;; live by timer instead of clock
+;; pomodoro and third time
+(use-package pomm
   :straight t
-  :init
-  (setq ledger-clear-whole-transactions 1)
+  :commands (pomm pomm-third-time)
   :config
-  (setq ledger-binary-path "/usr/local/bin/ledger")
-  (setq ledger-reconcile-default-commodity "€")
-  :mode "\\.dat\\'")
+  ;; use macos for alerts
+  (setq alert-default-style 'osx-notifier))
+
+;; ;; use ledger mode to keep track of money
+;; (use-package ledger-mode
+;;   :defer t
+;;   :straight t
+;;   :init
+;;   (setq ledger-clear-whole-transactions 1)
+;;   :config
+;;   (setq ledger-binary-path "/usr/local/bin/ledger")
+;;   (setq ledger-reconcile-default-commodity "€")
+;;   :mode "\\.dat\\'")
 
 (use-package citeproc
   :straight t
@@ -1194,17 +1210,9 @@ DIR must include a .project file to be considered a project."
 (use-package sicp
   :straight t)
 
-(use-package racket-mode
-  :straight t
-  :defer t)
-
-(use-package oblique-strategies
-  :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
-  :defer t
-  :config
-  (setq oblique-edition
-        "strategies/oblique-strategies-condensed.txt")
-  (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
+;; (use-package racket-mode
+;;   :straight t
+;;   :defer t)
 
 (use-package org-roam
   :straight t
@@ -1213,12 +1221,12 @@ DIR must include a .project file to be considered a project."
   (org-roam-directory "~/Documents/personal/RoamNotes")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
-	     ("C-c n f" . org-roam-node-find)
-	     ("C-c n i" . org-roam-node-insert)
-	     ("C-c n c" . org-roam-capture)
-	     :map org-mode-map
-	     ("C-M-c" . completion-at-point)
-	     :map org-roam-dailies-map
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         :map org-mode-map
+         ("C-M-c" . completion-at-point)
+         :map org-roam-dailies-map
          ("Y" . org-roam-dailies-capture-yesterday)
          ("T" . org-roam-dailies-capture-tomorrow))
   :bind-keymap
@@ -1271,7 +1279,7 @@ DIR must include a .project file to be considered a project."
   (setq elfeed-search-date-format '("%y-%m-%d" 10 :left))
   (setq elfeed-search-title-max-width 110)
   (setq elfeed-feeds
-	    '("https://arxiv.org/rss/cs.SI" "https://arxiv.org/rss/cs.IR" "https://arxiv.org/rss/cs.HC" "https://arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
+        '("https://arxiv.org/rss/cs.SI" "https://arxiv.org/rss/cs.IR" "https://arxiv.org/rss/cs.HC" "https://arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
   (define-advice elfeed-search--header (:around (oldfun &rest args))
     (if elfeed-db
         (apply oldfun args)
@@ -1309,10 +1317,12 @@ DIR must include a .project file to be considered a project."
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init 
+  :init
 ;(setq markdown-command "")
   (setq markdown-disable-tooltip-prompt 1)
-  (setq markdown-code-block-braces t))
+  (setq markdown-code-block-braces t)
+  (setq markdown-fontify-code-blocks-natively t)
+)
 
 ;; set-up bibligraphy work-flow
 (use-package citar
@@ -1396,11 +1406,11 @@ DIR must include a .project file to be considered a project."
   :straight t
   :defer t
   :init
-  (require 'ess-site) 
+  (require 'ess-site)
   :bind (:map ess-r-mode-map
-	      ("M-P" . my/add-pipe)
-	 :map inferior-ess-r-mode-map
-	 ("M-P" . " |> "))
+          ("M-P" . my/add-pipe)
+     :map inferior-ess-r-mode-map
+     ("M-P" . " |> "))
   :config
   (with-eval-after-load 'eglot
     (setq completion-category-defaults nil))
@@ -1410,7 +1420,7 @@ DIR must include a .project file to be considered a project."
   ;; Uncomment if curly braces won't close in .R files
   ;; https://github.com/emacs-ess/ESS/issues/296#issuecomment-189614821
   ;;(define-key ess-mode-map (kbd "{") nil)
-  ;;(define-key ess-mode-map (kbd "}") nil) 
+  ;;(define-key ess-mode-map (kbd "}") nil)
    (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
    (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
    (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
@@ -1420,22 +1430,22 @@ DIR must include a .project file to be considered a project."
    (global-set-key (kbd "<") 'skeleton-pair-insert-maybe)
    ;; syntax highlighting
    (setq ess-R-font-lock-keywords '((ess-R-fl-keyword:keywords . t)
-				    (ess-R-fl-keyword:constants . t)
-				    (ess-R-fl-keyword:modifiers . t)
-				    (ess-R-fl-keyword:fun-defs . t)
-				    (ess-R-fl-keyword:assign-ops . t)
-				    (ess-R-fl-keyword:%op% . t)
-				    (ess-fl-keyword:fun-calls . t)
-				    (ess-fl-keyword:numbers . t)
-				    (ess-fl-keyword:operators . t)
-				    (ess-fl-keyword:delimiters . t)
-				    (ess-fl-keyword:= . t)
-				    (ess-R-fl-keyword:F&T . t)))
+                    (ess-R-fl-keyword:constants . t)
+                    (ess-R-fl-keyword:modifiers . t)
+                    (ess-R-fl-keyword:fun-defs . t)
+                    (ess-R-fl-keyword:assign-ops . t)
+                    (ess-R-fl-keyword:%op% . t)
+                    (ess-fl-keyword:fun-calls . t)
+                    (ess-fl-keyword:numbers . t)
+                    (ess-fl-keyword:operators . t)
+                    (ess-fl-keyword:delimiters . t)
+                    (ess-fl-keyword:= . t)
+                    (ess-R-fl-keyword:F&T . t)))
    (setq ess-nuke-trailing-whitespace-p t
-	 ess-use-ido nil
-	 ess-use-R-completion nil
-	 ess-use-auto-complete nil
-	 ess-use-company t)
+     ess-use-ido nil
+     ess-use-R-completion nil
+     ess-use-auto-complete nil
+     ess-use-company t)
    ;; fix code highlighting in repl
    ;; https://github.com/emacs-ess/ESS/issues/1199
    (defun my-inferior-ess-init ()
@@ -1450,23 +1460,23 @@ DIR must include a .project file to be considered a project."
      (just-one-space 1))
 ;; An example of window configuration:
    (setq display-buffer-alist '(("*R Dired"
-				 (display-buffer-reuse-window display-buffer-at-bottom)
-				 (window-width . 0.5)
-				 (window-height . 0.25)
-				 (reusable-frames . nil))
-				("*R"
-				 (display-buffer-reuse-window display-buffer-in-side-window)
-				 (side . right)
-				 (slot . -1)
-				 (window-width . 0.5)
-				 (reusable-frames . nil))
-				("*Help"
-				 (display-buffer-reuse-window display-buffer-in-side-window)
-				 (side . right)
-				 (slot . 1)
-				 (window-width . 0.5)
-				 (reusable-frames . nil))))
-  )
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (window-width . 0.5)
+                 (window-height . 0.25)
+                 (reusable-frames . nil))
+                ("*R"
+                 (display-buffer-reuse-window display-buffer-in-side-window)
+                 (side . right)
+                 (slot . -1)
+                 (window-width . 0.5)
+                 (reusable-frames . nil))
+                ("*Help"
+                 (display-buffer-reuse-window display-buffer-in-side-window)
+                 (side . right)
+                 (slot . 1)
+                 (window-width . 0.5)
+                 (reusable-frames . nil))))
+   (setq ess-style 'Rstudio))
 
 ;; help with RMarkdown
 (use-package poly-markdown
@@ -1498,27 +1508,27 @@ DIR must include a .project file to be considered a project."
 (use-package conda
   :defer t)
 
-;; support for Julia
-(use-package julia-mode
-  :defer t
-  :straight t
-  :hook (eglot-lj-init))
+;; ;; support for Julia
+;; (use-package julia-mode
+;;   :defer t
+;;   :straight t
+;;   :hook (eglot-lj-init))
 
-(use-package vterm
-  :defer t
-  :straight t
-  )
+;; (use-package vterm
+;;   :defer t
+;;   :straight t
+;;   )
 
-(use-package julia-snail
-  :defer t
-  :straight t
-  :hook (julia-mode . julia-snail-mode))
+;; (use-package julia-snail
+;;   :defer t
+;;   :straight t
+;;   :hook (julia-mode . julia-snail-mode))
 
-(use-package eglot-jl
-  :after eglot
-  :straight t
-  :config
-  (eglot-jl-init))
+;; (use-package eglot-jl
+;;   :after eglot
+;;   :straight t
+;;   :config
+;;   (eglot-jl-init))
 
 (use-package python
   :straight (:type built-in)
@@ -1555,7 +1565,7 @@ DIR must include a .project file to be considered a project."
   :straight t
   :defer t)
 
-;; pdf-tools 
+;; pdf-tools
 (use-package pdf-tools
   :straight t
   :defer t
@@ -1563,7 +1573,7 @@ DIR must include a .project file to be considered a project."
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :magic (("%PDF" . pdf-view-mode))
   :config
-  (custom-set-variables          
+  (custom-set-variables
     '(pdf-tools-handle-upgrades t))
   (pdf-tools-install)
   (setq-default pdf-view-display-size 'fit-width)
@@ -1676,12 +1686,12 @@ DIR must include a .project file to be considered a project."
          ("C-c p &" . cape-sgml)
          ("C-c p r" . cape-rfc1345))
   :hook ((ess-r-mode . sp/cape-capf-setup-ess)
-	 (inferior-ess-mode . sp/cape-capf-setup-ess)
-	 (ess-mode . sp/cape-capf-setup-ess)
-	 (ess-roxy-mode . sp/cape-capf-setup-ess)
-	 (ess-mode . sp/cape-capf-setup-ess)
-	 (Poly-Markdown+R . sp/cape-capf-setup-ess)
-	 (eglot-managed-mode-hook . sp/cape-capf-setup-ess))
+     (inferior-ess-mode . sp/cape-capf-setup-ess)
+     (ess-mode . sp/cape-capf-setup-ess)
+     (ess-roxy-mode . sp/cape-capf-setup-ess)
+     (ess-mode . sp/cape-capf-setup-ess)
+     (Poly-Markdown+R . sp/cape-capf-setup-ess)
+     (eglot-managed-mode-hook . sp/cape-capf-setup-ess))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)
@@ -1702,20 +1712,17 @@ DIR must include a .project file to be considered a project."
   ;;  (add-hook 'conf-mode-hook #'+cape-set-up-conf-caps)
  (defun sp/cape-capf-setup-ess ()
    (setq-local completion-at-point-functions
-	       (list (cape-super-capf
-		      (cape-company-to-capf #'company-R-objects)
-		      (cape-company-to-capf #'company-R-library)
-		      (cape-company-to-capf #'company-R-args)
-				      #'cape-dabbrev
-				      #'ess-r-object-completion
-				      #'ess-r-package-completion
-				      )
-		     #'eglot-completion-at-point
-		     ))
+           (list (cape-super-capf
+              (cape-company-to-capf #'company-R-objects)
+              (cape-company-to-capf #'company-R-library)
+              (cape-company-to-capf #'company-R-args)
+                      #'cape-dabbrev
+                      #'ess-r-object-completion
+                      #'ess-r-package-completion
+                      )
+             #'eglot-completion-at-point
+             ))
     ))
-
-(use-package svg-lib
-  :straight (svg-lib :type git :host github :repo "rougier/svg-lib"))
 
 (use-package kind-icon
   :straight t
@@ -1725,11 +1732,11 @@ DIR must include a .project file to be considered a project."
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
   (add-hook 'my-completion-ui-mode-hook
-   	    (lambda ()
-   	      (setq completion-in-region-function
-   		    (kind-icon-enhance-completion
-   		     completion-in-region-function))))
-  (setq kind-icon-default-style 
+        (lambda ()
+          (setq completion-in-region-function
+            (kind-icon-enhance-completion
+             completion-in-region-function))))
+  (setq kind-icon-default-style
    '(:padding 1.6 :stroke 0 :margin 0 :radius 1.6 :height 1.6 :scale 1.1))
   )
 
@@ -1740,7 +1747,7 @@ DIR must include a .project file to be considered a project."
   :config
   (setq completion-category-overrides '((eglot (styles orderless))))
   (add-hook 'ess-r-mode-hook #'eglot-ensure)
-  (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))      
+  (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))
   (add-hook 'python-mode #'eglot-ensure)
   (setq eglot-stay-out-of '(company cape corfu))
   :preface
@@ -1748,11 +1755,11 @@ DIR must include a .project file to be considered a project."
     (setq eldoc-documentation-strategy
             'eldoc-documentation-compose-eagerly))
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
-	 (ess-mode . eglot-ensure)
-	 (inferior-ess-mode . eglot-ensure)
-	 (julia-mode . eglot-ensure)
-	 (python-mode . eglot-ensure)
-	 )
+     (ess-mode . eglot-ensure)
+     (inferior-ess-mode . eglot-ensure)
+     (julia-mode . eglot-ensure)
+     (python-mode . eglot-ensure)
+     )
   )
 
 (use-package eldoc
@@ -1822,16 +1829,16 @@ DIR must include a .project file to be considered a project."
 
 ;; Configure terminals
 
-(use-package term
-  :straight (:type built-in)
-  :config
-  (setq explicit-shell-file-name "bash")
-  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
+;; (use-package term
+;;   :straight (:type built-in)
+;;   :config
+;;   (setq explicit-shell-file-name "bash")
+;;   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
-(use-package eterm-256color
-  :defer t
-  :straight t
-  :hook (term-mode . eterm-256color-mode))
+;; (use-package eterm-256color
+;;   :defer t
+;;   :straight t
+;;   :hook (term-mode . eterm-256color-mode))
 
 ;; Dired Configuration
 (use-package dired
@@ -1857,7 +1864,7 @@ DIR must include a .project file to be considered a project."
   ;; despite these defaults.
   (setq dired-guess-shell-alist-user (list
                                       (list ".*" "open")))
-)
+  )
 
 (use-package dired-x
   :straight (:type built-in)
@@ -1894,7 +1901,7 @@ DIR must include a .project file to be considered a project."
   :straight t
   :config
   (setq yas-snippet-dirs
-	'("~/Documents/personal/snippets"))  ;;my snippets are here
+        '("~/Documents/personal/snippets"))  ;;my snippets are here
   (yas-global-mode 1))
 
 ;; better behavior for comment-dwim
