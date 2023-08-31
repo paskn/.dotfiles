@@ -162,3 +162,5 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 alias conda='micromamba'
+
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
