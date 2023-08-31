@@ -1,0 +1,7 @@
+[user]
+	name = paskn
+	email = pashakhin@gmail.com
+[credential]
+	helper = osxkeychain
+[core]
+	excludesfile = /Users/sp/.dotfiles/git/.gitignore
