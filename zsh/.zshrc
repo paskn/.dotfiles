@@ -101,7 +101,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias emacs="emacs -nw"
-alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls"
+alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls -lah"
 
 PROMPT="${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) 🦄 > "
 
