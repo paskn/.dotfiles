@@ -1366,6 +1366,15 @@ DIR must include a .project file to be considered a project."
   :after (citar org-roam)
   :config (citar-org-roam-mode))
 
+;; (use-package citar-org
+;;   :straight t
+;;   :after citar
+;;   :custom
+;;   (org-cite-insert-processor 'citar)
+;;   (org-cite-follow-processor 'citar)
+;;   (org-cite-activate-processor 'citar))
+
+
 ;; navigate code semantically with ripgrep
 (use-package dumb-jump
   :straight t
