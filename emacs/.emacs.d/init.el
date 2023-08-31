@@ -103,6 +103,16 @@
   ;; I set `display-time-mail-function' to display NO mail notification in mode line
   (setq display-time-mail-function (lambda () nil)))
 
+;; Move backup files
+(setq-default backup-directory-alist
+              `(("." . ,(expand-file-name "backups/" user-emacs-directory)))
+              backup-by-copying t    ; Don't delink hardlinks
+              version-control t      ; Use version numbers on backups
+              delete-old-versions t  ; Automatically delete excess backups
+              kept-new-versions 5    ; how many of the newest versions to keep
+              kept-old-versions 5    ; and how many of the old version
+              create-lockfiles nil)  ; No lock files
+
 ;; Performance:
 ;; Bidirectional text is not useful
 (setq bidi-display-reordering nil)
