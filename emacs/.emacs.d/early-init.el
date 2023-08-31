@@ -62,4 +62,7 @@
 
 (add-to-list 'default-frame-alist '(undecorated . t))
 
+(add-to-list 'default-frame-alist
+             '(font . "CommitMono-13"))
+
 ;;; early-init.el ends here
