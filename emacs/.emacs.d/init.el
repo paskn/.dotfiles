@@ -35,13 +35,13 @@
 
 (use-package exec-path-from-shell
   :defer 10
-  :straight t)
-
-(when (memq window-system '(mac ns))
-  (setenv "SHELL" "/bin/zsh")
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envs
-   '("PATH")))
+  :straight t
+  :config
+  (when (memq window-system '(mac ns))
+    (setenv "SHELL" "/bin/zsh")
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-envs
+     '("PATH"))))
 
 ;; Default shell in term
 (unless
