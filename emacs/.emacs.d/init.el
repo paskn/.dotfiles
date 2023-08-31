@@ -174,7 +174,7 @@
 
 ;; prettify how line truncation is expressed
 ;; https://github.com/rougier/elegant-emacs/blob/d901cf9456b030707ee39ce7cc35e9b988040cf0/elegance.el#L67
-(defface fallback '((t :family "CommitMono")) "Fallback")
+(defface fallback '((t :family "IBM Plex Mono")) "Fallback")
 (set-display-table-slot standard-display-table 'truncation
                         (make-glyph-code ?… 'fallback))
 (set-display-table-slot standard-display-table 'wrap
