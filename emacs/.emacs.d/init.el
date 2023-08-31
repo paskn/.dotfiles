@@ -1767,28 +1767,42 @@ DIR must include a .project file to be considered a project."
    (eldoc-add-command-completions "combobulate-")
    (eldoc-add-command #'corfu-insert))
 
-(use-package flycheck
-  ;;  :straight (:type built-in)
+(use-package eldoc-box
   :straight t
+  :after eldoc
+  :hook (eldoc-mode . eldoc-box-hover-mode)
+  :config
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+  (setq eldoc-box-max-pixel-width 300))
+
+;; (use-package flycheck
+;;   :defer t
+;;   :straight t
+;;   ;;  :init (global-flychek-mode)
+;;    )
+
+(use-package flycheck
+  :straight t
+  :defer 80
   :preface
   (defun mp-flycheck-eldoc (callback &rest _ignored)
     "Print flycheck messages at point by calling CALLBACK."
     (when-let ((flycheck-errors
-		(and flycheck-mode (flycheck-overlay-errors-at (point)))))
+        (and flycheck-mode (flycheck-overlay-errors-at (point)))))
       (mapc
        (lambda (err)
          (funcall callback
-		  (format "%s: %s"
-			  (let ((level (flycheck-error-level err)))
-			    (pcase level
-			      ('info (propertize "I" 'face 'flycheck-error-list-info))
-			      ('error (propertize "E" 'face 'flycheck-error-list-error))
-			      ('warning (propertize "W" 'face 'flycheck-error-list-warning))
-			      (_ level)))
-			  (flycheck-error-message err))
-		  :thing (or (flycheck-error-id err)
-			     (flycheck-error-group err))
-		  :face 'font-lock-doc-face))
+          (format "%s: %s"
+              (let ((level (flycheck-error-level err)))
+                (pcase level
+                  ('info (propertize "I" 'face 'flycheck-error-list-info))
+                  ('error (propertize "E" 'face 'flycheck-error-list-error))
+                  ('warning (propertize "W" 'face 'flycheck-error-list-warning))
+                  (_ level)))
+              (flycheck-error-message err))
+          :thing (or (flycheck-error-id err)
+                 (flycheck-error-group err))
+          :face 'font-lock-doc-face))
        flycheck-errors)))
   (defun mp-flycheck-prefer-eldoc ()
     (add-hook 'eldoc-documentation-functions #'mp-flycheck-eldoc nil t)
