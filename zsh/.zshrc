@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -103,7 +105,7 @@ source $ZSH/oh-my-zsh.sh
 alias emacs="emacs -nw"
 alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls -lah"
 
-PROMPT="${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) 🦄 > "
+#PROMPT="${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) 🦄 > "
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
