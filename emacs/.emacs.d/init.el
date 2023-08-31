@@ -823,7 +823,8 @@ targets."
 
 (use-package corfu-prescient
   :straight t
-  :defer t)
+  ;; :defer t
+  :after corfu)
 
 (use-package vertico-prescient
   :straight t
