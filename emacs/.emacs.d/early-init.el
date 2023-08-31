@@ -56,7 +56,10 @@
 	       (fullscreen . fullboth)
 	       (vertical-scroll-bar . nil)
 	       (horizontal-scroll-bars . nil)
-	       (ns-transparent-titlebar . t)
-	       (ns-appearance . dark)))
+	       ;; (ns-transparent-titlebar . t)
+	       ;; (ns-appearance . dark)
+           ))
+
+(add-to-list 'default-frame-alist '(undecorated . t))
 
 ;;; early-init.el ends here
