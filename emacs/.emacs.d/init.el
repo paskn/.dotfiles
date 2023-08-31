@@ -799,7 +799,9 @@ targets."
 (use-package avy
   :straight t
   :init
-  (global-set-key (kbd "s-,") 'avy-goto-word-1))
+  ;; (global-set-key (kbd "s-,") 'avy-goto-word-1)
+  (global-set-key (kbd "s-,") 'avy-goto-char-timer)
+)
 
 ;; jump by links avy-style
 (use-package link-hint
