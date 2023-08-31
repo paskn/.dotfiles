@@ -1385,7 +1385,11 @@ DIR must include a .project file to be considered a project."
 ;; Magit config
 (use-package magit
   :straight t
-  :defer t)
+  :defer t
+  :config
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
+        magit-diff-hide-trailing-cr-characters t)
+)
 
 ;; R and S-family languages
 (use-package ess
