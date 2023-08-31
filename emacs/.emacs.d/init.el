@@ -1871,13 +1871,12 @@ DIR must include a .project file to be considered a project."
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
 ;; Spelling and Writing
-(use-package flycheck
-  :defer t
+
+
+;; help for writing papers
+(use-package academic-phrases
   :straight t
-;  :init (global-flychek-mode)
-  :config
-  ;; (flycheck-add-mode 'proselint 'org-mode) 
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  :defer t)
 
 ;; use vale for prose
 (use-package flycheck-vale
