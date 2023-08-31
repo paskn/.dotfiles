@@ -956,10 +956,10 @@ targets."
 ;;         visual-fill-column-center-text t)
 ;;   (visual-fill-column-mode 1))
 
-(use-package visual-fill-column
-  :straight t
-  :hook (org-mode . sp/org-mode-visual-fill)
-  :hook (markdown-mode . sp/org-mode-visual-fill))
+;; (use-package visual-fill-column
+;;   :straight t
+;;   :hook (org-mode . sp/org-mode-visual-fill)
+;;   :hook (markdown-mode . sp/org-mode-visual-fill))
 
 ;;Add German holidays
 (add-hook 'calendar-load-hook
