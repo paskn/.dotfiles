@@ -400,35 +400,43 @@ group by projectile projects.")
   :config
   (spacious-padding-mode 1))
 
+(use-package svg-lib
+  :straight (svg-lib :type git :host github :repo "rougier/svg-lib"))
+
+(use-package oblique-strategies
+  :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
+  :config
+  (setq oblique-edition
+        "strategies/oblique-strategies-condensed.txt")
+  (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
+
 (use-package dashboard
   :straight t
-  :config
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  (dashboard-setup-startup-hook)
+  :init
+  (defun sp/generate-strats ()
+    (let (result)
+      (dotimes (i 5 result)
+        (setq result (cons (oblique-strategy) result)))))
   (setq dashboard-center-content t)
   (setq dashboard-week-agenda t)
   (setq dashboard-items '((agenda . 10)
-			  (projects . 5)
-;;			  (bookmarks . 5)
-			  (recents  . 5)
-                          ))
+                          (projects . 5)
+                          (recents  . 5)))
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-set-footer 1)
   (setq dashboard-agenda-sort-strategy '(time-up))
   (setq dashboard-agenda-prefix-format " %i %-10s ")
   (setq dashboard-item-names '(("Agenda for the coming week:" . "Schedule:")))
-  (defun sp/generate-strats ()
-    (let (result)
-      (dotimes (i 5 result)
-        (setq result (cons (oblique-strategy) result)))))
-
   (setq dashboard-footer-messages (sp/generate-strats))
-
   (setq dashboard-footer-icon (all-the-icons-faicon "cogs"
                                                     :height 1.1
                                                     :v-adjust -0.05
-                                                    :face 'font-lock-keyword-face)))
+                                                    :face 'font-lock-keyword-face))
+  (set-face-attribute 'dashboard-items-face nil :weight 'normal)
+  :config
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (dashboard-setup-startup-hook))
 
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
