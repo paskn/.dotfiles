@@ -761,6 +761,41 @@ targets."
   :straight t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; use C-u 0 C-c M-, to give a description
+;; of the change you made at a particular stop
+(use-package goto-chg
+  :straight t
+  :config
+  (global-set-key (kbd "C-c M-,") 'goto-last-change)
+  (global-set-key (kbd "C-c M-.") 'goto-last-change-reverse)
+  (defvar change-navigation-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "," #'goto-last-change)
+      (define-key map "." #'goto-last-change-reverse)
+      map)
+    "Keymap to repeat buffer change navigation key sequences.  Used in `repeat-mode'.")
+
+  (put 'goto-last-change 'repeat-map 'change-navigation-repeat-map)
+  (put 'goto-last-change-reverse 'repeat-map 'page-navigation-repeat-map)
+  )
+
+;; set-mark-command: repeat map for C-u C-SPACE
+
+(defun sp/jump-previous-location ()
+  "Jump to previous set mark; equivalen of C-u C-SPACE."
+  (interactive)
+  (set-mark-command 4))
+
+;; bind the command to M-o and enable it in repeat mode
+(global-set-key (kbd "M-o") 'sp/jump-previous-location)
+
+(defvar mark-jump-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "o" #'sp/jump-previous-location)
+      map)
+    "Keymap to repeat jumping to previous mark in the buffer key sequences.  Used in `repeat-mode'.")
+(put 'sp/jump-previous-location 'repeat-map 'mark-jump-repeat-map)
+
 (use-package avy
   :straight t
   :init
