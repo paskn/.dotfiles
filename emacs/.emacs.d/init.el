@@ -950,11 +950,11 @@ targets."
   :defer t
   :straight t)
 
-;; center org-buffers
-(defun sp/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+;; ;; center org-buffers
+;; (defun sp/org-mode-visual-fill ()
+;;   (setq visual-fill-column-width 100
+;;         visual-fill-column-center-text t)
+;;   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
   :straight t
