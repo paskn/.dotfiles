@@ -1742,8 +1742,8 @@ DIR must include a .project file to be considered a project."
           (setq completion-in-region-function
             (kind-icon-enhance-completion
              completion-in-region-function))))
-  (setq kind-icon-default-style
-   '(:padding 1.6 :stroke 0 :margin 0 :radius 1.6 :height 1.6 :scale 1.1))
+  ;; (setq kind-icon-default-style
+  ;;  '(:padding 1.6 :stroke 0 :margin 0 :radius 1.6 :height 1.6 :scale 1.1))
   )
 
 ;; Language Servers
