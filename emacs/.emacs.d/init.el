@@ -1544,7 +1544,10 @@ DIR must include a .project file to be considered a project."
   (add-hook 'python-mode-hook #'yas-minor-mode)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook (lambda () (setq eglot-connect-timeout 120)))
-  (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t))))
+  (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t)))
+  ;; enable treesit
+  (setq major-mode-remap-alist
+      '((python-mode . python-ts-mode))))
 
 ;; * blacken       -- buffer formatting on save using black
 ;;                    (need to pip install black)
