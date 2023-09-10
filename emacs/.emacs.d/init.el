@@ -1655,14 +1655,26 @@ DIR must include a .project file to be considered a project."
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
+  :bind (("M-/" . cape-dabbrev)
+         ("C-M-/" . hippie-expand))
   ;; Other useful Dabbrev configurations.
   :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
-  :config
-  ;; completion with hippie-expand
-  (global-set-key [remap dabbrev-expand] 'hippie-expand))
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
+(use-package hippie-expand
+  :straight (:type built-in)
+  :custom
+  (hippie-expand-try-functions-list
+   '(try-expand-dabbrev
+     try-complete-file-name-partially
+     try-complete-file-name
+     try-expand-all-abbrevs 
+     try-expand-list 
+     try-expand-dabbrev-all-buffers
+     try-expand-line
+     try-expand-dabbrev-from-kill 
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol)))
 
 ;; fuzzy search for corfu
 (use-package orderless
