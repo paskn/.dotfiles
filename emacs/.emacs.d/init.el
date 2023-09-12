@@ -452,6 +452,7 @@ group by projectile projects.")
 (use-package emacs
   :straight nil
   :config
+  (pixel-scroll-precision-mode 1)
   (setq show-paren-delay 0)
   (setq-default scroll-preserve-screen-position t)
   (setq-default scroll-conservatively 1) ; affects `scroll-step'
