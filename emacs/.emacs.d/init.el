@@ -1513,7 +1513,10 @@ DIR must include a .project file to be considered a project."
   :mode (("\\.qmd" . poly-quarto-mode)))
 
 (use-package conda
-  :defer t)
+  :defer t
+  :config
+  (setq conda-env-home-directory
+        (expand-file-name "~/.conda/")))
 
 ;; ;; support for Julia
 ;; (use-package julia-mode
