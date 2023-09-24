@@ -105,6 +105,11 @@ source $ZSH/oh-my-zsh.sh
 alias emacs="emacs -nw"
 alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls -lah"
 
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"
+
+export VISUAL="emacsclient -c -a emacs"
+
 #PROMPT="${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) 🦄 > "
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
