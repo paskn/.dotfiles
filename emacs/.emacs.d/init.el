@@ -355,6 +355,13 @@ group by projectile projects.")
   (global-set-key (kbd "C-c j") #'toggle-window-split)
   )
 
+;; Make C-v and M-v finally useful
+(use-package golden-ratio-scroll-screen
+  :straight t
+  :config
+  (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+  (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
+
 (use-package guru-mode
   :straight t
   :init (guru-global-mode +1))
