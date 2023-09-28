@@ -473,6 +473,22 @@ group by projectile projects.")
   (setq-default scroll-margin 0)
   (electric-pair-mode 1)
   (keymap-global-set "C-c v" 'view-mode)
+  ;; make cursor red when repeat-mode is active
+  ;; https://gist.github.com/jdtsmith/a169362879388bc1bdf2bbb977782d4f
+  (add-hook 'post-command-hook
+            (defalias 'my/repeat-change-cursor ; change cursor to bar during repeat
+              (let (repeat-p ccol)
+                (lambda ()
+                  (unless (eq repeat-p repeat-in-progress)
+                    (if repeat-in-progress ; turning on
+		                (setq ccol (face-background 'cursor)))
+                    (setq repeat-p repeat-in-progress)
+                    (set-cursor-color
+		             (if repeat-in-progress
+		                 (face-foreground 'error)
+		               ccol))))))
+            90)
+
   :init
   ;; TAB ycle if there are only few candidates
   (setq completion-cycle-threshold 3)
