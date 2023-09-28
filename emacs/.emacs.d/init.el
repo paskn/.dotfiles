@@ -472,6 +472,7 @@ group by projectile projects.")
   (setq-default scroll-conservatively 1) ; affects `scroll-step'
   (setq-default scroll-margin 0)
   (electric-pair-mode 1)
+  (keymap-global-set "C-c v" 'view-mode)
   :init
   ;; TAB ycle if there are only few candidates
   (setq completion-cycle-threshold 3)
