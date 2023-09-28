@@ -1878,7 +1878,7 @@ DIR must include a .project file to be considered a project."
     (setq flycheck-help-echo-function nil))
   :hook
   ((flycheck-mode . mp-flycheck-prefer-eldoc))
-  :validate-custom
+  :custom
   ;; Override default flycheck triggers
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   (flycheck-idle-change-delay 0.8)
