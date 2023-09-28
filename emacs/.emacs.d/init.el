@@ -314,11 +314,18 @@ group by projectile projects.")
 
 (use-package crux
   :straight t
+  ;; :bind
+  ;; ("C-k" . crux-kill-and-join-forward)
   :config
   (global-set-key (kbd "C-x 4 t") #'crux-transpose-windows)
   (global-set-key (kbd "C-c B") #'crux-cleanup-buffer-or-region)
   (global-set-key (kbd "C-c f") #'crux-recentf-find-file)
   (global-set-key (kbd "C-c F") #'crux-recentf-find-directory)
+  (keymap-global-set "C-k" 'crux-kill-and-join-forward)
+  (keymap-global-set "C-c d" 'duplicate-dwim)
+  (keymap-global-set "C-c M-d" 'crux-duplicate-and-comment-current-line-or-region)
+  (keymap-global-set "S-RET" 'crux-smart-open-line)
+  (keymap-global-set "s-o" 'crux-smart-open-line-above)
 
   (defun toggle-window-split ()
     "Switch between horizontal and vertical split window layout."
