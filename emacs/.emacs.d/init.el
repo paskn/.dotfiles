@@ -779,15 +779,16 @@ targets."
   (all-the-icons-completion-mode))
 
 ;; cycle selection regions
-;; (use-package expand-region
-;;   :straight t
-;;   :bind ("C-=" . er/expand-region))
+(use-package expand-region
+  :straight t
+  :bind ("C-=" . er/expand-region))
 
-(use-package expreg
-  :straight (expreg :type git :host github :repo "casouri/expreg")
-  :bind
-  ("C-=" . expreg-expand)
-  ("C-M-=". expreg-contract))
+;; not a perfect fit for me at the present state
+;; (use-package expreg
+;;   :straight (expreg :type git :host github :repo "casouri/expreg")
+;;   :bind
+;;   ("C-=" . expreg-expand)
+;;   ("C-M-=". expreg-contract))
 
 ;; store and manage window configuration
 ;; C-c <left> and C-c <right>
