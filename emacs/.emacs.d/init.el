@@ -1802,6 +1802,8 @@ DIR must include a .project file to be considered a project."
 (use-package eglot
   :defer t
   :straight t
+  :custom
+  (eglot-sync-connect nil)
   :config
   (setq completion-category-overrides '((eglot (styles orderless))))
   (add-hook 'ess-r-mode-hook #'eglot-ensure)
