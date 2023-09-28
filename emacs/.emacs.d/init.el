@@ -548,8 +548,7 @@ group by projectile projects.")
                  (side . left)
                  (window-width . 70)))
   ;; define a key to define the word at point.
-  (define-key global-map (kbd "C-c d") #'dictionary-lookup-definition)
-
+  (define-key global-map (kbd "C-c D") #'dictionary-lookup-definition)
   )
 
 (use-package isearch
