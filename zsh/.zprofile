@@ -1,14 +1,14 @@
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-export PKG_CONFIG_PATH="/opt/homebrew/Cellar/enchant/2.5.0/lib/pkgconfig:/opt/homebrew/Cellar/poppler/23.09.0/lib/pkgconfig" 
+export PKG_CONFIG_PATH="/opt/homebrew/Cellar/enchant/2.6.1/lib/pkgconfig:/opt/homebrew/Cellar/poppler/23.09.0/lib/pkgconfig" 
 
 ##
 # Your previous /Users/sp/.zprofile file was backed up as /Users/sp/.zprofile.macports-saved_2023-08-13_at_19:16:28
 ##
 
 # MacPorts Installer addition on 2023-08-13_at_19:16:28: adding an appropriate PATH variable for use with MacPorts.
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+export PATH="/opt/homebrew/bin/:/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
 
 
