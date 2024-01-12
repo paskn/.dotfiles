@@ -267,10 +267,10 @@ group by projectile projects.")
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
-;; adjust window-size to make the current windo larger
-(use-package golden-ratio
-  :straight t
-  :config (golden-ratio-mode 1))
+;; ;; adjust window-size to make the current windo larger
+;; (use-package golden-ratio
+;;   :straight t
+;;   :config (golden-ratio-mode 1))
 
 (use-package mwim
   :straight t
@@ -402,18 +402,18 @@ group by projectile projects.")
 ;;   (doom-themes-org-config))
 
 (use-package modus-themes
-  :defer t
+  ;; :defer t
   :straight t
-  ;; :config
-  ;; (load-theme 'modus-vivendi :no-confirm))
+  :config
+  (load-theme 'modus-operandi :no-confirm)
   )
 
-(use-package ef-themes
-  ;; :defer t
-  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
-  :config
-  ;; (ef-themes-select 'ef-elea-dark)
-  (load-theme 'ef-maris-light t))
+;; (use-package ef-themes
+;;   ;; :defer t
+;;   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
+;;   :config
+;;   ;; (ef-themes-select 'ef-elea-dark)
+;;   (load-theme 'ef-maris-light t))
 
 (use-package spacious-padding
   :straight t
@@ -433,6 +433,8 @@ group by projectile projects.")
 (use-package dashboard
   :straight t
   :init
+  ;; (setq dashboard-startup-banner "~/Downloads/caduceus-0.png")
+  (setq dashboard-startup-banner "~/path1923-9.png")
   (defun sp/generate-strats ()
     (let (result)
       (dotimes (i 5 result)
@@ -466,6 +468,26 @@ group by projectile projects.")
 (use-package emacs
   :straight nil
   :config
+  (when (display-graphic-p)
+    (context-menu-mode))
+  (setq-default use-file-dialog nil)
+  (setq-default use-dialog-box nil)
+  ;; better defaults for completions
+  (setq completions-max-height 20)
+  (setq completions-format 'one-column)
+  (setq completions-group t)
+  (setq completion-auto-select 'second-tab)
+
+  (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts
+                                        ; more
+                                        ; like how
+                                        ; it does
+                                        ; in the
+                                        ; shell
+
+  (setq x-underline-at-descent-line nil)           ; Prettier underlines
+  (setq switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
+  (setq-default show-trailing-whitespace nil)      ; By default, don't underline trailing spaces
   (pixel-scroll-precision-mode 1)
   (setq show-paren-delay 0)
   (setq-default scroll-preserve-screen-position t)
@@ -558,6 +580,8 @@ group by projectile projects.")
   ;; expression that matches any character between the words you give
   ;; it.
   (setq search-whitespace-regexp ".*?")
+  ;; when directions is changed, jump straight to the next result
+  (setq isearch-repeat-on-direction-change t)
   )
 
 ;; (use-package aweshell
@@ -571,7 +595,7 @@ group by projectile projects.")
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
-         ("C-c m" . consult-mode-command)
+         ;; ("C-c m" . consult-mode-command)
          ("C-c k" . consult-kmacro)
          ;; C-x bindings (ctl-x-map)
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
@@ -1062,6 +1086,8 @@ targets."
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (org-agenda-include-diary 1)
   :config
+  (add-to-list 'load-path "/Users/sp/org/ox-koma-letter.el")
+  (eval-after-load 'ox '(require 'ox-koma-letter))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -1280,6 +1306,83 @@ DIR must include a .project file to be considered a project."
   (setq mastodon-instance-url "https://mastodon.social"
         mastodon-active-user "pashakhin"))
 
+
+(use-package notmuch
+  :straight t
+  :bind
+  (("C-c m" . notmuch-hello))
+  :config
+  ;; (global-set-key (kbd "C-c m") 'notmuch-hello)
+  (setq
+   notmuch-show-all-tags-list t
+   notmuch-column-control 1.0)
+  (setq message-sendmail-envelope-from 'header)
+  (setq notmuch-always-prompt-for-sender t)
+  ;; set up sent mail mailbox
+  (setq notmuch-fcc-dirs '(("saig.tk@gmail.com" . "saigtk-gmail/sent")
+                           ("pashakhin@gmail.com" . "pashakhin-gmail/[Gmail]/Sent Mail")
+                           ("sergei.pashakhin@uni-bamberg.de" . "bamberg/Sent Items")))
+  
+  ;; use the right port for gmail
+  ;; (setq message-send-mail-function 'smtpmail-send-it
+  ;;       smtpmail-starttls-credentials
+  ;;       '(("smtp.gmail.com" 465 nil nil))
+  ;;       smtpmail-default-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-service 465
+  ;;       smtpmail-debug-info t)
+  ;; set up with the smtpmail.el
+  ;; credentials for sending mail
+  (setq smtpmail-servers-requiring-authorization "[.*gmail.com]|[.*uni-bamberg.de]")
+  )
+;; add to org support for linking to notmuch
+(use-package ol-notmuch
+  :straight t)
+
+(use-package smtpmail-multi
+  :straight t
+  :config
+  ;; not sure what this is but everyone says it should be default
+  (setf epg-pinentry-mode 'loopback)
+  ;; fix hanging when 29.1 and gpg > 2.4.0
+  (fset 'epg-wait-for-status 'ignore)
+  (setenv "GPG_AGENT_INFO" nil)
+  (setq smtpmail-auth-credentials "~/.authinfo.gpg")
+  (setq smtpmail-multi-accounts '((bamberg . ("sergei.pashakhin@uni-bamberg.de"
+                                              "exhub.uni-bamberg.de"
+                                              587
+                                              t
+                                              starttls
+                                              nil
+                                              nil
+                                              "uni-bamberg.de"
+                                              ;; nil
+                                              ))
+                                  (pashakhin . ("pashakhin@gmail.com"
+                                                "smtp.gmail.com"
+                                                465
+                                                nil
+                                                ssl
+                                                nil
+                                                nil
+                                                "gmail.com"))
+                                  (saig.tk . ("saig.tk@gmail.com"
+                                              "smtp.gmail.com"
+                                              465
+                                              nil
+                                              ssl
+                                              nil
+                                              nil
+                                              "gmail.com"))
+                                  ))
+  (setq smtpmail-multi-associations '(("saig.tk@gmail.com" saig.tk)
+                                      ("pashakhin@gmail.com" pashakhin)
+                                      ("sergei.pashakhin@uni-bamberg.de" bamberg)))
+  (setq smtpmail-multi-default-account 'pashakhin)
+  (setq send-mail-function 'smtpmail-multi-send-it)
+  (setq message-send-mail-function 'smtpmail-multi-send-it)
+  )
+
 (use-package elfeed
   :straight t
   :defer 5
@@ -1436,8 +1539,30 @@ DIR must include a .project file to be considered a project."
   :defer t
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
-        magit-diff-hide-trailing-cr-characters t)
-)
+        magit-diff-hide-trailing-cr-characters t
+        ;; to make use of abridge-diff
+        magit-diff-refine-hunk 'all)
+  )
+
+;; help diffing prose
+(use-package abridge-diff
+  :after magit ;; optional, if you'd like to use with magit
+  :init (abridge-diff-mode 1))
+
+;; Make ediff less weird
+(use-package ediff
+  :straight (:type built-in)
+  :config
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(use-package treesit-auto
+  :straight t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 ;; R and S-family languages
 (use-package ess
@@ -1446,12 +1571,12 @@ DIR must include a .project file to be considered a project."
   :init
   (require 'ess-site)
   :bind (:map ess-r-mode-map
-          ("M-P" . my/add-pipe)
+          ("M-p" . my/add-pipe)
      :map inferior-ess-r-mode-map
      ("M-P" . " |> "))
   :config
-  (with-eval-after-load 'eglot
-    (setq completion-category-defaults nil))
+  ;; (with-eval-after-load 'eglot
+  ;;   (setq completion-category-defaults nil))
   ;; enable skeleton-pair insert globally
   (setq skeleton-pair t)
   ;;(setq skeleton-pair-on-word t)
@@ -1514,7 +1639,9 @@ DIR must include a .project file to be considered a project."
                  (slot . 1)
                  (window-width . 0.5)
                  (reusable-frames . nil))))
-   (setq ess-style 'Rstudio))
+   (ess-set-style 'RStudio)
+   (setq ess-offset-arguments 'prev-line)
+   )
 
 ;; help with RMarkdown
 (use-package poly-markdown
@@ -1579,6 +1706,8 @@ DIR must include a .project file to be considered a project."
   (setq major-mode-remap-alist
       '((python-mode . python-ts-mode)))
   :config
+  (setq python-shell-interpreter "ipython3")
+  (setq python-shell-interpreter-args "-i --simple-prompt --pprint")
   ;; (add-hook 'python-mode-hook 'company-mode)
   (add-hook 'python-mode-hook #'yas-minor-mode)
   (add-hook 'python-mode-hook 'eglot-ensure)
@@ -1625,6 +1754,13 @@ DIR must include a .project file to be considered a project."
   (setq-default pdf-view-display-size 'fit-width)
   (setq pdf-annot-activate-created-annotations t)
   :hook ((pdf-view-mode-hook . pdf-tools-enable-minor-modes)))
+
+(use-package pdf-view-restore
+  :straight t
+  :after pdf-tools
+  :config
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
+  (setq pdf-view-restore-filename "~/.emacs.d/.pdf-view-restore"))
 
 ;; Epub support
 (use-package nov
@@ -1696,7 +1832,7 @@ DIR must include a .project file to be considered a project."
   :custom
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 
-(use-package hippie-expand
+(use-package hippie
   :straight (:type built-in)
   :custom
   (hippie-expand-try-functions-list
@@ -1743,13 +1879,15 @@ DIR must include a .project file to be considered a project."
          ("C-c p ^" . cape-tex)
          ("C-c p &" . cape-sgml)
          ("C-c p r" . cape-rfc1345))
-  :hook ((ess-r-mode . sp/cape-capf-setup-ess)
-     (inferior-ess-mode . sp/cape-capf-setup-ess)
-     (ess-mode . sp/cape-capf-setup-ess)
-     (ess-roxy-mode . sp/cape-capf-setup-ess)
-     (ess-mode . sp/cape-capf-setup-ess)
-     (Poly-Markdown+R . sp/cape-capf-setup-ess)
-     (eglot-managed-mode-hook . sp/cape-capf-setup-ess))
+  :hook ;; (
+;; (ess-r-mode . sp/cape-capf-setup-ess)
+;;      (inferior-ess-mode . sp/cape-capf-setup-ess)
+;;      (ess-mode . sp/cape-capf-setup-ess)
+;;      (ess-roxy-mode . sp/cape-capf-setup-ess)
+;;      (ess-mode . sp/cape-capf-setup-ess)
+;;      ;; (Poly-Markdown+R . sp/cape-capf-setup-ess)
+;;      ;; (eglot-managed-mode-hook . sp/cape-capf-setup-ess)
+;; )
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)
@@ -1771,14 +1909,14 @@ DIR must include a .project file to be considered a project."
  (defun sp/cape-capf-setup-ess ()
    (setq-local completion-at-point-functions
            (list (cape-super-capf
-              (cape-company-to-capf #'company-R-objects)
-              (cape-company-to-capf #'company-R-library)
-              (cape-company-to-capf #'company-R-args)
-                      #'cape-dabbrev
-                      #'ess-r-object-completion
-                      #'ess-r-package-completion
+              ;; (cape-company-to-capf #'company-R-objects)
+              ;; (cape-company-to-capf #'company-R-library)
+              ;; (cape-company-to-capf #'company-R-args)
+                      ;; #'cape-dabbrev
+                      ;; #'ess-r-object-completion
+                      ;; #'ess-r-package-completion
                       )
-             #'eglot-completion-at-point
+             ;; #'eglot-completion-at-point
              ))
     ))
 
@@ -1805,8 +1943,13 @@ DIR must include a .project file to be considered a project."
   :custom
   (eglot-sync-connect nil)
   :config
+  ;; Better defaults for eglot
+  ;; may be bad for troubleshooting issues with LSP
+  ;; https://old.reddit.com/r/emacs/comments/17jrsmv/share_how_did_you_make_emacs_faster/k74b3tg/
+  (advice-add 'jsonrpc--log-event :override #'ignore)
+  (setopt eglot-events-buffer-size 0)
   (setq completion-category-overrides '((eglot (styles orderless))))
-  (add-hook 'ess-r-mode-hook #'eglot-ensure)
+  ;; (add-hook 'ess-r-mode-hook #'eglot-ensure)
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))
   (add-hook 'python-mode #'eglot-ensure)
   (setq eglot-stay-out-of '(company cape corfu))
@@ -1815,7 +1958,7 @@ DIR must include a .project file to be considered a project."
     (setq eldoc-documentation-strategy
             'eldoc-documentation-compose-eagerly))
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
-     (ess-mode . eglot-ensure)
+     ;; (ess-mode . eglot-ensure)
      (inferior-ess-mode . eglot-ensure)
      (julia-mode . eglot-ensure)
      (python-mode . eglot-ensure)
@@ -1850,7 +1993,7 @@ DIR must include a .project file to be considered a project."
 
 (use-package flycheck
   :straight t
-  :defer 80
+  ;; :defer 80
   :preface
   (defun mp-flycheck-eldoc (callback &rest _ignored)
     "Print flycheck messages at point by calling CALLBACK."
