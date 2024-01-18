@@ -1191,6 +1191,16 @@ See also `org-save-all-org-buffers'"
   (add-hook 'org-mode-hook #'org-modern-mode)
   (add-hook 'org-agenda-finalize-hook #'org-modern-agenda))
 
+;; improve compile look and make close it on success
+(use-package fancy-compilation
+  :straight t
+  :custom
+  (fancy-compilation-override-colors nil))
+
+(use-package bury-successful-compilation
+  :straight t
+  :bind ("C-c C-m" . recompile))
+
 ;; working with projects
 (use-package project
   :straight (:type built-in)
