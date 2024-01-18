@@ -904,6 +904,12 @@ targets."
   ;; Do not ask for confirmation when evaluation a block
   ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))(setq org-confirm-babel-evaluate nil)
 
+;; replaces ^L with lines
+(use-package page-break-lines
+  :straight t
+  :config
+  (global-page-break-lines-mode))
+
 (use-package helpful
   :straight t
   :custom
