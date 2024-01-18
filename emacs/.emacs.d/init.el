@@ -778,6 +778,14 @@ targets."
   :init
   (all-the-icons-completion-mode))
 
+;; testing a gentler version of smartparens
+(use-package paredit
+  :straight t)
+
+(use-package paredit-everywhere
+  :straight t
+  :hook (prog-mode-hook . paredit-everywhere-mode))
+
 ;; cycle selection regions
 (use-package expand-region
   :straight t
