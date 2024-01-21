@@ -1611,7 +1611,7 @@ DIR must include a .project file to be considered a project."
                  (slot . 1)
                  (window-width . 0.5)
                  (reusable-frames . nil))))
-   (setq ess-style 'Rstudio))
+   (ess-set-style 'RStudio-))
 
 ;; help with RMarkdown
 (use-package poly-markdown
