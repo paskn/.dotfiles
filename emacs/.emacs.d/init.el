@@ -117,10 +117,6 @@
               kept-old-versions 5    ; and how many of the old version
               create-lockfiles nil)  ; No lock files
 
-;; Performance:
-;; Bidirectional text is not useful
-(setq bidi-display-reordering nil)
-
 ;; Speed up line movement
 ;; see https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
 (setq auto-window-vscroll nil)
