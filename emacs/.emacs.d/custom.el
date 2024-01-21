@@ -51,7 +51,7 @@
      (ess-fl-keyword:= . t)
      (ess-R-fl-keyword:F&T . t)))
  '(ess-indent-with-fancy-comments nil)
- '(ess-style 'RStudio)
+ '(ess-style 'RStudio-)
  '(exec-path-from-shell-arguments '("-l"))
  '(exec-path-from-shell-check-startup-files nil)
  '(flycheck-display-errors-function 'flycheck-pos-tip-error-messages)
