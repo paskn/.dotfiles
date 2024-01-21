@@ -20,8 +20,8 @@
 
 ;; make straight.el aware of use-package
 (straight-use-package 'use-package)
-(setq use-package-enable-imenu-support t)
-(setq use-package-compute-statistics 1)
+(setq use-package-enable-imenu-support t
+      use-package-compute-statistics 1)
 
 ;; change default garbage collection behavior
 ;; see https://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
@@ -141,22 +141,7 @@
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)
 
-;; (column-number-mode)
-;; this boy drives me nuts on pdf-view-mode
-;; activate line-numbers in specific modes as necessary
-;;(global-display-line-numbers-mode t)
-;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-
 (global-hl-line-mode t)
-
-;; ;; disable line numbers for some modes
-;; (dolist (mode '(-mode-hook
-;;      term-mode-hook
-;;      shell-mode-hook
-;;      eshell-mode-hook
-;;      pdf-view-mode
-;;      pdf-tools))
-;;   (add-hook mode(lambda () (setq display-line-numbers nil))))
 
 ;; set the default font
 ;;(set-face-attribute 'default nil :font "Ubuntu Mono")
@@ -397,7 +382,6 @@ group by projectile projects.")
 ;;   (doom-themes-org-config))
 
 (use-package modus-themes
-  :defer t
   :straight t
   ;; :config
   ;; (load-theme 'modus-vivendi :no-confirm))
@@ -537,11 +521,6 @@ group by projectile projects.")
   (setq search-whitespace-regexp ".*?")
   )
 
-;; (use-package aweshell
-;;   :defer t
-;;   :straight (abc-mode :type git :host github :repo "manateelazycat/aweshell")
-;;   :defer 5)
-
 ;; Example configuration for Consult
 (use-package consult
   :straight (consult :source (melpa gnu-elpa-mirror))
@@ -672,14 +651,6 @@ group by projectile projects.")
 (use-package consult-eglot
   :straight t)
 
-;; (use-package consult-flyspell
-;;   :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
-;;   :config
-;;   ;; default settings
-;;   (setq consult-flyspell-select-function nil
-;;         consult-flyspell-set-point-after-word t
-;;         consult-flyspell-always-check-buffer nil))
-
 (use-package marginalia
   :straight t
   :after consult
@@ -767,13 +738,6 @@ targets."
 (use-package expand-region
   :straight t
   :bind ("C-=" . er/expand-region))
-
-;; not a perfect fit for me at the present state
-;; (use-package expreg
-;;   :straight (expreg :type git :host github :repo "casouri/expreg")
-;;   :bind
-;;   ("C-=" . expreg-expand)
-;;   ("C-M-=". expreg-contract))
 
 ;; store and manage window configuration
 ;; C-c <left> and C-c <right>
@@ -885,9 +849,6 @@ targets."
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
   )
-  ;; org-mode config
-  ;; Do not ask for confirmation when evaluation a block
-  ;;  '(org-agenda-files '("~/Documents/personal/emacs/org-agenda.org"))(setq org-confirm-babel-evaluate nil)
 
 ;; replaces ^L with lines
 (use-package page-break-lines
@@ -985,17 +946,6 @@ targets."
 (use-package ob-d2
   :defer t
   :straight t)
-
-;; ;; center org-buffers
-;; (defun sp/org-mode-visual-fill ()
-;;   (setq visual-fill-column-width 100
-;;         visual-fill-column-center-text t)
-;;   (visual-fill-column-mode 1))
-
-;; (use-package visual-fill-column
-;;   :straight t
-;;   :hook (org-mode . sp/org-mode-visual-fill)
-;;   :hook (markdown-mode . sp/org-mode-visual-fill))
 
 ;;Add German holidays
 (add-hook 'calendar-load-hook
@@ -1216,17 +1166,6 @@ DIR must include a .project file to be considered a project."
   ;; use macos for alerts
   (setq alert-default-style 'osx-notifier))
 
-;; ;; use ledger mode to keep track of money
-;; (use-package ledger-mode
-;;   :defer t
-;;   :straight t
-;;   :init
-;;   (setq ledger-clear-whole-transactions 1)
-;;   :config
-;;   (setq ledger-binary-path "/usr/local/bin/ledger")
-;;   (setq ledger-reconcile-default-commodity "€")
-;;   :mode "\\.dat\\'")
-
 (use-package citeproc
   :straight t
   :defer t
@@ -1248,10 +1187,6 @@ DIR must include a .project file to be considered a project."
 
 (use-package sicp
   :straight t)
-
-;; (use-package racket-mode
-;;   :straight t
-;;   :defer t)
 
 (use-package org-roam
   :straight t
@@ -1419,12 +1354,6 @@ DIR must include a .project file to be considered a project."
   (setq telega-server-libs-prefix "~/td/tdlib/")
   (setq telega-use-docker nil))
 
-(use-package atomic-chrome
-  :defer t
-  :straight t
-  :config
-  (atomic-chrome-start-server))
-
 ;; setup markdown-mode
 (use-package markdown-mode
   :straight t
@@ -1499,7 +1428,6 @@ DIR must include a .project file to be considered a project."
 ;;   (org-cite-insert-processor 'citar)
 ;;   (org-cite-follow-processor 'citar)
 ;;   (org-cite-activate-processor 'citar))
-
 
 ;; navigate code semantically with ripgrep
 (use-package dumb-jump
@@ -1632,11 +1560,6 @@ DIR must include a .project file to be considered a project."
 ;;   :defer t
 ;;   :straight t
 ;;   :hook (eglot-lj-init))
-
-;; (use-package vterm
-;;   :defer t
-;;   :straight t
-;;   )
 
 ;; (use-package julia-snail
 ;;   :defer t
@@ -1920,12 +1843,6 @@ DIR must include a .project file to be considered a project."
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
   (setq eldoc-box-max-pixel-width 300))
 
-;; (use-package flycheck
-;;   :defer t
-;;   :straight t
-;;   ;;  :init (global-flychek-mode)
-;;    )
-
 (use-package flycheck
   :straight t
   :defer 80
@@ -1965,19 +1882,6 @@ DIR must include a .project file to be considered a project."
   (add-hook 'after-init-hook #'global-flycheck-mode)
   )
 
-;; Configure terminals
-
-;; (use-package term
-;;   :straight (:type built-in)
-;;   :config
-;;   (setq explicit-shell-file-name "bash")
-;;   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
-
-;; (use-package eterm-256color
-;;   :defer t
-;;   :straight t
-;;   :hook (term-mode . eterm-256color-mode))
-
 ;; Dired Configuration
 (use-package dired
   :straight nil
@@ -2016,7 +1920,6 @@ DIR must include a .project file to be considered a project."
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
 ;; Spelling and Writing
-
 
 ;; help for writing papers
 (use-package academic-phrases
