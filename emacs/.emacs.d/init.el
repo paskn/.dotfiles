@@ -383,16 +383,15 @@ group by projectile projects.")
 
 (use-package modus-themes
   :straight t
-  ;; :config
-  ;; (load-theme 'modus-vivendi :no-confirm))
-  )
-
-(use-package ef-themes
-  ;; :defer t
-  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
-  ;; (ef-themes-select 'ef-elea-dark)
-  (load-theme 'ef-maris-light t))
+  (load-theme 'modus-operandi-tinted :no-confirm))
+
+;; (use-package ef-themes
+;;   ;; :defer t
+;;   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
+;;   :config
+;;   ;; (ef-themes-select 'ef-elea-dark)
+;;   (load-theme 'ef-maris-light t))
 
 (use-package spacious-padding
   :straight t
