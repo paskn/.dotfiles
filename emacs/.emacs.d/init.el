@@ -35,7 +35,6 @@
 (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
 
 (use-package exec-path-from-shell
-  :defer 10
   :straight t
   :config
   (when (memq window-system '(mac ns))
