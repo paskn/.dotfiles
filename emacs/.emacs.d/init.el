@@ -1444,6 +1444,29 @@ DIR must include a .project file to be considered a project."
         magit-diff-hide-trailing-cr-characters t)
 )
 
+;; Docker config
+(use-package dockerfile-mode
+  :straight t
+  :config
+  ;; hacky way to remap major a mode to its -ts-analog
+  ;; https://github.com/camdencheek/tree-sitter-dockerfile
+  (setq major-mode-remap-alist
+        '((dockerfile-mode . dockerfile-ts-mode)))
+  ;; for docker-compose files, we can use the built-in treesit mode
+  ;; https://github.com/ikatyang/tree-sitter-yaml
+  ;; or the dedicated mode as is the case below
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode)))
+
+(use-package docker-compose-mode
+  :straight t
+  :after dockerfile-mode)
+
+(use-package docker
+  :straight t
+  :defer t
+  :bind ("C-c C-d" . docker))
+
 ;; R and S-family languages
 (use-package ess
   :straight t
