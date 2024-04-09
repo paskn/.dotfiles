@@ -247,11 +247,6 @@ group by projectile projects.")
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
-;; adjust window-size to make the current windo larger
-(use-package golden-ratio
-  :straight t
-  :config (golden-ratio-mode 1))
-
 (use-package mwim
   :straight t
   :defer t
@@ -342,10 +337,6 @@ group by projectile projects.")
   (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
   (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
 
-(use-package guru-mode
-  :straight t
-  :init (guru-global-mode +1))
-
 ;; track changes in the buffer in a tree-like structure
 (use-package undo-tree
   :straight t
@@ -368,21 +359,6 @@ group by projectile projects.")
   :straight t
   :init (doom-modeline-mode 1))
 
-;; (use-package doom-themes
-;;   :straight t
-;;   :defer t
-;;   :config
-;;   ;; Global settings (defaults)
-;;   (setq doom-themes-enable-bold t
-;;     doom-themes-enable-italic t)
-
-;;   ;; Enable flashing mode-line on errors
-;;   (doom-themes-visual-bell-config)
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config))
-
-(use-package modus-themes
-  :straight t
   :config
   (load-theme 'modus-operandi-tinted :no-confirm))
 
@@ -638,8 +614,8 @@ group by projectile projects.")
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
   )
 
-(use-package consult-flycheck
-  :straight t)
+;; (use-package consult-flycheck
+;;   :straight t)
 
 (use-package consult-yasnippet
   :straight t)
