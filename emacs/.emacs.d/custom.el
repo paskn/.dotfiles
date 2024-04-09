@@ -99,7 +99,7 @@
             [116])))
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-logo nil)
- '(notmuch-wash-wrap-lines-length 68)
+ '(notmuch-wash-wrap-lines-length 70)
  '(org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
  '(pdf-tools-handle-upgrades t)
