@@ -41,7 +41,7 @@
     (setenv "SHELL" "/bin/zsh")
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-envs
-     '("PATH"))))
+     '("PATH" "PKG_CONFIG_PATH"))))
 
 ;; Default shell in term
 (unless
@@ -1617,6 +1617,11 @@ DIR must include a .project file to be considered a project."
 (use-package pdf-tools
   :straight t
   :defer t
+  :init
+  (setenv "PKG_CONFIG_PATH" 
+          (concat "/opt/homebrew/opt/poppler/lib/pkgconfig:" (getenv "PKG_CONFIG_PATH")))
+  (setenv "PKG_CONFIG_PATH" 
+          (concat "/opt/homebrew/opt/glib/lib/pkgconfig/:" (getenv "PKG_CONFIG_PATH")))
   :commands (pdf-view-mode pdf-tools-install)
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :magic (("%PDF" . pdf-view-mode))
@@ -1953,6 +1958,10 @@ DIR must include a .project file to be considered a project."
 
 (use-package jinx
   :straight t
+  :init
+  ;; https://github.com/minad/jinx/discussions/160#discussioncomment-9111820
+  (setenv "PKG_CONFIG_PATH"
+          (concat "/opt/homebrew/opt/glib/lib/pkgconfig/:" (getenv "PKG_CONFIG_PATH")))
   :bind (("C-;"   . jinx-correct))
   :config
   (add-hook 'emacs-startup-hook #'global-jinx-mode))
