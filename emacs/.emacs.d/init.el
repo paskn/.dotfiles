@@ -813,10 +813,6 @@ targets."
   ;; :defer t
   :after corfu)
 
-(use-package vertico-prescient
-  :straight t
-  :after vertico)
-
 ; Enable vertico
 (use-package vertico
   ;;  :straight t
@@ -842,6 +838,10 @@ targets."
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
   )
+
+(use-package vertico-prescient
+  :straight t
+  :after vertico)
 
 ;; replaces ^L with lines
 (use-package page-break-lines
