@@ -47,7 +47,7 @@
 (setq visible-bell nil)
 
 ;; avoids the white screen flash on startup.
-;; (load-theme 'ef-elea-dark t)
+;; (load-theme 'ef-reverie t)
 
 (add-to-list 'default-frame-alist
 	     '((menu-bar-lines . 0)

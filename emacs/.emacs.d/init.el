@@ -359,15 +359,18 @@ group by projectile projects.")
   :straight t
   :init (doom-modeline-mode 1))
 
+(use-package ef-themes
+  ;; :defer t
+  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
-  (load-theme 'modus-operandi-tinted :no-confirm))
+  ;; (ef-themes-select 'ef-elea-dark)
+  ;; (load-theme 'ef-reverie :no-confirm)
+)
 
-;; (use-package ef-themes
-;;   ;; :defer t
-;;   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
-;;   :config
-;;   ;; (ef-themes-select 'ef-elea-dark)
-;;   (load-theme 'ef-maris-light t))
+;; teach emacs the difference betwee selecting and highlighing
+;; improves hl-line-mode
+(use-package lin
+  :straight t)
 
 (use-package spacious-padding
   :straight t
