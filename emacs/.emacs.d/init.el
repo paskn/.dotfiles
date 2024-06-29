@@ -497,6 +497,13 @@ group by projectile projects.")
   (define-key global-map (kbd "C-c D") #'dictionary-lookup-definition)
   )
 
+;; more precision in movement across windows
+;; act on windows during C-x o:
+;; x -- delete etc.
+(use-package ace-window
+  :straight t
+  :bind ("C-x o" . ace-window))
+
 (use-package isearch
   :straight (:type built-in)
   :config
