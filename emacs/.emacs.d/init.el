@@ -495,6 +495,13 @@ group by projectile projects.")
                  (window-width . 70)))
   ;; define a key to define the word at point.
   (define-key global-map (kbd "C-c D") #'dictionary-lookup-definition)
+  ;; hide windows
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Async Shell Command\\*\\'"
+                 (display-buffer-no-window))
+               '("\\`\\*\\(Warnings\\|Compile-Log\\|Org Links\\)\\*\\'"
+                 (display-buffer-no-window)
+                 (allow-no-window . t)))
   )
 
 ;; more precision in movement across windows
@@ -1007,6 +1014,16 @@ targets."
      (d2 . t)
      ;;   (ledger . t) ; where is ob-ledger??
      ))
+  
+(add-to-list 'display-buffer-alist
+               '("^\\*Org Agenda\\*"
+                 (display-buffer-reuse-mode-window
+                  display-buffer-in-side-window)
+                 (side . right)
+                 (window-width . 90)
+                 (mode-line-format . none)
+                 ))
+
   (setq org-use-speed-commands t)
 
   (setq org-latex-pdf-process
