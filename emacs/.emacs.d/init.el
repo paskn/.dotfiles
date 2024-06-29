@@ -1115,7 +1115,9 @@ See also `org-save-all-org-buffers'"
 (use-package fancy-compilation
   :straight t
   :custom
-  (fancy-compilation-override-colors nil))
+  (fancy-compilation-override-colors nil)
+  :config
+  (fancy-compilation-mode))
 
 ;; has side-effect on the content of the buffer
 ;; (use-package bury-successful-compilation
