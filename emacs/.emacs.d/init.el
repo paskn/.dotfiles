@@ -338,10 +338,10 @@ group by projectile projects.")
   (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
 
 ;; track changes in the buffer in a tree-like structure
-(use-package undo-tree
+(use-package vundo
   :straight t
   :config
-  (global-undo-tree-mode 1))
+  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; Doom-modeline
 (use-package all-the-icons
