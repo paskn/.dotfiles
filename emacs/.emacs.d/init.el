@@ -1423,6 +1423,11 @@ DIR must include a .project file to be considered a project."
         magit-diff-hide-trailing-cr-characters t)
 )
 
+(use-package treesit-auto
+  :straight t
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all))
+
 ;; Docker config
 (use-package dockerfile-mode
   :straight t
