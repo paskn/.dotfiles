@@ -833,7 +833,6 @@ targets."
   ;;         :files ("*" (:exclude ".git") (:defaults "extensions/*")))
   :init
   (vertico-mode)
-
   (vertico-prescient-mode t)
   ;; hide prompted path when entering file name shadowing
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
@@ -955,6 +954,7 @@ targets."
 (setq calendar-date-style 'iso)
 (setq calendar-holidays
       '(;; German public holidays during 2023
+        ;; https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
     (holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
     (holiday-fixed 4 7 "Good Friday (Karfreitag)")
     (holiday-fixed 4 10 "Easter Monday (Ostermontag)")
@@ -1003,6 +1003,7 @@ targets."
     '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (org-agenda-include-diary 1)
+  (org-list-allow-alphabetical t)
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
