@@ -791,8 +791,9 @@ targets."
 )
 
 ;; jump by links avy-style
+;; https://github.com/abo-abo/ace-link supports less links
 (use-package link-hint
-  :ensure t
+  :straight t
   :bind
   ("s-\\" . link-hint-open-link))
 
