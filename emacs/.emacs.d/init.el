@@ -641,7 +641,8 @@ group by projectile projects.")
   :straight t)
 
 (use-package consult-eglot
-  :straight t)
+  :straight t
+  :after eglot)
 
 (use-package marginalia
   :straight t
@@ -1475,9 +1476,11 @@ DIR must include a .project file to be considered a project."
           ("M-P" . my/add-pipe)
      :map inferior-ess-r-mode-map
      ("M-P" . " |> "))
-  :config
-  (with-eval-after-load 'eglot
-    (setq completion-category-defaults nil))
+  :custom
+  ((ess-style 'RStudio))
+:config
+  ;; (with-eval-after-load 'eglot
+  ;;   (setq completion-category-defaults nil))
   ;; enable skeleton-pair insert globally
   (setq skeleton-pair t)
   ;;(setq skeleton-pair-on-word t)
@@ -1507,9 +1510,9 @@ DIR must include a .project file to be considered a project."
                     (ess-R-fl-keyword:F&T . t)))
    (setq ess-nuke-trailing-whitespace-p t
      ess-use-ido nil
-     ess-use-R-completion nil
-     ess-use-auto-complete nil
-     ess-use-company t)
+     ess-use-R-completion t
+     ess-use-auto-complete 'script-only
+     ess-use-company nil)
    ;; fix code highlighting in repl
    ;; https://github.com/emacs-ess/ESS/issues/1199
    (defun my-inferior-ess-init ()
@@ -1540,7 +1543,8 @@ DIR must include a .project file to be considered a project."
                  (slot . 1)
                  (window-width . 0.5)
                  (reusable-frames . nil))))
-   (ess-set-style 'RStudio-))
+   ;; (ess-set-style 'RStudio)
+)
 
 ;; help with RMarkdown
 (use-package poly-markdown
@@ -1769,13 +1773,14 @@ DIR must include a .project file to be considered a project."
          ("C-c p ^" . cape-tex)
          ("C-c p &" . cape-sgml)
          ("C-c p r" . cape-rfc1345))
-  :hook ((ess-r-mode . sp/cape-capf-setup-ess)
-     (inferior-ess-mode . sp/cape-capf-setup-ess)
-     (ess-mode . sp/cape-capf-setup-ess)
-     (ess-roxy-mode . sp/cape-capf-setup-ess)
-     (ess-mode . sp/cape-capf-setup-ess)
-     (Poly-Markdown+R . sp/cape-capf-setup-ess)
-     (eglot-managed-mode-hook . sp/cape-capf-setup-ess))
+;;   :hook (
+;; (ess-r-mode . sp/cape-capf-setup-ess)
+;;      (inferior-ess-mode . sp/cape-capf-setup-ess)
+;;      (ess-mode . sp/cape-capf-setup-ess)
+;;      (ess-roxy-mode . sp/cape-capf-setup-ess)
+;;      (ess-mode . sp/cape-capf-setup-ess)
+;;      (Poly-Markdown+R . sp/cape-capf-setup-ess)
+;;      (eglot-managed-mode-hook . sp/cape-capf-setup-ess))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)
@@ -1832,7 +1837,7 @@ DIR must include a .project file to be considered a project."
   (eglot-sync-connect nil)
   :config
   (setq completion-category-overrides '((eglot (styles orderless))))
-  (add-hook 'ess-r-mode-hook #'eglot-ensure)
+  ;; (add-hook 'ess-r-mode-hook #'eglot-ensure)
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))
   (add-hook 'python-mode #'eglot-ensure)
   (setq eglot-stay-out-of '(company cape corfu))
@@ -1840,9 +1845,15 @@ DIR must include a .project file to be considered a project."
   (defun mp-eglot-eldoc ()
     (setq eldoc-documentation-strategy
             'eldoc-documentation-compose-eagerly))
+  :bind (:map
+         eglot-mode-map
+         ("C-c c a" . eglot-code-actions)
+         ("C-c c o" . eglot-code-actions-organize-imports)
+         ("C-c c r" . eglot-rename)
+         ("C-c c f" . eglot-format))
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
-     (ess-mode . eglot-ensure)
-     (inferior-ess-mode . eglot-ensure)
+     ;; (ess-mode . eglot-ensure)
+     ;; (inferior-ess-mode . eglot-ensure)
      (julia-mode . eglot-ensure)
      (python-mode . eglot-ensure)
      )
