@@ -1117,9 +1117,12 @@ See also `org-save-all-org-buffers'"
   :custom
   (fancy-compilation-override-colors nil))
 
-(use-package bury-successful-compilation
-  :straight t
-  :bind ("C-c C-m" . recompile))
+;; has side-effect on the content of the buffer
+;; (use-package bury-successful-compilation
+;;   :straight t
+;;   :bind ("C-c C-m" . recompile)
+;;   :config
+;;   (bury-successful-compilation))
 
 ;; working with projects
 (use-package project
