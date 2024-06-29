@@ -337,6 +337,13 @@ group by projectile projects.")
   (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
   (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
 
+;; adjust M-> and M-< behavior to fit better certain modes
+;; including dired, org-agenda and notmuch
+(use-package beginend 
+  :straight t
+  :config  
+  (beginend-global-mode))
+
 ;; track changes in the buffer in a tree-like structure
 (use-package vundo
   :straight t
