@@ -367,12 +367,10 @@ group by projectile projects.")
   :init (doom-modeline-mode 1))
 
 (use-package ef-themes
-  ;; :defer t
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
-  ;; (ef-themes-select 'ef-elea-dark)
-  ;; (load-theme 'ef-reverie :no-confirm)
-)
+  :hook (emacs-startup . (lambda () (load-theme 'ef-reverie :no-confirm)))
+  )
 
 ;; teach emacs the difference betwee selecting and highlighing
 ;; improves hl-line-mode
