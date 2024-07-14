@@ -1497,12 +1497,12 @@ DIR must include a .project file to be considered a project."
   :init
   (require 'ess-site)
   :bind (:map ess-r-mode-map
-          ("M-P" . my/add-pipe)
-     :map inferior-ess-r-mode-map
-     ("M-P" . " |> "))
+              ("M-P" . my/add-pipe)
+              :map inferior-ess-r-mode-map
+              ("M-P" . " |> "))
   :custom
-  ((ess-style 'RStudio))
-:config
+  (ess-style 'RStudio)
+  :config
   ;; (with-eval-after-load 'eglot
   ;;   (setq completion-category-defaults nil))
   ;; enable skeleton-pair insert globally
@@ -1512,63 +1512,63 @@ DIR must include a .project file to be considered a project."
   ;; https://github.com/emacs-ess/ESS/issues/296#issuecomment-189614821
   ;;(define-key ess-mode-map (kbd "{") nil)
   ;;(define-key ess-mode-map (kbd "}") nil)
-   (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "\'") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "\`") 'skeleton-pair-insert-maybe)
-   (global-set-key (kbd "<") 'skeleton-pair-insert-maybe)
-   ;; syntax highlighting
-   (setq ess-R-font-lock-keywords '((ess-R-fl-keyword:keywords . t)
-                    (ess-R-fl-keyword:constants . t)
-                    (ess-R-fl-keyword:modifiers . t)
-                    (ess-R-fl-keyword:fun-defs . t)
-                    (ess-R-fl-keyword:assign-ops . t)
-                    (ess-R-fl-keyword:%op% . t)
-                    (ess-fl-keyword:fun-calls . t)
-                    (ess-fl-keyword:numbers . t)
-                    (ess-fl-keyword:operators . t)
-                    (ess-fl-keyword:delimiters . t)
-                    (ess-fl-keyword:= . t)
-                    (ess-R-fl-keyword:F&T . t)))
-   (setq ess-nuke-trailing-whitespace-p t
-     ess-use-ido nil
-     ess-use-R-completion t
-     ess-use-auto-complete 'script-only
-     ess-use-company nil)
-   ;; fix code highlighting in repl
-   ;; https://github.com/emacs-ess/ESS/issues/1199
-   (defun my-inferior-ess-init ()
-      (setq-local ansi-color-for-comint-mode 'filter))
-   (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)
-   (setq ess-use-flymake nil)
-   (defun my/add-pipe ()
-     "Adds a pipe operator %>% with one space to the left and right"
-     (interactive)
-     (just-one-space 1)
-     (insert "|>")
-     (just-one-space 1))
-;; An example of window configuration:
-   (setq display-buffer-alist '(("*R Dired"
-                 (display-buffer-reuse-window display-buffer-at-bottom)
-                 (window-width . 0.5)
-                 (window-height . 0.25)
-                 (reusable-frames . nil))
-                ("*R"
-                 (display-buffer-reuse-window display-buffer-in-side-window)
-                 (side . right)
-                 (slot . -1)
-                 (window-width . 0.5)
-                 (reusable-frames . nil))
-                ("*Help"
-                 (display-buffer-reuse-window display-buffer-in-side-window)
-                 (side . right)
-                 (slot . 1)
-                 (window-width . 0.5)
-                 (reusable-frames . nil))))
-   ;; (ess-set-style 'RStudio)
-)
+  (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "\'") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "\`") 'skeleton-pair-insert-maybe)
+  (global-set-key (kbd "<") 'skeleton-pair-insert-maybe)
+  ;; syntax highlighting
+  (setq ess-R-font-lock-keywords '((ess-R-fl-keyword:keywords . t)
+                                   (ess-R-fl-keyword:constants . t)
+                                   (ess-R-fl-keyword:modifiers . t)
+                                   (ess-R-fl-keyword:fun-defs . t)
+                                   (ess-R-fl-keyword:assign-ops . t)
+                                   (ess-R-fl-keyword:%op% . t)
+                                   (ess-fl-keyword:fun-calls . t)
+                                   (ess-fl-keyword:numbers . t)
+                                   (ess-fl-keyword:operators . t)
+                                   (ess-fl-keyword:delimiters . t)
+                                   (ess-fl-keyword:= . t)
+                                   (ess-R-fl-keyword:F&T . t)))
+  (setq ess-nuke-trailing-whitespace-p t
+        ess-use-ido nil
+        ess-use-R-completion t
+        ess-use-auto-complete 'script-only
+        ess-use-company nil)
+  ;; fix code highlighting in repl
+  ;; https://github.com/emacs-ess/ESS/issues/1199
+  (defun my-inferior-ess-init ()
+    (setq-local ansi-color-for-comint-mode 'filter))
+  (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)
+  (setq ess-use-flymake nil)
+  (defun my/add-pipe ()
+    "Adds a pipe operator %>% with one space to the left and right"
+    (interactive)
+    (just-one-space 1)
+    (insert "|>")
+    (just-one-space 1))
+  ;; An example of window configuration:
+  (setq display-buffer-alist '(("*R Dired"
+                                (display-buffer-reuse-window display-buffer-at-bottom)
+                                (window-width . 0.5)
+                                (window-height . 0.25)
+                                (reusable-frames . nil))
+                               ("*R"
+                                (display-buffer-reuse-window display-buffer-in-side-window)
+                                (side . right)
+                                (slot . -1)
+                                (window-width . 0.5)
+                                (reusable-frames . nil))
+                               ("*Help"
+                                (display-buffer-reuse-window display-buffer-in-side-window)
+                                (side . right)
+                                (slot . 1)
+                                (window-width . 0.5)
+                                (reusable-frames . nil))))
+  (ess-set-style 'RStudio)
+  )
 
 ;; help with RMarkdown
 (use-package poly-markdown
