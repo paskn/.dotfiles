@@ -809,15 +809,17 @@ targets."
   :config
   (setq wich-key-idle-delay 0.3))
 
-(use-package prescient
-  :straight t
-  :config
-  (prescient-persist-mode t))
+;; (use-package prescient
+;;   :straight t
+;;   :config
+;;   (prescient-persist-mode t))
 
-(use-package corfu-prescient
-  :straight t
-  ;; :defer t
-  :after corfu)
+;; (use-package corfu-prescient
+;;   :straight t
+;;   ;; :defer t
+;;   :after corfu
+;;   :config
+;;   (corfu-prescient-mode 1))
 
 ; Enable vertico
 (use-package vertico
@@ -831,7 +833,7 @@ targets."
   ;;         :files ("*" (:exclude ".git") (:defaults "extensions/*")))
   :init
   (vertico-mode)
-  (vertico-prescient-mode t)
+  ;; (vertico-prescient-mode t)
   ;; hide prompted path when entering file name shadowing
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   ;; Different scroll margin
@@ -844,9 +846,9 @@ targets."
   ;; (setq vertico-cycle t)
   )
 
-(use-package vertico-prescient
-  :straight t
-  :after vertico)
+;; (use-package vertico-prescient
+;;   :straight t
+;;   :after vertico)
 
 ;; replaces ^L with lines
 (use-package page-break-lines
@@ -1707,9 +1709,10 @@ DIR must include a .project file to be considered a project."
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode t)
+  (corfu-history-mode t)
   :config
   (setq corfu-quit-no-match t)
-  (corfu-prescient-mode 1)
+  ;; (corfu-prescient-mode 1)
   ;; Silence the pcomplete capf, no errors or messages!
   ;; Important for corfu
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
@@ -1721,16 +1724,17 @@ DIR must include a .project file to be considered a project."
                                    corfu-quit-no-match t
                                    corfu-auto nil)
               (corfu-mode)))
-  :bind
-  (:map corfu-map
-        ("TAB" . corfu-next)
-        ([tab] . corfu-next)
-        ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous)
-        ("M-SPC" . corfu-insert-separator)
-        ("M-p" . corfu-popupinfo-scroll-down)
-        ("M-n" . corfu-popupinfo-scroll-up)
-        ("M-d" . corfu-popupinfo-toggle)))
+  ;; :bind
+  ;; (:map corfu-map
+  ;;       ("TAB" . corfu-next)
+  ;;       ([tab] . corfu-next)
+  ;;       ("S-TAB" . corfu-previous)
+  ;;       ([backtab] . corfu-previous)
+  ;;       ("M-SPC" . corfu-insert-separator)
+  ;;       ("M-p" . corfu-popupinfo-scroll-down)
+  ;;       ("M-n" . corfu-popupinfo-scroll-up)
+  ;;       ("M-d" . corfu-popupinfo-toggle))
+)
 
 ;; (use-package corfu-doc
 ;;   :straight t
