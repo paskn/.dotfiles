@@ -1870,7 +1870,7 @@ DIR must include a .project file to be considered a project."
   :preface
   (defun mp-eglot-eldoc ()
     (setq eldoc-documentation-strategy
-            'eldoc-documentation-compose-eagerly))
+          'eldoc-documentation-compose-eagerly))
   :bind (:map
          eglot-mode-map
          ("C-c c a" . eglot-code-actions)
@@ -1878,11 +1878,11 @@ DIR must include a .project file to be considered a project."
          ("C-c c r" . eglot-rename)
          ("C-c c f" . eglot-format))
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
-     ;; (ess-mode . eglot-ensure)
-     ;; (inferior-ess-mode . eglot-ensure)
-     (julia-mode . eglot-ensure)
-     (python-mode . eglot-ensure)
-     )
+         (ess-mode . eglot-ensure)
+         ;; (inferior-ess-mode . eglot-ensure)
+         (julia-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
+         )
   )
 
 (use-package eldoc
