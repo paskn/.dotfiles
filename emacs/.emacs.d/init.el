@@ -873,6 +873,25 @@ targets."
   ([remap describe-command] . helpful-command)
   ([remap describe-key] . helpful-key))
 
+;; put the command dispatchet on the center of the screen
+(use-package vertico-posframe
+  :straight t
+  :after vertico
+  :init
+  (vertico-posframe-mode))
+
+(use-package which-key-posframe
+  :straight t
+  :after which-key
+  :init
+  (which-key-posframe-mode))
+
+(use-package transient-posframe
+  :straight t
+  :after transient
+  :init
+  (transient-posframe-mode))
+
 (use-package powerthesaurus
   :defer t
   :straight t)
