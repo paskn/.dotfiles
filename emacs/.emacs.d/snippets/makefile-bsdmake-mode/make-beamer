@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: make-beamer
+# contributor: sergei pashakhin
+# key: <mb
+# --
+
+${1:file_name}.pdf: prez.md
+	pandoc -t beamer -s prez.md -V fontenc=T2A -V theme:Antibes -V colortheme:seagull -V colorlinks=true --citeproc --slide-level 2 -o ${2:repeat_file_name}.pdf
+
+$0
+

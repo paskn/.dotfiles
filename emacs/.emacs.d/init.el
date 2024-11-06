@@ -2087,8 +2087,6 @@ DIR must include a .project file to be considered a project."
   :defer 1
   :straight t
   :config
-  (setq yas-snippet-dirs
-        '("~/Documents/personal/snippets"))  ;;my snippets are here
   (yas-global-mode 1))
 
 ;; better behavior for comment-dwim

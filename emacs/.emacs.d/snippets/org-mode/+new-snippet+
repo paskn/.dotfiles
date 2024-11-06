@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: target-wc
+# key: :tar
+# --
+:PROPERTIES:
+:Target: $0
+:END:

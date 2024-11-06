@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: add_function
+# key: ,f
+# --
+function(${1:args}) {
+    $0
+}

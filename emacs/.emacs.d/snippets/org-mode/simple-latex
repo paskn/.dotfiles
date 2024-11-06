@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: simple-latex
+# key: <sl
+# --
+#+LATEX_HEADER: \usepackage[russian]{babel}
+#+LATEX_HEADER: \documentclass[a4paper,13]{article}
+#+LATEX_HEADER: \usepackage[T2A]{fontenc}
+#+LATEX_HEADER: \usepackage[colorlinks = true, linkcolor = blue, urlcolor  = blue, citecolor = blue, anchorcolor = blue]{hyperref}
+
+#+TITLE:  ${1:enter_title}
+#+AUTHOR:
+#+DATE:
+#+OPTIONS: toc:nil
+
+$0

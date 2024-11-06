@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: beamer
+# key: <be
+# contributor: sergei pashakhin
+# --
+
+---
+title: ${1:presentation_title}
+author: 
+ - ${2:author_name}
+institute:
+ - hse.ru/staff/pashakhin \newline  \<spashahin@hse.ru\>
+date: ${3:date}
+bibliography: ${4:absolute_path_to_bib}
+header-includes:
+ - \usepackage{csquotes}
+ - \usepackage{caption}
+ - \captionsetup[figure]{labelformat=empty}
+output:
+  pdf_document:
+    fig_caption: FALSE
+---
+
+$0
