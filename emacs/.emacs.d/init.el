@@ -1922,13 +1922,28 @@ DIR must include a .project file to be considered a project."
   ;;  '(:padding 1.6 :stroke 0 :margin 0 :radius 1.6 :height 1.6 :scale 1.1))
   )
 
+(use-package tramp
+  :straight (:type built-in)
+  :custom
+  (tramp-allow-unsafe-temporary-files t)
+  :config
+  ;; see here https://old.reddit.com/r/emacs/comments/1g1bz04/lspdocker_with_pylsppyright_because_my_new_job/
+  ;; it should ensure that tramp uses the remote path ??
+  (add-to-list ‘tramp-remote-path ‘tramp-own-remote-path)
+  )
+
 ;; Language Servers
 (use-package eglot
   :defer t
   :straight t
   :custom
   (eglot-sync-connect nil)
+  ;; (eglot-sync-connect 1)
+  (eglot-events-buffer-size 0)
+  (eglot-connect-timeout nil)
   :config
+  (setq eglot-confirm-server-initiated-edits nil)
+  (fset #'jsonrpc--log-event #'ignore)
   (setq completion-category-overrides '((eglot (styles orderless))))
   ;; (add-hook 'ess-r-mode-hook #'eglot-ensure)
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman")))
@@ -1945,7 +1960,8 @@ DIR must include a .project file to be considered a project."
          ("C-c c r" . eglot-rename)
          ("C-c c f" . eglot-format))
   :hook ((eglot-managed-mode . mp-eglot-eldoc)
-         (ess-mode . eglot-ensure)
+         ;; not reliable over TRAMP
+         ;; (ess-mode . eglot-ensure)
          ;; (inferior-ess-mode . eglot-ensure)
          (julia-mode . eglot-ensure)
          (python-mode . eglot-ensure)
