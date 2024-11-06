@@ -85,9 +85,9 @@
 ;; speed up emacs by deferring font locking
 ;; see https://teddit.hostux.net/r/emacs/comments/14c4l8j/way_to_make_emacs_feel_smoother/
 ;; and https://codeberg.org/ideasman42/emacs-jit-lock-stealth-progress
-(setq jit-lock-stealth-time 1.25)
-(setq jit-lock-stealth-nice 0.5) ;; Seconds between font locking.
-(setq jit-lock-chunk-size 4096)
+;; (setq jit-lock-stealth-time 1.25)
+;; (setq jit-lock-stealth-nice 0.5) ;; Seconds between font locking.
+;; (setq jit-lock-chunk-size 4096)
 
 ;; smooth scrolling
 (pixel-scroll-mode 1)
@@ -121,7 +121,7 @@
 (setq auto-window-vscroll nil)
 
 ;; should guard against possible lags on typing
-(setq redisplay-skip-fontification-on-input t)
+;; (setq redisplay-skip-fontification-on-input t)
 
 ;; Cursor blinking is not necessary
 (blink-cursor-mode 0)
