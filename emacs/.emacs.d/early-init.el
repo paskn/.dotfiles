@@ -25,17 +25,16 @@
 (setq
  frame-inhibit-implied-resize t ; Inhibit resizing frame
  package-quickstart nil ; Prevent package.el loading packages prior to their init-file
- package-enable-at-startup nil
- fast-but-imprecise-scrolling t ; More performant rapid scrolling over unfontified regions
- idle-update-delay 1.0  ; slow down UI updates down
- inhibit-compacting-font-caches t ; Inhibit frame resizing for performance
+ ;; fast-but-imprecise-scrolling t ; More performant rapid scrolling over unfontified regions
+ ;; idle-update-delay 1.0  ; slow down UI updates down
+ ;; inhibit-compacting-font-caches t ; Inhibit frame resizing for performance
  read-process-output-max (* 1024 1024) ; Increase how much is read from processes in a single chunk.
  process-adaptive-read-buffering nil
- redisplay-skip-fontification-on-input t ; Inhibits it for better scrolling performance.
+ ;; redisplay-skip-fontification-on-input t ; Inhibits it for better scrolling performance.
  vc-follow-symlinks t ; Do not ask about symlink following
  use-short-answers t ; y/n for yes/no
  confirm-kill-emacs 'yes-or-no-p        ;Confirm when exiting Emacs
-)
+ )
 
 ;; Remove some unneeded UI elements
 (setq inhibit-startup-message t) ;; hide the startup message
