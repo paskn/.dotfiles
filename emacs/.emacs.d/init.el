@@ -373,11 +373,6 @@ group by projectile projects.")
   :hook (emacs-startup . (lambda () (load-theme 'ef-reverie :no-confirm)))
   )
 
-;; teach emacs the difference betwee selecting and highlighing
-;; improves hl-line-mode
-(use-package lin
-  :straight t)
-
 (use-package spacious-padding
   :straight t
   :config
@@ -386,40 +381,40 @@ group by projectile projects.")
 (use-package svg-lib
   :straight (svg-lib :type git :host github :repo "rougier/svg-lib"))
 
-(use-package oblique-strategies
-  :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
-  :config
-  (setq oblique-edition
-        "strategies/oblique-strategies-condensed.txt")
-  (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
+;; (use-package oblique-strategies
+;;   :straight (oblique-strategies :type git :host github :repo "zzkt/oblique-strategies")
+;;   :config
+;;   (setq oblique-edition
+;;         "strategies/oblique-strategies-condensed.txt")
+;;   (defalias 'insert-oblique-strategy #'oblique-strategy-at-point))
 
-(use-package dashboard
-  :straight t
-  :init
-  (defun sp/generate-strats ()
-    (let (result)
-      (dotimes (i 5 result)
-        (setq result (cons (oblique-strategy) result)))))
-  (setq dashboard-center-content t)
-  (setq dashboard-week-agenda t)
-  (setq dashboard-items '((agenda . 10)
-                          (projects . 5)
-                          (recents  . 5)))
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-set-footer 1)
-  (setq dashboard-agenda-sort-strategy '(time-up))
-  (setq dashboard-agenda-prefix-format " %i %-10s ")
-  (setq dashboard-item-names '(("Agenda for the coming week:" . "Schedule:")))
-  (setq dashboard-footer-messages (sp/generate-strats))
-  (setq dashboard-footer-icon (all-the-icons-faicon "cogs"
-                                                    :height 1.1
-                                                    :v-adjust -0.05
-                                                    :face 'font-lock-keyword-face))
-  (set-face-attribute 'dashboard-items-face nil :weight 'normal)
-  :config
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  (dashboard-setup-startup-hook))
+;; (use-package dashboard
+;;   :straight t
+;;   :init
+;;   (defun sp/generate-strats ()
+;;     (let (result)
+;;       (dotimes (i 5 result)
+;;         (setq result (cons (oblique-strategy) result)))))
+;;   (setq dashboard-center-content t)
+;;   (setq dashboard-week-agenda t)
+;;   (setq dashboard-items '((agenda . 10)
+;;                           (projects . 5)
+;;                           (recents  . 5)))
+;;   (setq dashboard-set-heading-icons t)
+;;   (setq dashboard-set-file-icons t)
+;;   (setq dashboard-set-footer 1)
+;;   (setq dashboard-agenda-sort-strategy '(time-up))
+;;   (setq dashboard-agenda-prefix-format " %i %-10s ")
+;;   (setq dashboard-item-names '(("Agenda for the coming week:" . "Schedule:")))
+;;   (setq dashboard-footer-messages (sp/generate-strats))
+;;   (setq dashboard-footer-icon (all-the-icons-faicon "cogs"
+;;                                                     :height 1.1
+;;                                                     :v-adjust -0.05
+;;                                                     :face 'font-lock-keyword-face))
+;;   (set-face-attribute 'dashboard-items-face nil :weight 'normal)
+;;   :config
+;;   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+;;   (dashboard-setup-startup-hook))
 
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
@@ -502,6 +497,13 @@ group by projectile projects.")
                  (display-buffer-no-window)
                  (allow-no-window . t)))
   )
+
+(use-package vterm
+  :straight t
+  :defer t
+  :config
+  (add-hook 'vterm-mode (lambda () (setq-local global-hl-line-mode nil)))
+  (add-hook 'vterm-copy-mode (lambda () (call-interactively 'hl-line-mode))))
 
 ;; more precision in movement across windows
 ;; act on windows during C-x o:
@@ -890,25 +892,6 @@ targets."
   (global-set-key "\C-x4l" 'langtool-switch-default-language)
   (global-set-key "\C-x44" 'langtool-show-message-at-point))
 
-(defun sp/org-mode-setup ()
-  (org-indent-mode)
-;;  (variable-pitch-mode 1)
-;;  (auto-fill-mode 1)
-  (visual-line-mode 1)
-;;    Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
-  (setq display-line-numbers nil))
-
 (use-package auto-fill-mode
   :straight nil
   :hook
@@ -964,59 +947,83 @@ targets."
               (lambda ()
                 (calendar-set-date-style 'iso)))
 (setq calendar-date-style 'iso)
-(setq calendar-holidays
-      '(;; German public holidays during 2023
-        ;; https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
-    (holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
-    (holiday-fixed 4 7 "Good Friday (Karfreitag)")
-    (holiday-fixed 4 10 "Easter Monday (Ostermontag)")
-    (holiday-fixed 5 1 "Labor Day (Maifeiertag)")
-    (holiday-fixed 5 18 "Ascension Day (Christi Himmelfahrt, 40 days after Easter)")
-    (holiday-fixed 5 29 "Whit Monday (Pfingstmontag) – seventh Monday after Easter, also called Pentecost Monday")
-    (holiday-fixed 10 3 "Day of German Unity (Tag der Deutschen Einheit) ")
-    (holiday-fixed 12 25 "Christmas Day (Weihnachtstag)")
-    (holiday-fixed 12 26 "Saint Stephen’s Day (Stephanstag) – also known as the second day of Christmas")
-    ;; German regional holidays 2023
-    (holiday-fixed 1 6 "Epiphany (Heilige Drei Könige) – Baden-Württemberg, Bavaria, and Saxony-Anhalt")
-    (holiday-fixed 3 8 "International Women’s Day – Berlin")
-    (holiday-fixed 4 9 "Easter Sunday – Brandenburg")
-    (holiday-fixed 5 28 "Whit Sunday – Brandenburg")
-    (holiday-fixed 6 8 "Corpus Christi (Fronleichnam) Bavaria")
-    (holiday-fixed 8 8 "Peace Festival (Freidenfest) – Bavaria (Augsburg)")
-    (holiday-fixed 8 15 "Assumption Day (Maria Himmelfahrt) – Saarland and some local authorities in Bavaria")
-    (holiday-fixed 10 31 "Reformation Day (Reformationstag) – generally a regional holiday in Brandenburg")
-    (holiday-fixed 11 1 "All Saints’ Day (Allerheiligen) – Baden-Württemberg, Bavaria, North Rhine-Westphalia, Rhineland-Palatinate, and Saarland")
-    (holiday-fixed 11 22 "Day of Prayer and Repentance (Buß-und Bettag, Wednesday before 23 November) – Saxony")
-    ;; Important dates in Germany during 2023
-    (holiday-fixed 2 20 "Shrove Monday")
-    (holiday-fixed 2 21 "Shrove Tuesday, also known as Carnival")
-    (holiday-fixed 2 22 "Ash Wednesday, also known as Carnival")
-    (holiday-fixed 3 26 "Clocks go forward one hour as a result of daylight saving time starting")
-    (holiday-fixed 5 14 "Mother’s Day (second Sunday of May)")
-    (holiday-fixed 5 18 "Father’s Day (Vatertag, also known as Männertag/Herrentag, Men’s Day) – coincides with Ascension Day and can be a family celebration or celebrated by an outing with male friends")
-    (holiday-fixed 9 9 "German Language Day")
-    (holiday-fixed 9 10 "European Heritage Days – when monument buildings are opened to the public")
-    (holiday-fixed 9 16 "Oktoberfest starts")
-    (holiday-fixed 9 20 "German World Children’s Day")
-    (holiday-fixed 10 29 "Clocks go back one hour as a result of daylight saving time ending")
-    (holiday-fixed 11 9 "Fall of the Berlin Wall")
-    (holiday-fixed 11 11 "St Martin’s Day – a religious observance where children take part in lantern processions")
-    (holiday-fixed 11 19 "National Day of Mourning – victims of war are remembered and in some regions, music or dance events are illegal")
-    (holiday-fixed 12 6 "Saint Nicholas Day")
-))
 
 (use-package org
   :straight (:type built-in)
+  :init
+  (defun sp/org-mode-setup ()
+    (org-indent-mode)
+    ;;  (variable-pitch-mode 1)
+    ;;  (auto-fill-mode 1)
+    (visual-line-mode 1)
+    ;;    Ensure that anything that should be fixed-pitch in Org files appears that way
+    (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+    (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+    (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+    (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
+    (setq display-line-numbers nil))
+
+  (setq calendar-holidays
+        '(;; German public holidays during 2023
+          ;; https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
+          (holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
+          (holiday-fixed 4 7 "Good Friday (Karfreitag)")
+          (holiday-fixed 4 10 "Easter Monday (Ostermontag)")
+          (holiday-fixed 5 1 "Labor Day (Maifeiertag)")
+          (holiday-fixed 5 18 "Ascension Day (Christi Himmelfahrt, 40 days after Easter)")
+          (holiday-fixed 5 29 "Whit Monday (Pfingstmontag) – seventh Monday after Easter, also called Pentecost Monday")
+          (holiday-fixed 10 3 "Day of German Unity (Tag der Deutschen Einheit) ")
+          (holiday-fixed 12 25 "Christmas Day (Weihnachtstag)")
+          (holiday-fixed 12 26 "Saint Stephen’s Day (Stephanstag) – also known as the second day of Christmas")
+          ;; German regional holidays 2023
+          (holiday-fixed 1 6 "Epiphany (Heilige Drei Könige) – Baden-Württemberg, Bavaria, and Saxony-Anhalt")
+          (holiday-fixed 3 8 "International Women’s Day – Berlin")
+          (holiday-fixed 4 9 "Easter Sunday – Brandenburg")
+          (holiday-fixed 5 28 "Whit Sunday – Brandenburg")
+          (holiday-fixed 6 8 "Corpus Christi (Fronleichnam) Bavaria")
+          (holiday-fixed 8 8 "Peace Festival (Freidenfest) – Bavaria (Augsburg)")
+          (holiday-fixed 8 15 "Assumption Day (Maria Himmelfahrt) – Saarland and some local authorities in Bavaria")
+          (holiday-fixed 10 31 "Reformation Day (Reformationstag) – generally a regional holiday in Brandenburg")
+          (holiday-fixed 11 1 "All Saints’ Day (Allerheiligen) – Baden-Württemberg, Bavaria, North Rhine-Westphalia, Rhineland-Palatinate, and Saarland")
+          (holiday-fixed 11 22 "Day of Prayer and Repentance (Buß-und Bettag, Wednesday before 23 November) – Saxony")
+          ;; Important dates in Germany during 2023
+          (holiday-fixed 2 20 "Shrove Monday")
+          (holiday-fixed 2 21 "Shrove Tuesday, also known as Carnival")
+          (holiday-fixed 2 22 "Ash Wednesday, also known as Carnival")
+          (holiday-fixed 3 26 "Clocks go forward one hour as a result of daylight saving time starting")
+          (holiday-fixed 5 14 "Mother’s Day (second Sunday of May)")
+          (holiday-fixed 5 18 "Father’s Day (Vatertag, also known as Männertag/Herrentag, Men’s Day) – coincides with Ascension Day and can be a family celebration or celebrated by an outing with male friends")
+          (holiday-fixed 9 9 "German Language Day")
+          (holiday-fixed 9 10 "European Heritage Days – when monument buildings are opened to the public")
+          (holiday-fixed 9 16 "Oktoberfest starts")
+          (holiday-fixed 9 20 "German World Children’s Day")
+          (holiday-fixed 10 29 "Clocks go back one hour as a result of daylight saving time ending")
+          (holiday-fixed 11 9 "Fall of the Berlin Wall")
+          (holiday-fixed 11 11 "St Martin’s Day – a religious observance where children take part in lantern processions")
+          (holiday-fixed 11 19 "National Day of Mourning – victims of war are remembered and in some regions, music or dance events are illegal")
+          (holiday-fixed 12 6 "Saint Nicholas Day")
+          ))
+
+  :demand t
   :hook (org-mode . sp/org-mode-setup)
   :custom
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
-    org-latex-packages-alist '(("" "minted"))
-    org-latex-pdf-process
-    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (org-agenda-include-diary 1)
   (org-list-allow-alphabetical t)
   :config
+  ;; after opening jump straight to the first heading
+  (add-hook 'org-mode-hook (lambda () (org-next-visible-heading 1)))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -1028,7 +1035,7 @@ targets."
      ;;   (ledger . t) ; where is ob-ledger??
      ))
   
-(add-to-list 'display-buffer-alist
+  (add-to-list 'display-buffer-alist
                '("^\\*Org Agenda\\*"
                  (display-buffer-reuse-mode-window
                   display-buffer-in-side-window)
@@ -1296,6 +1303,7 @@ DIR must include a .project file to be considered a project."
   ;; credentials for sending mail
   (setq smtpmail-servers-requiring-authorization "[.*gmail.com]|[.*uni-bamberg.de]")
   )
+
 ;; add to org support for linking to notmuch
 (use-package ol-notmuch
   :straight t)
@@ -1467,10 +1475,15 @@ DIR must include a .project file to be considered a project."
   (setq citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
   )
 
-(use-package citar-org-roam
+(use-package citar-denote
   :straight t
-  :after (citar org-roam)
-  :config (citar-org-roam-mode))
+  :config
+  :custom (citar-denote-subdir "~/org/denote/literature/")) 
+
+;; (use-package citar-org-roam
+;;   :straight t
+;;   :after (citar org-roam)
+;;   :config (citar-org-roam-mode))
 
 ;; (use-package citar-org
 ;;   :straight t
