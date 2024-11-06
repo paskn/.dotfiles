@@ -429,6 +429,7 @@ group by projectile projects.")
   (setq-default scroll-preserve-screen-position t)
   (setq-default scroll-conservatively 1) ; affects `scroll-step'
   (setq-default scroll-margin 0)
+  (setq undo-outer-limit 24844840 * 5)
   (electric-pair-mode 1)
   (keymap-global-set "C-c v" 'view-mode)
   ;; make cursor red when repeat-mode is active
