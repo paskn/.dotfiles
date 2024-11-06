@@ -249,7 +249,7 @@ group by projectile projects.")
 
 (use-package mwim
   :straight t
-  :defer t
+  :defer 1
   :init
   ;; "first stroke of C-a will move the cursor to the beginning of code.
   ;; Subsequent strokes will toggle between beginning of line and beginning of code."
@@ -261,7 +261,7 @@ group by projectile projects.")
 
 (use-package unfill
   :straight t
-  :defer t
+  :defer 1
   :commands (unfill-region unfill-paragraph unfill-toggle)
   :init
   ;; M-q will toggle between fill/unfill -paragraphs when
@@ -346,6 +346,7 @@ group by projectile projects.")
 
 ;; track changes in the buffer in a tree-like structure
 (use-package vundo
+  :defer 1
   :straight t
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
@@ -821,24 +822,25 @@ targets."
 ;;   :config
 ;;   (corfu-prescient-mode 1))
 
-; Enable vertico
+;; Enable vertico
 (use-package vertico
   ;;  :straight t
-  :defer t
+  ;; :defer t
   :straight (:files (:defaults "extensions/*"))
   ;; :straight (vertico
   ;;         :type git
   ;;         :host github
   ;;         :repo "emacs-straight/vertico"
   ;;         :files ("*" (:exclude ".git") (:defaults "extensions/*")))
+  :hook (after-init . vertico-mode)
   :init
-  (vertico-mode)
+  ;; (vertico-mode)
   ;; (vertico-prescient-mode t)
   ;; hide prompted path when entering file name shadowing
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   ;; Different scroll margin
   ;; (setq vertico-scroll-margin 0))
- ;; Show more candidates
+  ;; Show more candidates
   ;; (setq vertico-count 20)
   ;; Grow and shrink the Vertico minibuffer
   ;; (setq vertico-resize t)
@@ -852,6 +854,7 @@ targets."
 
 ;; replaces ^L with lines
 (use-package page-break-lines
+  :defer 1
   :straight t
   :config
   (global-page-break-lines-mode))
@@ -913,16 +916,25 @@ targets."
   (org-mode . auto-fill-mode)
   :config
   (setq-default fill-column 70) ;; Set the desired line width
-)
+  )
 
 (use-package volatile-highlights
+  :defer 1
   :straight t
   :config
   (volatile-highlights-mode t))
 
+;; teach emacs the difference betwee selecting and highlighing
+;; improves hl-line-mode
+(use-package lin
+  :demand t
+  :straight t
+  :config
+  (lin-global-mode 1))
+
 ;; Let emacs to decide what to do with very long lines
 (use-package so-long
-  :defer t
+  :defer 1
 ;;  :after-call find-file-hook
   :straight t
   :config
@@ -1132,6 +1144,7 @@ See also `org-save-all-org-buffers'"
 
 ;; improve compile look and make close it on success
 (use-package fancy-compilation
+  :defer 1
   :straight t
   :custom
   (fancy-compilation-override-colors nil)
@@ -1177,6 +1190,7 @@ DIR must include a .project file to be considered a project."
 ;; live by timer instead of clock
 ;; pomodoro and third time
 (use-package pomm
+  :defer t
   :straight t
   :commands (pomm pomm-third-time)
   :config
@@ -1205,14 +1219,34 @@ DIR must include a .project file to be considered a project."
 (use-package sicp
   :straight t)
 
+(use-package denote
+  :straight t
+  :custom
+  (denote-directory "~/org/denote")
+  :config
+  (require 'denote-journal-extras))
+
+(use-package consult-notes
+  :straight t
+  :after denote
+  :bind (("C-c n f" . consult-notes))
+  :config
+  (consult-notes-denote-mode))
+
+(use-package consult-denote
+  :straight t
+  :config
+  (consult-denote-mode 1))
+
 (use-package org-roam
   :straight t
+  :defer t
   :init
   :custom
   (org-roam-directory "~/Documents/personal/RoamNotes")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
+         ;; ("c-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          :map org-mode-map
@@ -1312,7 +1346,7 @@ DIR must include a .project file to be considered a project."
 
 (use-package elfeed
   :straight t
-  :defer 5
+  :defer t
   :config
   (global-set-key (kbd "C-x w") 'elfeed)
   (add-hook 'elfeed-search-mode-hook 'elfeed-update)
@@ -1456,13 +1490,14 @@ DIR must include a .project file to be considered a project."
 ;; Magit config
 (use-package magit
   :straight t
-  :defer t
+  :defer 1
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
         magit-diff-hide-trailing-cr-characters t)
 )
 
 (use-package treesit-auto
+  :defer 1
   :straight t
   :config
   (treesit-auto-add-to-auto-mode-alist 'all))
@@ -1691,7 +1726,7 @@ DIR must include a .project file to be considered a project."
 ;; completion in prog-mode
 (use-package corfu
   ;; :straight (:files (:defaults "extensions/*"))
-  :defer 80
+  :defer 1
   :straight (corfu
          :type git
          :host github
@@ -2000,7 +2035,7 @@ DIR must include a .project file to be considered a project."
   (beacon-mode 1))
 
 (use-package yasnippet
-  :defer t
+  :defer 1
   :straight t
   :config
   (setq yas-snippet-dirs
