@@ -103,14 +103,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias emacs="emacs -nw"
-alias ls="/opt/homebrew/opt/coreutils/libexec/gnubin/ls -lah"
+alias ls="eza -lah --icons=auto"
+alias l="eza -lah --icons=auto"
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"
 
 export VISUAL="emacsclient -c -a emacs"
-
-#PROMPT="${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) 🦄 > "
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -119,9 +118,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 fpath=(~/.zsh.d/ $fpath)
 
 setopt inc_append_history
-eval "$(starship init zsh)"
-source <(antibody init)
-antibody bundle < ~/.zsh_plugins.txt
+
+source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
+antidote load
 __kitty_complete
 
 # Start ssh-agent and add the private key
@@ -129,3 +128,15 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/gitlab_paskn 
 fi
+
+vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ]); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}

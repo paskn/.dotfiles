@@ -1,5 +1,3 @@
-MohamedElashri/fd-zsh
-DarrinTisdale/zsh-aliases-exa
 redxtech/zsh-kitty
 fdellwing/zsh-bat
 caarlos0/jvm
