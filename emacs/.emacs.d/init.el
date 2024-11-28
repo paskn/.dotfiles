@@ -351,6 +351,13 @@ group by projectile projects.")
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
 
+;; declutter tab-bar looks
+(use-package tab-bar
+  :straight (:type built-in)
+  :custom
+  (tab-bar-new-button-show . nil)
+  (tab-bar-close-button-show . nil))
+
 ;; Doom-modeline
 (use-package all-the-icons
   :straight t)
