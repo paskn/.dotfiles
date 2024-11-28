@@ -247,6 +247,16 @@ group by projectile projects.")
 ;; INSTALL PACKAGES
 ;; --------------------------------------
 
+;; fix navigation habits: use avy with Super-,
+(use-package hardtime
+  :straight (hardtime
+             :type git
+             :host github
+             :repo "ichernyshovvv/hardtime.el")
+  :config
+  (hardtime-mode))
+
+
 (use-package mwim
   :straight t
   :defer 1
