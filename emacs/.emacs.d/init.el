@@ -309,7 +309,7 @@ group by projectile projects.")
   (keymap-global-set "C-k" 'crux-kill-and-join-forward)
   (keymap-global-set "C-c d" 'duplicate-dwim)
   (keymap-global-set "C-c M-d" 'crux-duplicate-and-comment-current-line-or-region)
-  (keymap-global-set "S-RET" 'crux-smart-open-line)
+  (keymap-global-set "s-<return>" 'crux-smart-open-line)
   (keymap-global-set "s-o" 'crux-smart-open-line-above)
 
   (defun toggle-window-split ()
