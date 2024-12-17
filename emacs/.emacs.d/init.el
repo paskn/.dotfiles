@@ -311,6 +311,7 @@ group by projectile projects.")
   (keymap-global-set "C-c M-d" 'crux-duplicate-and-comment-current-line-or-region)
   (keymap-global-set "s-<return>" 'crux-smart-open-line)
   (keymap-global-set "s-o" 'crux-smart-open-line-above)
+  (keymap-global-set "C-q" 'crux-other-window-or-switch-buffer)
 
   (defun toggle-window-split ()
     "Switch between horizontal and vertical split window layout."
