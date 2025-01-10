@@ -90,7 +90,7 @@
 ;; (setq jit-lock-chunk-size 4096)
 
 ;; smooth scrolling
-(pixel-scroll-mode 1)
+;; (pixel-scroll-mode 1)
 
 ;; more convenient order of cycling with C-l
 (setq recenter-positions '(top middle bottom))
@@ -442,7 +442,7 @@ group by projectile projects.")
 (use-package emacs
   :straight nil
   :config
-  (pixel-scroll-precision-mode 1)
+  ;; (pixel-scroll-precision-mode 1)
   (setq show-paren-delay 0)
   (setq-default scroll-preserve-screen-position t)
   (setq-default scroll-conservatively 1) ; affects `scroll-step'
@@ -516,6 +516,15 @@ group by projectile projects.")
                  (display-buffer-no-window)
                  (allow-no-window . t)))
   )
+
+;; improve scrolling
+(use-package ultra-scroll
+  :straight (ultra-scroll :type git :host github :repo "jdtsmith/ultra-scroll")
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0) 
+  :config
+  (ultra-scroll-mode 1))
 
 (use-package vterm
   :straight t
