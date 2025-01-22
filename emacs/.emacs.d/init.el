@@ -391,6 +391,12 @@ group by projectile projects.")
   :hook (emacs-startup . (lambda () (load-theme 'ef-reverie :no-confirm)))
   )
 
+;; colorize color names
+(use-package rainbow-mode
+  :straight t
+  :config
+  (rainbow-mode))
+
 (use-package spacious-padding
   :straight t
   :config
