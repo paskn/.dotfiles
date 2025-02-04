@@ -1075,6 +1075,12 @@ targets."
   (org-agenda-include-diary 1)
   (org-list-allow-alphabetical t)
   :config
+  (setq org-M-RET-may-split-line '((default . nil)))
+  (setq org-insert-heading-respect-content t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
   ;; after opening jump straight to the first heading
   (add-hook 'org-mode-hook (lambda () (org-next-visible-heading 1)))
   (org-babel-do-load-languages
