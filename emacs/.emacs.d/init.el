@@ -840,7 +840,7 @@ targets."
   ("s-\\" . link-hint-open-link))
 
 (use-package which-key
-  :straight t
+  :straight (:type built-in)
   :init (which-key-mode)
   :diminish which-key-mode
   :config
