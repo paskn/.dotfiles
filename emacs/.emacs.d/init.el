@@ -920,8 +920,9 @@ targets."
   :init
   (which-key-posframe-mode))
 
+;; ;; see here why its not working in 30.1 https://github.com/emacsorphanage/transient-posframe/wiki
 ;; (use-package transient-posframe
-;;   :straight t
+;;   :straight (transient-posframe :type git :host github :repo "emacsorphanage/transient-posframe")
 ;;   :init
 ;;   (transient-posframe-mode))
 
