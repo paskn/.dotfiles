@@ -1748,7 +1748,22 @@ DIR must include a .project file to be considered a project."
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook (lambda () (setq eglot-connect-timeout 120)))
   (add-hook 'python-mode-hook (lambda () (setq eglot-autoshutdown t)))
+  ;; clean completions from trash
+  (defun python-eldoc-filter (orig-fun string)
+    (let ((clean (if (stringp string) (replace-regexp-in-string "\n__PYTHON_EL_eval.+" "" string) string)))
+      (funcall orig-fun clean)))
+  (advice-add 'eldoc--message :around #'python-eldoc-filter)
+
+  (defun my-python-completion-filter (completions)
+    "Filter out the unwanted '__PYTHON_EL' from COMPLETIONS."
+    (cl-remove-if (lambda (completion) (string-match-p "__PYTHON_EL" completion))
+                  completions))
+  (advice-add 'python-shell-completion-get-completions :filter-return #'my-python-completion-filter)
   )
+
+
+(use-package pyvenv
+  :straight t)
 
 ;; * blacken       -- buffer formatting on save using black
 ;;                    (need to pip install black)
