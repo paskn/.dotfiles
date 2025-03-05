@@ -1365,7 +1365,7 @@ DIR must include a .project file to be considered a project."
 
 ;; add to org support for linking to notmuch
 (use-package ol-notmuch
-  :straight t)
+  :straight (ol-notmuch :type git :host github :repo "tarsius/ol-notmuch"))
 
 (use-package smtpmail-multi
   :straight t
