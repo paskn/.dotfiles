@@ -920,11 +920,10 @@ targets."
   :init
   (which-key-posframe-mode))
 
-(use-package transient-posframe
-  :straight t
-  :after transient
-  :init
-  (transient-posframe-mode))
+;; (use-package transient-posframe
+;;   :straight t
+;;   :init
+;;   (transient-posframe-mode))
 
 (use-package powerthesaurus
   :defer t
@@ -1560,13 +1559,21 @@ DIR must include a .project file to be considered a project."
   (setq dumb-jump-force-searcher 'rg))
 
 ;; Magit config
+;; (use-package transient
+;;   :straight (transient :type git :host github :repo "magit/transient")
+;; )
+
 (use-package magit
   :straight t
-  :defer 1
-  :config
+  ;; :defer 1
+  ;; :after transient
+  :init
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
         magit-diff-hide-trailing-cr-characters t)
-)
+  ;; :custom
+  ;; (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  ;; (magit-diff-hide-trailing-cr-characters t)
+  )
 
 (use-package treesit-auto
   :defer 1
