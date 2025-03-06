@@ -1469,6 +1469,7 @@ DIR must include a .project file to be considered a project."
   :commands (telega)
   :defer t
   :config
+  (define-key global-map (kbd "C-c t") telega-prefix-map)
   (setq telega-server-libs-prefix "~/td/tdlib/")
   (setq telega-use-docker nil))
 
