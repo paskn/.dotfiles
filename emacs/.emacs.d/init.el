@@ -523,6 +523,18 @@ group by projectile projects.")
                  (allow-no-window . t)))
   )
 
+;; isearch -- https://emacsredux.com/blog/2025/03/18/you-have-no-idea-how-powerful-isearch-is/
+(use-package isearch
+  :straight (:type built-in)
+  :config
+  ;; When isearching, enable M-<, M->, C-v and M-v to skip between matches
+  ;; in an intuitive fashion.  Note that the `cua-selection-mode' bindings
+  ;; for C-v and M-v bindings are not supported.
+  (setq isearch-allow-motion t
+        isearch-motion-changes-direction t)
+
+)
+
 ;; improve scrolling
 (use-package ultra-scroll
   :straight (ultra-scroll :type git :host github :repo "jdtsmith/ultra-scroll")
