@@ -140,3 +140,5 @@ vterm_printf() {
         printf "\e]%s\e\\" "$1"
     fi
 }
+
+eval "$(direnv hook zsh)"
