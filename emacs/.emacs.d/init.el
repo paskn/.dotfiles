@@ -646,6 +646,17 @@ group by projectile projects.")
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
+  ;; M-s . with consult
+  ;; see here for details https://arialdomartini.github.io/consult-line-at-point
+  (defun consult-line-symbol-at-point ()
+    "Search for a line matching the symbol found near point."
+    (interactive)
+    (consult-line
+     (or (thing-at-point 'symbol))))
+  
+  (global-set-key (kbd "M-s .") #'consult-line-symbol-at-point)
+  (global-set-key (kbd "M-s M-s .") #'isearch-forward-symbol-at-point)
+
 
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
