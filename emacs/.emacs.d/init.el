@@ -1576,6 +1576,11 @@ DIR must include a .project file to be considered a project."
 ;;   :straight (transient :type git :host github :repo "magit/transient")
 ;; )
 
+(use-package direnv
+  :straight t
+  :config
+  (direnv-mode))
+
 (use-package magit
   :straight t
   ;; :defer 1
