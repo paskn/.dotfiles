@@ -532,8 +532,10 @@ group by projectile projects.")
   ;; for C-v and M-v bindings are not supported.
   (setq isearch-allow-motion t
         isearch-motion-changes-direction t)
-
-)
+  ;; Make regular Isearch interpret the empty space as a regular
+  ;; expression that matches any character between the words you give
+  ;; it.
+  (setq search-whitespace-regexp ".*?"))
 
 ;; improve scrolling
 (use-package ultra-scroll
@@ -557,15 +559,6 @@ group by projectile projects.")
 (use-package ace-window
   :straight t
   :bind ("C-x o" . ace-window))
-
-(use-package isearch
-  :straight (:type built-in)
-  :config
-  ;; Make regular Isearch interpret the empty space as a regular
-  ;; expression that matches any character between the words you give
-  ;; it.
-  (setq search-whitespace-regexp ".*?")
-  )
 
 ;; Example configuration for Consult
 (use-package consult
