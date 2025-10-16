@@ -1633,6 +1633,21 @@ DIR must include a .project file to be considered a project."
   :defer t
   :bind ("C-c C-d" . docker))
 
+;; agent-shell deps and config
+
+(use-package shell-maker
+  :straight t)
+
+(use-package acp
+  :straight (acp :type git :host github :repo "xenodium/acp.el"))
+
+(use-package agent-shell
+  :straight (agent-shell :type git :host github :repo "xenodium/agent-shell")
+  :config
+  (setq agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t))
+  (add-to-list 'exec-path "/home/sergei/.nvm/versions/node/v24.3.0/bin/"))
+
 ;; R and S-family languages
 (use-package ess
   :straight t
