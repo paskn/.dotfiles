@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -119,7 +119,7 @@ fpath=(~/.zsh.d/ $fpath)
 
 setopt inc_append_history
 
-source $HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
+source ~/.antidote/antidote.zsh
 antidote load
 __kitty_complete
 
