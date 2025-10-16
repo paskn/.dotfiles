@@ -786,9 +786,13 @@ targets."
   :hook (prog-mode-hook . paredit-everywhere-mode))
 
 ;; cycle selection regions
-(use-package expand-region
+;; (use-package expand-region
+;;   :straight t
+;;   :bind ("C-=" . er/expand-region))
+
+(use-package expreg
   :straight t
-  :bind ("C-=" . er/expand-region))
+  :bind ("C-=" . expreg-expand))
 
 ;; store and manage window configuration
 ;; C-c <left> and C-c <right>
