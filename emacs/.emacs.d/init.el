@@ -1593,6 +1593,17 @@ DIR must include a .project file to be considered a project."
   ;; (magit-diff-hide-trailing-cr-characters t)
   )
 
+;; https://github.com/armindarvish/consult-gh
+(use-package consult-gh
+  :straight (consult-gh :type git :host github :repo "armindarvish/consult-gh")
+  :after consult
+  :config
+  (require 'consult-gh-transient)
+  (require 'consult-gh-embark)
+  (require 'consult-gh-forge)
+  (consult-gh-embark-mode +1)
+  (consult-gh-forge-mode +1))
+
 (use-package treesit-auto
   :defer 1
   :straight t
