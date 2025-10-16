@@ -144,11 +144,8 @@
 (global-hl-line-mode t)
 
 ;; set the default font
-;;(set-face-attribute 'default nil :font "Ubuntu Mono")
-;;(set-face-attribute 'default nil :font "IBM Plex Mono")
-;;(setq default-frame-alist '((font . "IBM Plex Mono" )))
 ;; enlarge the default font size
-;;(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 180)
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -156,7 +153,7 @@
 ;;  ;; If there is more than one, they won't work right.
 ;;  '(default ((t (:inherit nil :height 130 :family "CommitMono"))))
 ;;  '(fixed-pitch ((t (:height 130 :width normal :family "CommitMono")))))
-
+;; (set-face-attribute 'default nil :height 130)
 ;; prettify how line truncation is expressed
 ;; https://github.com/rougier/elegant-emacs/blob/d901cf9456b030707ee39ce7cc35e9b988040cf0/elegance.el#L67
 (defface fallback '((t :family "IBM Plex Mono")) "Fallback")
@@ -455,6 +452,7 @@ group by projectile projects.")
   (setq-default scroll-margin 0)
   (setq undo-outer-limit 24844840 * 5)
   (electric-pair-mode 1)
+  ;; (delete-selection-mode 1)
   (keymap-global-set "C-c v" 'view-mode)
   ;; make cursor red when repeat-mode is active
   ;; https://gist.github.com/jdtsmith/a169362879388bc1bdf2bbb977782d4f
@@ -1281,10 +1279,10 @@ DIR must include a .project file to be considered a project."
   :commands (pomm pomm-third-time)
   :config
   ;; use macos for alerts
-  (setq alert-default-style 'osx-notifier))
+  (setq alert-default-style 'libnotify))
 
 (use-package citeproc
-  :straight t
+  :straight (citeproc :type git :host github :repo "andras-simonyi/citeproc-el")
   :defer t
   :config
   (setq org-cite-csl-styles-dir "~/Zotero/styles"))
@@ -1481,7 +1479,8 @@ DIR must include a .project file to be considered a project."
   :defer t
   :config
   (define-key global-map (kbd "C-c t") telega-prefix-map)
-  (setq telega-server-libs-prefix "~/td/tdlib/")
+  ;; (setq telega-server-libs-prefix "~/Builds/td/")
+  (setq telega-server-libs-prefix "/usr/local")
   (setq telega-use-docker nil))
 
 ;; setup markdown-mode
@@ -2139,10 +2138,11 @@ DIR must include a .project file to be considered a project."
   :commands (dired dired-jump)
   :bind (("C-x C-j" . dired-jump))
   :config
-  (setq insert-directory-program "/opt/homebrew/opt/coreutils/libexec/gnubin/ls")
+  ;; (setq insert-directory-program "/opt/homebrew/opt/coreutils/libexec/gnubin/ls")
   (setq delete-by-moving-to-trash t)
   (setq dired-listing-switches "-algho --group-directories-first")
   (setq dired-dwim-target t)
+  (setopt dired-clean-confirm-killing-deleted-buffers nil)
   ;; Automatically hide the detailed listing when visiting a Dired
   ;; buffer.  This can always be toggled on/off by calling the
   ;; `dired-hide-details-mode' interactively with M-x or its keybindings
