@@ -801,10 +801,10 @@ targets."
   :config
   (winner-mode 1))
 
-(use-package centered-window
-  :straight t
-  :config
-  (centered-window-mode))
+;; (use-package centered-window
+;;   :straight t
+;;   :config
+;;   (centered-window-mode))
 
 (use-package rainbow-delimiters
   :straight t
