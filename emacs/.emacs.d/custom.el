@@ -109,13 +109,9 @@
                                  magit-insert-rebase-sequence
                                  magit-insert-am-sequence
                                  magit-insert-sequencer-sequence
-                                 ;; magit-insert-bisect-output
-                                 ;; magit-insert-bisect-rest
-                                 ;; magit-insert-bisect-log
                                  magit-insert-untracked-files
                                  magit-insert-unstaged-changes
                                  magit-insert-staged-changes
-                                 ;; magit-insert-stashes
                                  magit-insert-unpushed-to-pushremote
                                  magit-insert-unpushed-to-upstream-or-recent
                                  magit-insert-unpulled-from-pushremote
@@ -145,7 +141,9 @@
  '(notmuch-wash-wrap-lines-length 70)
  '(org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f") t)
+     "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
+ '(org-safe-remote-resources
+   '("\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-readtheorg\\.setup\\'"))
  '(pdf-tools-handle-upgrades t)
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-shell-completion-native-enable nil)
@@ -159,7 +157,9 @@
  '(treesit-font-lock-level 4)
  '(visible-bell nil)
  '(warning-suppress-log-types '((use-package) (comp) (corfu-doc) (corfu-doc)))
- '(warning-suppress-types '((straight) (comp) (corfu-doc) (corfu-doc)))
+ '(warning-suppress-types
+   '((emacs) (ox-latex) (ox-latex) (straight) (comp) (corfu-doc)
+     (corfu-doc)))
  '(xref-show-definitions-function 'xref-show-definitions-completing-read))
 
 (put 'scroll-left 'disabled nil)
@@ -174,5 +174,4 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :height 130 :family "CommitMono"))))
  '(doom-modeline-bar-inactive ((t nil)))
- '(fixed-pitch ((t (:height 130 :width normal :family "CommitMono"))))
- '(fringe ((t (:background "#f3eddf")))))
+ '(fixed-pitch ((t (:height 130 :width normal :family "CommitMono")))))
