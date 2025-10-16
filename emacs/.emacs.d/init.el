@@ -1086,6 +1086,8 @@ targets."
   :demand t
   :hook (org-mode . sp/org-mode-setup)
   :custom
+  (setq org-latex-to-mathml-convert-command
+      "latexmlmath %i --presentationmathml=%o")
   (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
         org-latex-packages-alist '(("" "minted"))
         org-latex-pdf-process
@@ -1511,6 +1513,7 @@ DIR must include a .project file to be considered a project."
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)
   (citar-notes-paths '("~/Documents/personal/RoamNotes/citar/"))
+  (citar-open-entry 'citar-open-entry-zotero)
   :bind
   (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
   :config
