@@ -105,6 +105,7 @@ source $ZSH/oh-my-zsh.sh
 alias emacs="emacs -nw"
 alias ls="eza -lah --icons=auto"
 alias l="eza -lah --icons=auto"
+alias s="kitten ssh"
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"
