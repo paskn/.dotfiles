@@ -385,7 +385,8 @@ group by projectile projects.")
 (use-package ef-themes
   :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :config
-  :hook (emacs-startup . (lambda () (load-theme 'ef-reverie :no-confirm)))
+  (set-face-attribute 'default nil :height 180)
+  :hook (emacs-startup . (lambda () (load-theme 'ef-owl :no-confirm)))
   )
 
 ;; colorize color names
