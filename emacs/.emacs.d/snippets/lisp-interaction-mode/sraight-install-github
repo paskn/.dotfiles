@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sraight install from github
+# key: /fgh
+# --
+:straight ($1 :type git :host github :repo "$0")
