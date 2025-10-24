@@ -108,6 +108,10 @@ alias l="eza -lah --icons=auto"
 alias pip3="pip"
 alias s="kitten ssh"
 
+# Linux version of macOS pbcopy and pbpaste
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"
 
