@@ -1554,7 +1554,8 @@ DIR must include a .project file to be considered a project."
   :straight t
   :config
   (setq dumb-jump-prefer-searcher 'rg)
-  (setq dumb-jump-force-searcher 'rg))
+  (setq dumb-jump-force-searcher 'rg)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;; Magit config
 ;; (use-package transient
