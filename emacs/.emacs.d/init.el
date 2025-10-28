@@ -2240,6 +2240,19 @@ DIR must include a .project file to be considered a project."
                (display-buffer-no-window)
                (allow-no-window . t)))
 
+;; put shells on the right side
+(add-to-list 'display-buffer-alist
+             `(,(rx (| "*eshell*"
+                       "*vterm*"
+                       (seq line-start
+                             "Claude Code Agent @"
+                             (0+ not-newline)
+                             line-end)))
+               display-buffer-in-direction
+               (direction . right)
+               (window-height . 12)))
+
+
 (use-package envrc
   :straight t
   :hook (after-init . envrc-global-mode))
