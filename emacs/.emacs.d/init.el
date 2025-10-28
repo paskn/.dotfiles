@@ -492,15 +492,9 @@ group by projectile projects.")
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
-
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
-  (repeat-mode 1)
-  
+  (repeat-mode 1)  
   ;; define a key to define the word at point.
   (define-key global-map (kbd "C-c D") #'dictionary-lookup-definition)
   ;; make C-x b respectfull of display-buffer-alist
@@ -1333,7 +1327,6 @@ DIR must include a .project file to be considered a project."
   :config
   (setq mastodon-instance-url "https://mastodon.social"
         mastodon-active-user "pashakhin"))
-
 
 (use-package notmuch
   :straight t
@@ -2246,6 +2239,7 @@ DIR must include a .project file to be considered a project."
              '("\\`\\*\\(Warnings\\|Compile-Log\\|Org Links\\)\\*\\'"
                (display-buffer-no-window)
                (allow-no-window . t)))
+
 (use-package envrc
   :straight t
   :hook (after-init . envrc-global-mode))
