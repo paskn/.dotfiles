@@ -107,6 +107,8 @@ alias ls="eza -lah --icons=auto"
 alias l="eza -lah --icons=auto"
 alias pip3="pip"
 alias s="kitten ssh"
+alias docker='sudo docker'
+alias open="xdg-open"
 
 # Linux version of macOS pbcopy and pbpaste
 alias pbcopy='xsel --clipboard --input'
