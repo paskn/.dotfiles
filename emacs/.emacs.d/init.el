@@ -542,7 +542,11 @@ group by projectile projects.")
   :straight t
   :bind ("C-x o" . ace-window))
 
-;; Example configuration for Consult
+(use-package deadgrep
+  :straight t
+  :defer t
+  :bind ("C-c g" . deadgrep))
+
 (use-package consult
   :straight (consult :source (melpa gnu-elpa-mirror))
   ;; Replace bindings. Lazily loaded due by `use-package'.
