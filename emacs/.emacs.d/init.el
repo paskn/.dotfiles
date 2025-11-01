@@ -2161,6 +2161,22 @@ DIR must include a .project file to be considered a project."
   :config
   (define-key dired-mode-map "." 'dired-hide-dotfiles-mode))
 
+(use-package dwim-shell-command
+  :straight t
+  :bind (([remap shell-command] . dwim-shell-command)
+         :map dired-mode-map
+         ;; ([remap dired-do-async-shell-command] . dwim-shell-command)
+         ([remap dired-do-shell-command] . dwim-shell-command)
+         ([remap dired-smart-shell-command] . dwim-shell-command))
+  :config
+  (defun my/dwim-shell-command-convert-to-markdown ()
+    "Convert an org-mode file to markdown with pandoc"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Convert org to markdown"
+     "pandoc <<f>> -o '<<fne>>.md' --from=org  --to=markdown"
+     :utils "pandoc")))
+
 ;; Spelling and Writing
 
 ;; help for writing papers
