@@ -2248,6 +2248,9 @@ DIR must include a .project file to be considered a project."
 
 ;; == manually control where windows go
 
+;; prevent splitting vertical side windows
+(setopt window-sides-vertical t)
+
 (defun my-select-window (window)
   "After spawning a window, select it immediately.
 Meant to be used as a body-function in display-buffer-alist"
@@ -2280,6 +2283,15 @@ Meant to be used as a body-function in display-buffer-alist"
                (direction . right)
                (window-height . 12)))
 
+;; Bottom: comilation window
+(add-to-list 'display-buffer-alist
+             '("\\*compilation\\*"
+               (display-buffer-reuse-mode-window
+                display-buffer-in-side-window)
+               (dedicated . t)
+               (side . bottom)
+               (window . root)
+               (window-height . 0.3)))
 
 ;; hide these windows
 (add-to-list 'display-buffer-alist
