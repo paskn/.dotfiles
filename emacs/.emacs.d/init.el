@@ -1633,6 +1633,7 @@ DIR must include a .project file to be considered a project."
 
 (use-package agent-shell
   :straight (agent-shell :type git :host github :repo "xenodium/agent-shell")
+  :custom (agent-shell-file-completion-enabled t)
   :config
   (setq agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t))
