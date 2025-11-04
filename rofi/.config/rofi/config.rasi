@@ -25,7 +25,7 @@ configuration {
 /*	sort: false;*/
 /*	sorting-method: "normal";*/
 /*	case-sensitive: false;*/
-/*	cycle: true;*/
+	cycle: true;
 /*	sidebar-mode: false;*/
 /*	hover-select: false;*/
 /*	eh: 1;*/
