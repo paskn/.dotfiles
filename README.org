@@ -17,9 +17,19 @@ secret was written: We build our computers the way we build our cities
 dumbing-down of programming]]" 
 #+end_quote
 
+* Applying 
+
+#+begin_src shell
+  cd ~/
+  git clone git@github.com:paskn/.dotfiles.git
+  cd ~/.dotfiles
+  stow emacs
+#+end_src
+
 * Copying
 
 Unless otherwise noted, all code herein is distributed under the terms of the GNU General Public License Version 3 or later.
 
 
 [[https://lambdaland.org/img/made_with_emacs.svg]]
+
