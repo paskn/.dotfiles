@@ -51,7 +51,7 @@ textbox {
 }
 listview {
     padding:      2px 0px 0px ;
-    scrollbar:    true;
+    scrollbar:    false;
     border-color: var(separatorcolor);
     spacing:      2px ;
     fixed-height: 0;
