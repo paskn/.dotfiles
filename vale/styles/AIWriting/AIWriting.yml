@@ -1,0 +1,118 @@
+extends: existence
+message: "Avoid phrases like '%s' which are often used by AI."
+level: warning
+ignorecase: true
+tokens:
+  - As a large language model
+  - It is important to note
+  - In conclusion
+  - delve
+  - unleash
+  - leverage
+  - attest
+  - a testament to
+  - showcase
+  - realm
+  - landscape
+  - navigating the complexities
+  - ever-evolving
+  - pivotal
+  - crucial
+  - significant
+  - notable
+  - remarkable
+  - game-changer
+  - transformative
+  - aligns with
+  - fostering
+  - garnered
+  - garnering
+  - highlighting
+  - highlights
+  - interplay
+  - intricate
+  - intricacies
+  - showcasing
+  - tapestry
+  - underscores
+  - underscoring
+  - stands as a testament to
+  - serves as a testament to
+  - is a testament to
+  - plays a vital role
+  - plays a significant role
+  - plays a crucial role
+  - underscores its importance
+  - highlights its importance
+  - underscores its significance
+  - highlights its significance
+  - reflects broader
+  - symbolizing its ongoing
+  - enduring impact
+  - lasting impact
+  - key turning point
+  - indelible mark
+  - deeply rooted
+  - profound heritage
+  - steadfast dedication
+  - independent coverage
+  - local media outlets
+  - regional media outlets
+  - national media outlets
+  - music outlets
+  - business outlets
+  - tech outlets
+  - ensuring
+  - emphasizing
+  - reflecting
+  - contributing to
+  - continues to captivate
+  - groundbreaking
+  - stunning natural beauty
+  - enduring legacy
+  - lasting legacy
+  - nestled
+  - in the heart of
+  - rich tapestry
+  - vibrant tapestry
+  - diverse tapestry
+  - artistic landscape
+  - cultural landscape
+  - literary landscape
+  - media landscape
+  - boasts a
+  - it's important to note
+  - it's critical to note
+  - it's crucial to note
+  - it's important to remember
+  - it's critical to remember
+  - it's crucial to remember
+  - it's important to consider
+  - it's critical to consider
+  - it's crucial to consider
+  - may vary
+  - In summary
+  - Overall
+  - Despite its
+  - faces several challenges
+  - Despite these challenges
+  - Challenges and Legacy
+  - Future Outlook
+  - align
+  - aligns
+  - delving
+  - enhance
+  - enhances
+  - enhancing
+  - highlight
+  - highlighted
+  - showcase
+  - showcased
+  - showcases
+  - underscore
+  - underscored
+  - Industry reports
+  - Observers have cited
+  - Some critics argue
+  - You're absolutely right!
+  - Would you like...
