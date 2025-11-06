@@ -22,7 +22,7 @@ configuration {
 /*	drun-url-launcher: "xdg-open";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
-/*	sort: false;*/
+/*	sort: true;*/
 /*	sorting-method: "normal";*/
 /*	case-sensitive: false;*/
 	cycle: true;
@@ -43,11 +43,11 @@ configuration {
 /*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
 /*	max-history-size: 25;*/
-/*	combi-hide-mode-prefix: false;*/
+	combi-hide-mode-prefix: false;
 /*	combi-display-format: "{mode} {text}";*/
 /*	matching-negate-char: '-' /* unsupported */;*/
 /*	cache-dir: ;*/
-/*	window-thumbnail: false;*/
+	window-thumbnail: true;
 /*	drun-use-desktop-cache: false;*/
 /*	drun-reload-desktop-cache: false;*/
 /*	normalize-match: false;*/
