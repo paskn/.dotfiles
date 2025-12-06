@@ -1030,44 +1030,19 @@ targets."
     (setq display-line-numbers nil))
 
   (setq calendar-holidays
-        '(;; German public holidays during 2023
-          ;; https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
-          (holiday-fixed 1 1 "New Year’s Day (Neujahrstag)")
-          (holiday-fixed 4 7 "Good Friday (Karfreitag)")
-          (holiday-fixed 4 10 "Easter Monday (Ostermontag)")
-          (holiday-fixed 5 1 "Labor Day (Maifeiertag)")
-          (holiday-fixed 5 18 "Ascension Day (Christi Himmelfahrt, 40 days after Easter)")
-          (holiday-fixed 5 29 "Whit Monday (Pfingstmontag) – seventh Monday after Easter, also called Pentecost Monday")
-          (holiday-fixed 10 3 "Day of German Unity (Tag der Deutschen Einheit) ")
-          (holiday-fixed 12 25 "Christmas Day (Weihnachtstag)")
-          (holiday-fixed 12 26 "Saint Stephen’s Day (Stephanstag) – also known as the second day of Christmas")
-          ;; German regional holidays 2023
-          (holiday-fixed 1 6 "Epiphany (Heilige Drei Könige) – Baden-Württemberg, Bavaria, and Saxony-Anhalt")
-          (holiday-fixed 3 8 "International Women’s Day – Berlin")
-          (holiday-fixed 4 9 "Easter Sunday – Brandenburg")
-          (holiday-fixed 5 28 "Whit Sunday – Brandenburg")
-          (holiday-fixed 6 8 "Corpus Christi (Fronleichnam) Bavaria")
-          (holiday-fixed 8 8 "Peace Festival (Freidenfest) – Bavaria (Augsburg)")
-          (holiday-fixed 8 15 "Assumption Day (Maria Himmelfahrt) – Saarland and some local authorities in Bavaria")
-          (holiday-fixed 10 31 "Reformation Day (Reformationstag) – generally a regional holiday in Brandenburg")
-          (holiday-fixed 11 1 "All Saints’ Day (Allerheiligen) – Baden-Württemberg, Bavaria, North Rhine-Westphalia, Rhineland-Palatinate, and Saarland")
-          (holiday-fixed 11 22 "Day of Prayer and Repentance (Buß-und Bettag, Wednesday before 23 November) – Saxony")
-          ;; Important dates in Germany during 2023
-          (holiday-fixed 2 20 "Shrove Monday")
-          (holiday-fixed 2 21 "Shrove Tuesday, also known as Carnival")
-          (holiday-fixed 2 22 "Ash Wednesday, also known as Carnival")
-          (holiday-fixed 3 26 "Clocks go forward one hour as a result of daylight saving time starting")
-          (holiday-fixed 5 14 "Mother’s Day (second Sunday of May)")
-          (holiday-fixed 5 18 "Father’s Day (Vatertag, also known as Männertag/Herrentag, Men’s Day) – coincides with Ascension Day and can be a family celebration or celebrated by an outing with male friends")
-          (holiday-fixed 9 9 "German Language Day")
-          (holiday-fixed 9 10 "European Heritage Days – when monument buildings are opened to the public")
-          (holiday-fixed 9 16 "Oktoberfest starts")
-          (holiday-fixed 9 20 "German World Children’s Day")
-          (holiday-fixed 10 29 "Clocks go back one hour as a result of daylight saving time ending")
-          (holiday-fixed 11 9 "Fall of the Berlin Wall")
-          (holiday-fixed 11 11 "St Martin’s Day – a religious observance where children take part in lantern processions")
-          (holiday-fixed 11 19 "National Day of Mourning – victims of war are remembered and in some regions, music or dance events are illegal")
-          (holiday-fixed 12 6 "Saint Nicholas Day")
+        '(
+          ;; ——— Gesetzliche Feiertage NRW ———
+          (holiday-fixed 1 1 "Neujahr")
+          (holiday-easter-offset -2 "Karfreitag")
+          (holiday-easter-offset 1 "Ostermontag")
+          (holiday-fixed 5 1 "Tag der Arbeit")
+          (holiday-easter-offset 39 "Christi Himmelfahrt")
+          (holiday-easter-offset 50 "Pfingstmontag")
+          (holiday-easter-offset 60 "Fronleichnam")
+          (holiday-fixed 10 3 "Tag der Deutschen Einheit")
+          (holiday-fixed 11 1 "Allerheiligen")
+          (holiday-fixed 12 25 "1. Weihnachtstag")
+          (holiday-fixed 12 26 "2. Weihnachtstag")
           ))
 
   :demand t
