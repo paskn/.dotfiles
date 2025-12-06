@@ -1048,16 +1048,19 @@ targets."
   :demand t
   :hook (org-mode . sp/org-mode-setup)
   :custom
-  (setq org-latex-to-mathml-convert-command
-      "latexmlmath %i --presentationmathml=%o")
-  (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (org-agenda-include-diary 1)
   (org-list-allow-alphabetical t)
+  (org-use-speed-commands t)
   :config
+  (setq org-latex-to-mathml-convert-command
+      "latexmlmath %i --presentationmathml=%o")
+  ;; (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
+  ;;       org-latex-packages-alist '(("" "minted"))
+  ;;       org-latex-pdf-process
+  ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;         "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (setq org-latex-src-block-backend 'engraved)
+  
   (setq org-M-RET-may-split-line '((default . nil)))
   (setq org-insert-heading-respect-content t)
   (setq org-log-done 'time)
