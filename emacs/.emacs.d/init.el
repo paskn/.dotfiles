@@ -1086,15 +1086,6 @@ targets."
      ;;   (ledger . t) ; where is ob-ledger??
      ))
   
-  (add-to-list 'display-buffer-alist
-               '("^\\*Org Agenda\\*"
-                 (display-buffer-reuse-mode-window
-                  display-buffer-in-side-window)
-                 (side . right)
-                 (window-width . 90)
-                 (mode-line-format . none)
-                 ))
-
   (setq org-use-speed-commands t)
 
   (setq org-latex-pdf-process
@@ -2267,6 +2258,16 @@ Meant to be used as a body-function in display-buffer-alist"
                display-buffer-in-direction
                (direction . right)
                (window-height . 12)))
+
+;; org agenda
+(add-to-list 'display-buffer-alist
+               '("^\\*Org Agenda\\*"
+                 (display-buffer-reuse-mode-window
+                  display-buffer-in-side-window)
+                 (side . right)
+                 (window-width . 90)
+                 (mode-line-format . none)
+                 ))
 
 ;; Bottom: comilation window
 (add-to-list 'display-buffer-alist
