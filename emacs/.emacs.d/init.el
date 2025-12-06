@@ -1122,14 +1122,10 @@ See also `org-save-all-org-buffers'"
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (setq org-capture-templates
-        `(;;("i" "Inbox")
-          ("i" "Inbox..." entry (file "inbox.org")
-           ,(concat "* TODO %?\n"
-                    "/Entered on/ %U"))
-          ;;  ("in" "A note" entry
-          ;;   (file+headline "inbox.org" "Notes")
-          ;;  "* %?\n /Entered on/ %U\n\n %i\n\n %a" )
-          ))
+      `(("i" "Inbox..." entry (file+headline "inbox.org" "Tasks")
+         ,(concat "* TODO %?\n"
+                  "/Entered on/ %U"))
+        ))
   (setq org-refile-targets
         '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
           ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
