@@ -1044,16 +1044,29 @@ targets."
           (holiday-fixed 12 25 "1. Weihnachtstag")
           (holiday-fixed 12 26 "2. Weihnachtstag")
           ))
-
+  ;; should be set before loading org
+  (setq org-fold-core-style 'overlays)
   :demand t
   :hook (org-mode . sp/org-mode-setup)
   :custom
+  (org-directory "~/org")
+  (org-agenda-files '("~/org/projects.org"))
   (org-agenda-include-diary 1)
   (org-list-allow-alphabetical t)
   (org-use-speed-commands t)
+  (org-ellipsis " ▾")
+  (org-insert-heading-respect-content t)
+  (org-M-RET-may-split-line '((default . nil)))
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-agenda-start-with-log-mode t)
+  (org-todo-keywords
+   '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
+  (org-use-speed-commands t)
+  (org-image-actual-width nil)
   :config
   (setq org-latex-to-mathml-convert-command
-      "latexmlmath %i --presentationmathml=%o")
+        "latexmlmath %i --presentationmathml=%o")
   ;; (setq org-latex-listings 'minted  ;; enable code highlighing and svg in pdf
   ;;       org-latex-packages-alist '(("" "minted"))
   ;;       org-latex-pdf-process
@@ -1061,20 +1074,14 @@ targets."
   ;;         "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
   (setq org-latex-src-block-backend 'engraved)
   
-  (setq org-M-RET-may-split-line '((default . nil)))
-  (setq org-insert-heading-respect-content t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
   ;; after opening jump straight to the first heading go to the first
   ;; heading level when openin an org-file unless you its inbox.org. I
   ;; had to do this to enable the capture template
   (add-hook 'org-mode-hook 
-          (lambda () 
-            (when (and buffer-file-name
-                       (not (string-match-p "inbox\\.org" buffer-file-name)))
-              (org-next-visible-heading 1))))
+            (lambda () 
+              (when (and buffer-file-name
+                         (not (string-match-p "inbox\\.org" buffer-file-name)))
+                (org-next-visible-heading 1))))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -1086,28 +1093,18 @@ targets."
      ;;   (ledger . t) ; where is ob-ledger??
      ))
   
-  (setq org-use-speed-commands t)
-
   (setq org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (setq org-image-actual-width nil)
   (set-face-attribute 'fixed-pitch nil :font "CommitMono")
-  (setq org-directory "~/org")
-  (setq org-fold-core-style 'overlays)
-  (setq org-ellipsis " ▾")
-  (setq org-agenda-files
-	    '("~/org/projects.org"))
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
+  
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
-  (setq org-les
-        '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
-        )
+  ;; (setq org-les
+  ;;       '(ol-doi ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww)
+  ;;       )
   ;; Save the corresponding buffers
   (defun gtd-save-org-buffers ()
     "Save `org-agenda-files' buffers without user confirmation.
@@ -1122,10 +1119,10 @@ See also `org-save-all-org-buffers'"
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (setq org-capture-templates
-      `(("i" "Inbox..." entry (file+headline "inbox.org" "Tasks")
-         ,(concat "* TODO %?\n"
-                  "/Entered on/ %U"))
-        ))
+        `(("i" "Inbox..." entry (file+headline "inbox.org" "Tasks")
+           ,(concat "* TODO %?\n"
+                    "/Entered on/ %U"))
+          ))
   (setq org-refile-targets
         '(("projects.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
           ("reference.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
@@ -1179,6 +1176,11 @@ See also `org-save-all-org-buffers'"
                        ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
                        ))
            ((org-agenda-files '("~/org/projects.org")))))))
+
+
+(use-package engrave-faces
+  :straight t)
+
 
 (use-package org-modern
   :after org
