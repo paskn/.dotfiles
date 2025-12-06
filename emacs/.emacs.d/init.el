@@ -1067,8 +1067,14 @@ targets."
   (setq org-log-into-drawer t)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
-  ;; after opening jump straight to the first heading
-  (add-hook 'org-mode-hook (lambda () (org-next-visible-heading 1)))
+  ;; after opening jump straight to the first heading go to the first
+  ;; heading level when openin an org-file unless you its inbox.org. I
+  ;; had to do this to enable the capture template
+  (add-hook 'org-mode-hook 
+          (lambda () 
+            (when (and buffer-file-name
+                       (not (string-match-p "inbox\\.org" buffer-file-name)))
+              (org-next-visible-heading 1))))
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
