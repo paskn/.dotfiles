@@ -149,6 +149,11 @@
  '(python-shell-completion-native-enable nil)
  '(register-preview-delay nil)
  '(ring-bell-function 'ignore)
+ '(safe-local-variable-values
+   '((org-blank-before-new-entry (heading . auto)
+                                 (plain-list-item . auto))
+     (org-list-description-max-indent . 5)
+     (org-list-two-spaces-after-bullet-regexp)))
  '(save-interprogram-paste-before-kill t)
  '(set-mark-command-repeat-pop t)
  '(show-paren-when-point-inside-paren t)
