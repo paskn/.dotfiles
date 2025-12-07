@@ -1136,46 +1136,28 @@ See also `org-save-all-org-buffers'"
 
   ;; Configure custom agenda views
   (setq org-agenda-custom-commands
-        '(("d" "📝 Desk"
-           ((tags-todo "@desk&@next"
-                       ((org-agenda-overriding-header "📝 Write & research\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-
-          ("c" "☎️💬 Comm."
-           ((tags-todo "@communication"
-                       ((org-agenda-overriding-header "☎️💬Reach out and convey a message\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-
-          ("w" "☢️ Waiting"
-           ((tags-todo "@waiting"
-                       ((org-agenda-overriding-header "☢️Track progress\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-
-          ("e" "🚴‍♀️ Errands"
-           ((tags-todo "@errand&@next|@shopping"
-                       ((org-agenda-overriding-header "🚴‍♀️Go out\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-
-          ("h" "🏡 House"
-           ((tags-todo "@house&@next"
-                       ((org-agenda-overriding-header "🏡Do it at home\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-
-          ("r" "📚📝 Reading"
-           ((tags-todo "@reading&@next"
-                       ((org-agenda-overriding-header "📚📝Read it and process its value\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org"))))
-          ("A" "👌🧘‍♀️ Anywhere"
-           ((tags-todo "@anywhere&@next"
-                       ((org-agenda-overriding-header "👌🧘‍♀️Do it wherever is convenient\n"))
-                       ))
-           ((org-agenda-files '("~/org/projects.org")))))))
+      '(("i" "Infra"
+         ((tags "infra"
+                ((org-agenda-overriding-header "Work with the servers\n"))
+                ))
+         ((org-agenda-files '("~/org/projects.org"))))
+        ("w" "☢️ Waiting"
+         ((todo "WAIT"
+                ((org-agenda-overriding-header "☢️Track progress\n")))
+          (tags-todo "waiting"
+                     ((org-agenda-overriding-header ""))))
+         ((org-agenda-files '("~/org/projects.org"))))
+        ("l" "Teaching"
+         ((tags-todo "teaching"
+                     ((org-agenda-overriding-header "Teaching tasks\n"))
+                     ))
+         ((org-agenda-files '("~/org/projects.org"))))
+        ("r" "PhD/Research"
+         ((tags-todo "phd"
+                     ((org-agenda-overriding-header "To get the studies going\n"))
+                     ))
+         ((org-agenda-files '("~/org/projects.org"))))        
+        )))
 
 
 (use-package engrave-faces
