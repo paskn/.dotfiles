@@ -2,6 +2,7 @@
 	name = paskn
 	email = pashakhin@gmail.com
 [credential]
+	helper = cache
 	# helper = osxkeychain
 [core]
 	excludesfile = ~/.dotfiles/git/.gitignore
@@ -10,3 +11,5 @@
 	pandiff = difftool -t pandiff -y
 [difftool "pandiff"]
 	cmd = pandiff \"$LOCAL\" \"$REMOTE\"
+[init]
+	defaultBranch = main
