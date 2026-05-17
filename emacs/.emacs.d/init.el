@@ -1164,12 +1164,22 @@ See also `org-save-all-org-buffers'"
   :straight t)
 
 
+;; help org and markdown to align tables
+(use-package valign
+  :defer t
+  :straight t
+  :hook
+  ;; (org-mode . valign-mode)  
+  (mardown-ts-mode . valign-mode)
+  :config
+  (setq valign-fancy-bar nil))
+
 (use-package org-modern
   :after org
   :straight t
-  :config
-  (add-hook 'org-mode-hook #'org-modern-mode)
-  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda))
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda))
 
 ;; improve compile look and make close it on success
 (use-package fancy-compilation
@@ -1235,15 +1245,6 @@ DIR must include a .project file to be considered a project."
 (use-package oc-csl
   :defer t
   :straight (:type built-in))
-
-;; help org and markdown to align tables
-(use-package valign
-  :defer t
-  :straight t
-  ;;  :after-call org-mode-hook
-  :hook (org-mode . valign-mode)
-  :config
-  (setq valign-fancy-bar t))
 
 (use-package sicp
   :straight t)
