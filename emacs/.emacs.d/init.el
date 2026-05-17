@@ -503,6 +503,9 @@ group by projectile projects.")
   
   :bind
   ("s-/" . set-mark-command)
+  :custom
+  (column-number-mode t)                ;show line:col
+  (bidi-inhibit-bpa t)                  ;speed
   )
 
 ;; isearch -- https://emacsredux.com/blog/2025/03/18/you-have-no-idea-how-powerful-isearch-is/
