@@ -533,6 +533,19 @@ The DWIM behaviour of this command is as follows:
   (bidi-inhibit-bpa t)                  ;speed
   )
 
+;;;; Bookmarks
+(use-package bookmark
+  :ensure nil
+  :config
+  ;; Emacs 29 displays a bookmark icon on the fringe.  Many people
+  ;; have asked me what that thing is.  I also think it is confusing.
+  (setq bookmark-fringe-mark nil)
+  ;; Write changes to the bookmark file as soon as 1 modification is
+  ;; made (addition or deletion).  Otherwise Emacs will only save the
+  ;; bookmarks when it closes, which may never happen properly
+  ;; (e.g. power failure).
+  (setq bookmark-save-flag 1))
+
 ;; isearch -- https://emacsredux.com/blog/2025/03/18/you-have-no-idea-how-powerful-isearch-is/
 (use-package isearch
   :straight (:type built-in)
