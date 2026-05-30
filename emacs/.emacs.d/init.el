@@ -2077,6 +2077,10 @@ DIR must include a .project file to be considered a project."
                                       (list ".*" "open")))
   )
 
+;; Useful when combined with `delete-by-moving-to-trash'.
+(use-package trashed
+  :straight t)
+
 (use-package dired-x
   :straight (:type built-in)
   :after dired)
