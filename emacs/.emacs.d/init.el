@@ -2052,9 +2052,15 @@ DIR must include a .project file to be considered a project."
   :config
   ;; (setq insert-directory-program "/opt/homebrew/opt/coreutils/libexec/gnubin/ls")
   (setq delete-by-moving-to-trash t)
+  ;; stop leaving buffers after navigation
+  (setq dired-kill-when-opening-new-dired-buffer t)
   (setq dired-listing-switches "-algho --group-directories-first")
   (setq dired-dwim-target t)
   (setopt dired-clean-confirm-killing-deleted-buffers nil)
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always)
+  (setq dired-create-destination-dirs 'ask)
+  (setq dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
   ;; Automatically hide the detailed listing when visiting a Dired
   ;; buffer.  This can always be toggled on/off by calling the
   ;; `dired-hide-details-mode' interactively with M-x or its keybindings
