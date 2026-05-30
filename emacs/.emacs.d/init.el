@@ -745,6 +745,9 @@ The DWIM behaviour of this command is as follows:
   (("s-." . embark-act)         ;; pick some comfortable binding
    ;; ("M-." . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  ( :map minibuffer-local-map
+    ("C-c C-c" . embark-collect)
+    ("C-c C-e" . embark-export))
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
