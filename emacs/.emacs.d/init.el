@@ -1670,11 +1670,6 @@ DIR must include a .project file to be considered a project."
   :init
   (add-hook 'python-mode-hook #'blacken-mode))
 
-
-(use-package cider
-  :straight t
-  :defer t)
-
 ;; pdf-tools
 (use-package pdf-tools
   :straight t
