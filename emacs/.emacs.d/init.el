@@ -888,19 +888,23 @@ targets."
     "Keymap to repeat jumping to previous mark in the buffer key sequences.  Used in `repeat-mode'.")
 (put 'sp/jump-previous-location 'repeat-map 'mark-jump-repeat-map)
 
-(use-package avy
-  :straight t
+;; testing avy replacement - https://github.com/Prgebish/flash
+(use-package flash
+  :straight (flash :type git :host github :repo "Prgebish/flash")
+  :commands (flash-jump flash-jump-continue
+             flash-treesitter)
+  :bind ("s-j" . flash-jump)
+  :custom
+  (flash-multi-window t)
   :init
-  ;; (global-set-key (kbd "s-,") 'avy-goto-word-1)
-  (global-set-key (kbd "s-,") 'avy-goto-char-timer)
-)
-
-;; jump by links avy-style
-;; https://github.com/abo-abo/ace-link supports less links
-(use-package link-hint
-  :straight t
-  :bind
-  ("s-\\" . link-hint-open-link))
+  ;; Evil integration (simple setup)
+  (with-eval-after-load 'evil
+    (require 'flash-evil)
+    (flash-evil-setup t))  ; t = also set up f/t/F/T char motions
+  :config
+  ;; Search integration (labels during C-s, /, ?)
+  (require 'flash-isearch)
+  (flash-isearch-mode 1))
 
 (use-package which-key
   :straight (:type built-in)
