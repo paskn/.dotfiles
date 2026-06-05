@@ -997,21 +997,6 @@ targets."
   :defer t
   :straight t)
 
-(use-package langtool
-  :defer t
-  :straight t
-  :config
-  (setq langtool-language-tool-jar "/Users/sp/languagetool/languagetool-standalone/target/LanguageTool-6.0-SNAPSHOT/LanguageTool-6.0-SNAPSHOT/languagetool-commandline.jar")
-  (setq langtool-default-language "en-US")
-  (global-set-key "\C-x4w" 'langtool-check)
-  (global-set-key "\C-x4W" 'langtool-check-done)
-  (global-set-key "\C-x4l" 'langtool-switch-default-language)
-  (global-set-key "\C-x44" 'langtool-show-message-at-point)
-  (global-set-key "\C-x4w" 'langtool-check)
-  (global-set-key "\C-x4W" 'langtool-check-done)
-  (global-set-key "\C-x4l" 'langtool-switch-default-language)
-  (global-set-key "\C-x44" 'langtool-show-message-at-point))
-
 (use-package auto-fill-mode
   :straight nil
   :hook
