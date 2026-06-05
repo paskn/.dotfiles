@@ -1327,80 +1327,18 @@ DIR must include a .project file to be considered a project."
   :config
   (consult-denote-mode 1))
 
-(use-package mastodon
-  :straight t
-  :defer t
-  :config
-  (setq mastodon-instance-url "https://mastodon.social"
-        mastodon-active-user "pashakhin"))
-
-(use-package elfeed
-  :straight t
-  :defer t
-  :config
-  (global-set-key (kbd "C-x w") 'elfeed)
-  (add-hook 'elfeed-search-mode-hook 'elfeed-update)
-  (defun concatenate-authors (authors-list)
-    "Given AUTHORS-LIST, list of plists; return string of all authors concatenated."
-    (if (> (length authors-list) 1)
-        (format "%s et al." (plist-get (nth 0 authors-list) :name))
-      (plist-get (nth 0 authors-list) :name)))
-  (defun my-search-print-fn (entry)
-    "Print ENTRY to the buffer."
-    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
-           (title (or (elfeed-meta entry :title)
-                      (elfeed-entry-title entry) ""))
-           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
-           (entry-authors (concatenate-authors
-                           (elfeed-meta entry :authors)))
-           (title-width (- (window-width) 10
-                           elfeed-search-trailing-width))
-           (title-column (elfeed-format-column
-                          title 100
-                          :left))
-           (entry-score (elfeed-format-column (number-to-string (elfeed-score-scoring-get-score-from-entry entry)) 10 :left))
-           (authors-column (elfeed-format-column entry-authors 40 :left)))
-      (insert (propertize date 'face 'elfeed-search-date-face) " ")
-
-      (insert (propertize title-column
-                          'face title-faces 'kbd-help title) " ")
-      (insert (propertize authors-column
-                          'kbd-help entry-authors) " ")
-      (insert entry-score " ")))
-  (setq elfeed-search-print-entry-function #'my-search-print-fn)
-  (setq elfeed-search-date-format '("%y-%m-%d" 10 :left))
-  (setq elfeed-search-title-max-width 110)
-  (setq elfeed-feeds
-        '("https://arxiv.org/rss/cs.SI" "https://arxiv.org/rss/cs.IR" "https://arxiv.org/rss/cs.HC" "https://arxiv.org/rss/cs.CY" "https://ijoc.org/index.php/ijoc/gateway/plugin/WebFeedGatewayPlugin/rss2" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=hijb&type=etoc&feed=rss" "https://share.osf.io/api/v2/feeds/atom/?elasticQuery=%7B%22bool%22%3A%7B%22must%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22*%22%7D%7D%2C%22filter%22%3A%5B%7B%22term%22%3A%7B%22sources%22%3A%22SocArXiv%22%7D%7D%5D%7D%7D" "https://osf.io/preprints/socarxiv/discover?subject=SocArXiv%7CSocial%20and%20Behavioral%20Sciences" "https://academic.oup.com/rss/site_6088/OpenAccess.xml" "https://academic.oup.com/rss/site_6088/advanceAccess_3963.xml" "https://academic.oup.com/rss/site_6088/3963.xml" "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=nmsa&type=etoc&feed=rss" "https://journals.sagepub.com/connected/NMS#rss-feeds" "https://www.tandfonline.com/feed/rss/rica20" "https://www.tandfonline.com/feed/rss/upcp20" "https://www.tandfonline.com/journals/upcp20"))
-  (define-advice elfeed-search--header (:around (oldfun &rest args))
-    (if elfeed-db
-        (apply oldfun args)
-      "No database loaded yet"))
-  )
-
-(use-package elfeed-score
-  ;; :defer t
-  :straight t
-  :after elfeed
-  :config
-  (progn
-    (elfeed-score-enable)
-    (define-key elfeed-search-mode-map "=" elfeed-score-map)))
-
 (use-package telega
   :straight t
   :commands (telega)
   :defer t
   :config
   (define-key global-map (kbd "C-c t") telega-prefix-map)
-  ;; (setq telega-server-libs-prefix "~/Builds/td/")
   (setq telega-server-libs-prefix "/usr/local")
   (setq telega-use-docker nil))
 
 ;; setup markdown-mode
 (use-package markdown-mode
   :straight t
-  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
