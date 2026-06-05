@@ -1670,18 +1670,6 @@ DIR must include a .project file to be considered a project."
   :init
   (add-hook 'python-mode-hook #'blacken-mode))
 
-;; * anaconda      -- code navigation, documentation and completion
-;; * pythonic      -- utility packages for running python in different
-;;                    environments (dependency of anaconda)
-(use-package anaconda-mode
-  :defer t
-  :straight t
-  :init
-  (add-hook 'python-mode-hook #'anaconda-mode))
-
-(use-package ein
-  :defer t
-  :straight t)
 
 (use-package cider
   :straight t
