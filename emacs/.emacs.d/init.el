@@ -572,9 +572,22 @@ The DWIM behaviour of this command is as follows:
 (use-package vterm
   :straight t
   :defer t
+  :bind (:map vterm-mode-map
+              ("C-q" . crux-other-window-or-switch-buffer))
   :config
+  (setq vterm-max-scrollback 100000)
+  (setq vterm-timer-delay 0.005)        ;makes it feel snappier
+  
+  ;; Tell vterm to ignore C-q and let Emacs's global map handle it
+  ;; (add-to-list 'vterm-keymap-exceptions "C-q")
+  ;; (keymap-global-set "C-q" 'crux-other-window-or-switch-buffer)
   (add-hook 'vterm-mode (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'vterm-copy-mode (lambda () (call-interactively 'hl-line-mode))))
+  (add-hook 'vterm-copy-mode (lambda () (call-interactively 'hl-line-mode)))
+  )
+
+(use-package multi-vterm
+  :straight t
+  :after vterm)
 
 ;; more precision in movement across windows
 ;; act on windows during C-x o:
